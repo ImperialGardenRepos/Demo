@@ -1,0 +1,26 @@
+.hidden {
+    display: none;
+}
+
+#tbl_iblock_element_160552fecab66c961b2b218b964e1a9a_table .main-grid-cell-head-container {
+    padding: 3px;
+}
+
+#tbl_iblock_element_160552fecab66c961b2b218b964e1a9a_table .main-grid-cell-head {
+    min-width: 20px;
+}
+
+#tbl_iblock_element_160552fecab66c961b2b218b964e1a9a_table .main-grid-cell-content, #tbl_iblock_element_160552fecab66c961b2b218b964e1a9a_table .main-grid-editor-container {
+    margin: 3px 3px 3px;
+}
+
+.is_view_addictable__view {
+    display: none;
+}
+.js-is-view .is_view_addictable__view {
+    display: inherit;
+}
+
+.js-is-view .is_view_addictable__not_view {
+    display: none;
+}

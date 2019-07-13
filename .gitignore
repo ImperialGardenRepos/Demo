@@ -1,0 +1,51 @@
+# Logs and databases #
+######################
+*.log
+*.xml
+*.zip
+/log*.txt
+# libs
+/local/lib
+# OS generated files #
+######################
+.DS_Store*
+ehthumbs.db
+Thumbs.db
+.viminfo
+.config
+.local
+.mysql_history
+.selected_editor
+__MACOSX
+# Bitrix #
+######################
+*.cache
+*.orig
+*.swp
+*.swo
+.idea
+/.idea
+/images
+/frontend
+/content
+/bitrix
+/upload
+.mc
+*.gz
+*.gz.*
+.ssh
+.bash_history
+sitemap_*.xm*
+sitemap.xml
+robots.txt
+/composer.lock
+#/system
+# seo
+/google*
+/yandex*
+/mailru*
+/robots.txt
+/skock_
+*_nogit*
+/include/generated
+# user files

@@ -1,0 +1,43 @@
+td .line-checkbox+label {
+    margin-left: 10px;
+}
+
+td .line-checkbox~label:first-child, td .line-checkbox.checkbox-color+label:first-child {
+    margin-left: 0;
+}
+
+td .line-checkbox.checkbox-color+label {
+    margin: 0 0 5px 18px;
+}
+
+div.color-container {
+    width: 25%;
+    display: inline-block;
+}
+
+div.color-container div.color-preview {
+    width: 13px;
+    height: 13px;
+    display: inline-block;
+    position: absolute;
+    border: 1px solid black;
+}
+
+
+#edit1 {
+    position: relative;
+}
+
+#disabled-area-1 {
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.js-is-view {
+
+}
+
+.adm-sublist #btn_sub_new, .adm-sublist #btn, .adm-sublist #btn_sub_gen {
+    display: none;
+}

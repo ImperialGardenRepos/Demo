@@ -1,0 +1,22 @@
+.fcard__offers-content--noscroll + .fcard__offers-more {
+    display: none;
+}
+.bx-sbb-empty-cart-text{
+    font-size:36px;
+    text-align:center;
+    color:#bababa;
+    margin-bottom:42px;
+}
+.bx-sbb-empty-cart-desc{
+    text-align:center;
+    color:#000;
+    font-size:16px;
+    margin-bottom:42px;
+}
+.bx-sbb-empty-cart-image{
+    width:131px;
+    height:116px;
+    margin:50px auto 42px;
+    background:url(/local/images/empty_cart.svg) no-repeat center;
+    background-size:contain;
+}

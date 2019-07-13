@@ -1,0 +1,3 @@
+$(function () {
+    obHelper.initPage();
+});
