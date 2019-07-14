@@ -38,7 +38,7 @@ if(!empty($arResult)) {
 		$arVariableAliases = CComponentEngine::makeComponentVariableAliases($arDefaultVariableAliases404, $arParams["VARIABLE_ALIASES"]);
 		
 		$componentPage = \ig\CRouter::guessCatalogGardenPath($arParams["SEF_FOLDER"], $arUrlTemplates, $arVariables);
-        file_put_contents('/var/www/imperialgarden.ru/gp.log', serialize($componentPage). PHP_EOL, FILE_APPEND);
+//        file_put_contents('/var/www/imperialgarden.ru/gp.log', serialize($componentPage). PHP_EOL, FILE_APPEND);
 		if($arVariables["SECTION_ID"] == -1 || $arVariables["ELEMENT_ID"] == -1) {
 			$this->abortResultCache();
 			\Bitrix\Iblock\Component\Tools::process404(

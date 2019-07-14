@@ -45,24 +45,23 @@ $basket = Sale\Basket::loadItemsForFUser(Sale\Fuser::getId(), Bitrix\Main\Contex
             gtag('config', 'UA-140331330-1');
 		</script>
 		<!-- Yandex.Metrika counter -->
-		<script type="text/javascript" >
+        <script type="text/javascript" >
             (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
                 m[i].l=1*new Date();k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
             (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
-            
-            ym(24650237, "init", {
+
+            ym(54440035, "init", {
                 clickmap:true,
                 trackLinks:true,
                 accurateTrackBounce:true,
-                webvisor:true,
-                trackHash:true
+                webvisor:true
             });
-		</script>
-		<!-- /Yandex.Metrika counter -->
+        </script>
+        <!-- /Yandex.Metrika counter -->
 	</head>
 <body class="not-loaded " data-svg-sprite-url="<?=SITE_TEMPLATE_PATH?>/build/svg/symbol/svg/sprite.symbol.svg" data-cart-url="/local/ajax/cart.php" data-favorites-url="/local/ajax/favorite.php">
 <!-- Yandex.Metrika counter -->
-<noscript><div><img src="https://mc.yandex.ru/watch/24650237" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+<noscript><div><img src="https://mc.yandex.ru/watch/54440035" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
 <!-- /Yandex.Metrika counter -->
 <div id="panel"><?$APPLICATION->ShowPanel()?></div>
 <div class="respon-meter"></div>
