@@ -2,10 +2,12 @@
 
 namespace ig\sphinx;
 
+use mysqli;
+
 abstract class CEngine
 {
     /**
-     * @var bool|\mysqli
+     * @var bool|mysqli
      */
     private static $db = false;
 

@@ -34,18 +34,19 @@ $basket = Sale\Basket::loadItemsForFUser(Sale\Fuser::getId(), Bitrix\Main\Contex
 		<meta name="format-detection" content="telephone=no">
 		<?=\ig\CSeo::includeCss()?>
 		<script data-skip-moving="true" src="<?=SITE_TEMPLATE_PATH?>/build/build-head.js"></script>
-		
-		<!-- Global site tag (gtag.js) - Google Analytics -->
-		<script data-skip-moving="true" async src="https://www.googletagmanager.com/gtag/js?id=UA-140331330-1"></script>
-		<script data-skip-moving="true">
+
+        <!-- Global site tag (gtag.js) - Google Analytics -->
+        <script data-skip-moving="true" async src="https://www.googletagmanager.com/gtag/js?id=UA-143791931-1"></script>
+        <script data-skip-moving="true">
             window.dataLayer = window.dataLayer || [];
             function gtag(){dataLayer.push(arguments);}
             gtag('js', new Date());
-            
-            gtag('config', 'UA-140331330-1');
-		</script>
-		<!-- Yandex.Metrika counter -->
-        <script type="text/javascript" >
+
+            gtag('config', 'UA-143791931-1');
+        </script>
+
+        <!-- Yandex.Metrika counter -->
+        <script data-skip-moving="true" type="text/javascript" >
             (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
                 m[i].l=1*new Date();k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
             (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");

@@ -726,6 +726,13 @@ class CCatalogOffers extends CEngine
         return $arResult;
     }
 
+    /**
+     * @param array $arParams
+     * format ['INCLUDE','EXCLUDE']
+     * if INCLUDE isset, return only fields from INCLUDE
+     * if EXCLUDE isset, return all fields except EXCLUDE
+     * @return array $arFacet fields used in filter to be selected from Sphinx
+     */
     public static function getFacetFields($arParams = [])
     {
         $arFacet = self::getFilterFields();
