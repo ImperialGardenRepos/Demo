@@ -37,7 +37,7 @@
 							<div class="tabs__scroll-inner">
 								<ul class="tabs__list">
 									<li class="tabs__item">
-										<a class="tabs__link js-goto" href="#offers">Предложения</a></li>
+										<a class="tabs__link js-goto" href="#offers">Варианты</a></li>
 									<li class="tabs__item">
 										<a class="tabs__link js-goto" href="#specs">Особенности</a></li><?
 									if(false) {?>
@@ -68,15 +68,6 @@
 	<div id="offers" class="fcard__offers" data-goto-offset-element=".header, .fcard__tabs">
 		<div class="thead mobile-hide">
 			<div class="thead__grid">
-				<div class="thead__cell thead__cell--tcard-instock js-sort sort-asc cursor-pointer user-select-none" data-sort-selector=".tcard" data-sort-data-attr="sort-instock" data-sort-order="desc">
-					Наличие
-					<svg class="icon icon--chevron-down">
-						<use xlink:href="<?=SITE_TEMPLATE_PATH?>/build/svg/symbol/svg/sprite.symbol.svg#icon-chevron-down"></use>
-					</svg>
-					<svg class="icon icon--chevron-up">
-						<use xlink:href="<?=SITE_TEMPLATE_PATH?>/build/svg/symbol/svg/sprite.symbol.svg#icon-chevron-up"></use>
-					</svg>
-				</div>
 				<div class="thead__cell thead__cell--tcard-tags">
 					Теги
 				</div>
@@ -115,11 +106,6 @@
 					<div class="tcard js-icard" data-sort-instock="<?=$arOfferProp["AVAILABLE"]["VALUE_SORT"]?>" data-sort-height="<?=floatval($arOfferProp["SIZE"]["VALUE"])?>" data-sort-price="<?=$arOffer["MIN_PRICE_VALUE"]?>">
 						<div class="tcard__inner js-icard-offer-actions">
 							<div class="tcard__grid" data-id='<?=$arOffer["ID"]?>' data-cart-data='<?=json_encode(array("offerID"=>$arOffer["ID"]))?>'>
-								<div class="tcard__col tcard__col--instock">
-									<div class="tags">
-										<div class="tag tag--circled<?=(\ig\CHelper::isAvailable($arOffer["PROPERTIES"]["AVAILABLE"]["VALUE"]) ? ' color-green' : '')?>"><?=$arOffer["PROPERTIES"]["AVAILABLE"]["VALUE"]?></div>
-									</div>
-								</div>
 								<div class="tcard__col tcard__col--tags">
 									<div class="mobile-show">
 										<div class="tags"><?
@@ -263,11 +249,11 @@
 			</div>
 		</div>
 		<div class="fcard__offers-more">
-			<a class="btn btn--fullwidth btn--more-small js-toggle-element" data-toggle-class="active" data-toggle-element-class="" data-toggle-label=".link" data-toggle-change-label="Свернуть все предложения" href="#offers">
+			<a class="btn btn--fullwidth btn--more-small js-toggle-element" data-toggle-class="active" data-toggle-element-class="" data-toggle-label=".link" data-toggle-change-label="Свернуть все варианты" href="#offers">
 				<svg class="icon icon--linespacing">
 					<use xlink:href="<?=SITE_TEMPLATE_PATH?>/build/svg/symbol/svg/sprite.symbol.svg#icon-linespacing"></use>
 				</svg>
-				<span class="link link--dotted link--ib">Показать все предложения</span>
+				<span class="link link--dotted link--ib">Показать все варианты</span>
 			</a>
 		</div>
 	</div>

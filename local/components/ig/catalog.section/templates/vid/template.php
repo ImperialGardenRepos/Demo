@@ -33,8 +33,8 @@ $this->setFrameMode(true);
 if(false) {
 	$strPageTitle = (empty($arResult["IPROPERTY_VALUES"]["SECTION_PAGE_TITLE"]) ? $arResult["NAME"] : $arResult["IPROPERTY_VALUES"]["SECTION_PAGE_TITLE"]);
 	$bIsLastPage = $arResult["NAV_RESULT"]->NavPageCount<=$arResult["NAV_RESULT"]->NavPageNomer;
-	
-	
+
+
 	if(!$arParams["IS_AJAX"]) { ?>
 		<div class="section section--results section--grey">
 		<div class="container">
@@ -70,10 +70,10 @@ if(empty($arParams["PAGE_NUM"])) { ?>
 	$intCnt = 0;
 	foreach ($arResult["ITEMS"] as $arSort) {
 		$arOffer = $arSort["OFFER"];
-		
+
 		$arSortProp = $arSort["PROPERTIES"];
 		$arOfferProp = $arOffer["PROPERTIES"];
-		
+
 		if(!empty($arSortProp["IS_RUSSIAN"]["VALUE"])) {
 			$strName = $arSort["NAME"];
 			$strName2 = $arSortProp["NAME_LAT"]["VALUE"];
@@ -81,28 +81,28 @@ if(empty($arParams["PAGE_NUM"])) { ?>
 			$strName = $arSortProp["NAME_LAT"]["VALUE"];
 			$strName2 = $arSort["NAME"];
 		}
-		
+
 		if(empty($strName)) {
 			$strName = $strName2;
 			$strName2 = '';
 		}
-		
+
 		$arSectionNav = $arResult["SECTIONS"][$arSort["IBLOCK_SECTION_ID"]]["NAV"];
 		$strGroup = $arResult["OFFER_PARAMS"]["GROUP"][$arSortProp["GROUP"]["VALUE"]]["NAME"];
 		?>
-	
+
 	<div class="icard<?=($bIsLastPage ? ' scroll-load-last-one' : '')?> js-icard" data-offer-index="0" data-offers-url="<?=$APPLICATION->GetCurPageParam('sortID='.$arSort["ID"], array("sortID"))?>">
 		<div class="icard__inner">
-			
+
 			<div class="icard__content">
-				
+
 				<div class="icard__header">
-					
+
 					<div class="cols-wrapper">
 						<div class="cols cols--auto">
-							
+
 							<div class="col">
-								
+
 								<div class="breadcrumb">
 									<a href="<?=$arResult["OFFER_PARAMS"]["GROUP"][$arSortProp["GROUP"]["VALUE"]]["URL"]?>"><?=$strGroup?></a>
 									<svg class="icon icon--long-arrow">
@@ -116,7 +116,7 @@ if(empty($arParams["PAGE_NUM"])) { ?>
 										<a target="_blank" href="<?=$arSectionNav[1]["SECTION_PAGE_URL"]?>"><?=$arSectionNav[1]["NAME"]?></a><?
 									} ?>
 								</div>
-							
+
 							</div>
 							<?
 							if(!empty($arSortProp["RECOMMENDED"]["VALUE"])) { ?>
@@ -126,16 +126,16 @@ if(empty($arParams["PAGE_NUM"])) { ?>
 									</div>
 								</div><?
 							} ?>
-						
+
 						</div>
 					</div>
 					<div class="icard__title">
 						<a href="<?=$arSort["DETAIL_PAGE_URL"]?>" class="link--bordered-pseudo"><?=$strName?></a></div>
-					
+
 					<div class="icard__subtitle"><?=$strName2?></div>
 				</div>
-				
-				
+
+
 				<div class="icard__main">
 					<div class="icard__main-grid">
 						<?=$this->__component->getImagesBlockHtml($arSort, $arOffer);?>
@@ -159,28 +159,23 @@ if(empty($arParams["PAGE_NUM"])) { ?>
 											</svg>
 											Быстрый просмотр </a>
 									</div><?
-									
+
 									if($arSort["OFFERS_CNT"]>1) { ?>
 										<div class="icard__counts">
-										<span class="icard__count">Предложений: <strong><?=$arSort["OFFERS_CNT"]?></strong></span>
+										<span class="icard__count">Вариантов: <strong><?=$arSort["OFFERS_CNT"]?></strong></span>
 										<?
 										if($arSort["OFFERS_AVAILABLE_CNT"]>0) { ?>
 											<span class="icard__count mobile-hide">
 											В наличие: <strong><?=intval($arSort["OFFERS_AVAILABLE_CNT"])?></strong>
 											</span><?
 										}
-										
-										if($arSort["OFFERS_ACTION_CNT"]>0) { ?>
-											<span class="icard__count mobile-hide">
-											Со скидкой: <strong><?=intval($arSort["OFFERS_ACTION_CNT"])?></strong>
-											</span><?
-										} ?>
+										?>
 										</div><?
 									} ?>
 								</div><?
 								if($arSort["OFFERS_CNT"]>1) { ?>
 									<div class="icard__nav ">
-									
+
 									<div class="icard__nav-link js-icard-offer-change" data-action="prev">
 										<svg class="icon">
 											<use xlink:href="<?=SITE_TEMPLATE_PATH?>/build/svg/symbol/svg/sprite.symbol.svg#icon-arrow-up"></use>
@@ -222,16 +217,16 @@ if(empty($arParams["PAGE_NUM"])) { ?>
 		if($intCnt == 4 && !$arParams["IS_AJAX"]) {
 			//echo '<!--ARTICLES_INCUT-->';
 		}
-		
+
 		$intCnt++;
 	}
 
 if(empty($arParams["PAGE_NUM"])) { ?>
 	</div>
 	</div><?
-	
+
 	if($arResult["NAV_RESULT"]->NavPageCount>$arResult["NAV_RESULT"]->NavPageNomer) { ?>
-		
+
 		<div class="action-more" id="action-more">
 		<button class="btn btn--more btn--fullwidth js-scroll-load-trigger" data-load-container=".filter-results .icards__inner">
 			<svg class="icon icon--eye">
@@ -241,13 +236,13 @@ if(empty($arParams["PAGE_NUM"])) { ?>
 		</button>
 		</div><?
 	}
-	
+
 	if($arResult["NAV_RESULT"]->NavPageCount>1) { ?>
 		<?=$arResult["NAV_STRING"]?><?
 	} ?>
 	</div><?
 }
-	
+
 	if(!$arParams["IS_AJAX"]) { ?>
 		</div>
 		</div><?

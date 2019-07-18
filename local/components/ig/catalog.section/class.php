@@ -128,31 +128,13 @@ class CatalogSection extends \CBitrixComponent {
 				</div>
 			</div>
 			
-			<div class="ptgb mobile-show">
-				<div class="ptgb__inner">
-					<div class="ptgb__content">
-						<div class="ptgb__subtitle">
-							Наличие
-						</div>
-						<div class="ptgb__title">
-							<div class="tags">
-								
-								<div class="tag tag--circled'.(\ig\CHelper::isAvailable($arOffer["PROPERTIES"]["AVAILABLE"]["VALUE"]) ? ' color-green' : '').'">
-									'.$arOffer["PROPERTIES"]["AVAILABLE"]["VALUE"].'
-								</div>
-							
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
 			<div class="ptgb ptgb--param-price">
 				<div class="ptgb__inner">
 					<div class="ptgb__content">
 						<div class="ptgb__subtitle">Цена шт.</div>
 						<div class="ptgb__title">
                             <div class="js-icard-price-discount-wrapper'.($arOffer["BASE_PRICE_VALUE"]>0?'':' hidden').'">
-                                <div class="icard__price color-active"><span class="font-bold js-icard-price-discount">'.\ig\CFormat::getFormattedPrice($arOffer["MIN_PRICE_VALUE"]).'</span> <span class="font-light">₽</span></div>
+                                <div class="icard__price color-active"><span class="font-bold js-icard-price-discount">'.\ig\CFormat::getFormattedPrice($arOffer["MIN_PRICE_VALUE"]).'</span></div>
                                 <div class="icard__price-old"><span class="line-through js-icard-price">'.\ig\CFormat::getFormattedPrice($arOffer["BASE_PRICE_VALUE"]).'</span></div>
                             </div>
                             <div class="js-icard-price-wrapper'.($arOffer["BASE_PRICE_VALUE"]>0?' hidden':'').'">
@@ -181,9 +163,6 @@ class CatalogSection extends \CBitrixComponent {
 		}
 		
 		$strResult .= '
-			<div class="tag tag--circled'.(\ig\CHelper::isAvailable($arOffer["PROPERTIES"]["AVAILABLE"]["VALUE"]) ? ' color-green' : '').' mobile-hide">
-				'.$arOffer["PROPERTIES"]["AVAILABLE"]["VALUE"].'
-			</div>
 		
 		</div>
 	</div>';

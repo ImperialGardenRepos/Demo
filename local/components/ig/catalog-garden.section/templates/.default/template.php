@@ -59,14 +59,7 @@ foreach($arResult["ITEMS"] as $arProduct) {
 						<div class="icard__content">
 							<div class="icard__header">
 								<div class="cols-wrapper">
-									<div class="cols cols--auto"><?
-	if(false) {?>
-										<div class="col col--fit">
-											<div class="tags">
-												<div class="tag">Рекомендация ig</div>
-											</div>
-										</div><?
-}?>
+									<div class="cols cols--auto">
 										<div class="col">
 											<div class="icard__quickview mobile-hide">
 												<a href="<?=$arProduct["DETAIL_PAGE_URL"]?>" class="link--dotted" data-fancybox data-type="ajax" data-src="<?=$arProduct["DETAIL_PAGE_URL"]?>">
@@ -80,26 +73,15 @@ foreach($arResult["ITEMS"] as $arProduct) {
 									</div>
 								</div>
 								<div class="icard__title"><a href="<?=$arProduct["DETAIL_PAGE_URL"]?>" class="link--bordered-pseudo"><?=$arProduct["NAME"]?></a></div>
-								
-								
+
+
 								<div class="icard__counts mobile-hide"><?
 									if($arProduct["OFFERS_CNT"]>0) {?>
 									<span class="icard__count">
-										Предложений: <strong><?=$arProduct["OFFERS_CNT"]?></strong>
+										Вариантов: <strong><?=$arProduct["OFFERS_CNT"]?></strong>
 									</span><?
 									}
-	
-									if($arProduct["OFFERS_AVAILABLE_CNT"]>0) {?>
-									<span class="icard__count mobile-hide">
-										В наличие: <strong><?=$arProduct["OFFERS_AVAILABLE_CNT"]?></strong>
-									</span><?
-									}
-	
-									if($arProduct["OFFERS_ACTION_CNT"]>0) {?>
-									<span class="icard__count mobile-hide">
-										Со скидкой: <strong><?=$arProduct["OFFERS_ACTION_CNT"]?></strong>
-									</span><?
-									}?>
+	?>
 								</div>
 							</div>
 							<div class="icard__main">
@@ -120,27 +102,7 @@ foreach($arResult["ITEMS"] as $arProduct) {
 														</svg>
 														Быстрый просмотр </a>
 												</div>
-												
-												
-												<div class="icard__counts mobile-show"><?
-													if($arProduct["OFFERS_CNT"]>0) {?>
-														<span class="icard__count">
-														Предложений: <strong><?=$arProduct["OFFERS_CNT"]?></strong>
-														</span><?
-													}
-													
-													if($arProduct["OFFERS_AVAILABLE_CNT"]>0) {?>
-														<span class="icard__count mobile-hide">
-														В наличие: <strong><?=$arProduct["OFFERS_AVAILABLE_CNT"]?></strong>
-														</span><?
-													}
-													
-													if($arProduct["OFFERS_ACTION_CNT"]>0) {?>
-														<span class="icard__count mobile-hide">
-														Со скидкой: <strong><?=$arProduct["OFFERS_ACTION_CNT"]?></strong>
-														</span><?
-													}?>
-												</div>
+
 											</div><?
 											if($arProduct["OFFERS_CNT"]>1) {?>
 											<div class="icard__nav ">

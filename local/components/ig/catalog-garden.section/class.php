@@ -78,22 +78,6 @@ class CatalogSection extends \CBitrixComponent
 						</div>
 					</div>
 				</div>
-				<div class="ptgb mobile-show">
-					<div class="ptgb__inner">
-						<div class="ptgb__content">
-							<div class="ptgb__subtitle">Наличие</div>
-							<div class="ptgb__title">
-								<div class="tags">
-									
-									<div class="tag tag--circled' . (\ig\CHelper::isAvailable($arOffer["PROPERTIES"]["AVAILABLE"]["VALUE"]) ? ' color-green' : '') . '">
-										' . $arOffer["PROPERTIES"]["AVAILABLE"]["VALUE"] . '
-									</div>
-								
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
 				<div class="ptgb ptgb--param-price">
 					<div class="ptgb__inner">
 						<div class="ptgb__content">
@@ -119,9 +103,6 @@ class CatalogSection extends \CBitrixComponent
 				</div>
 			</div>
 			<div class="tags">
-				<div class="tag tag--circled' . (\ig\CHelper::isAvailable($arOffer["PROPERTIES"]["AVAILABLE"]["VALUE"]) ? ' color-green' : '') . ' mobile-hide">
-					' . $arOffer["PROPERTIES"]["AVAILABLE"]["VALUE"] . '
-				</div>
 				<div class="tag mobile-show-inline-block">Хит сезона</div>';
 
         if (!empty($arOfferProp["ACTION"]["VALUE"])) {
