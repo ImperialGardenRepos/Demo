@@ -4,29 +4,26 @@ namespace ig;
 class CImageResize {
 	private static $intMaxWidth = 1280,
 		$intMaxHeight = 1280;
-	
-	/**
-	 * Масштабирует фото, сохраняет копию файла и возвращает путь к нему
-	 * либо возвращает ссылку на картинку-заглушку
-	 *
-	 * ---
-	 *
-	 * Водяной знак - если существует файл /upload/watermark/watermark_original.png - он будет
-	 * смасштабирован под фото и нанесен на всю поверхность с небольшим отступом от края.
-	 * watermark_original.png - должен быть большого размера, чтобы не терялось качество.
-	 *
-	 * @param $imgId
-	 * @param $width int
-	 * @param $height int Если не задано, будет пропорционально ширине
-	 * @param $proportional bool false - Обрезать жестко по заданному размеру (удобно для мини картинок). true - пропорционально (для больших)
-	 *
-	 * @throws Exception File dimensions can not be a null
-	 *
-	 *
-	 * @return string Путь к измененному файлу
-	 *
-	 * @see https://dermanov.ru/exp/bitrix-resize-image-and-watermark/ - Примеры работы функции
-	 */
+
+    /**
+     * Масштабирует фото, сохраняет копию файла и возвращает путь к нему
+     * либо возвращает ссылку на картинку-заглушку
+     *
+     * ---
+     *
+     * Водяной знак - если существует файл /upload/watermark/watermark_original.png - он будет
+     * смасштабирован под фото и нанесен на всю поверхность с небольшим отступом от края.
+     * watermark_original.png - должен быть большого размера, чтобы не терялось качество.
+     *
+     * @param $imgId
+     * @param $width int
+     * @param string $height int Если не задано, будет пропорционально ширине
+     * @param array $arParams
+     * @return string Путь к измененному файлу
+     *
+     * @throws \Exception
+     * @see https://dermanov.ru/exp/bitrix-resize-image-and-watermark/ - Примеры работы функции
+     */
 	public function getResizedImgOrPlaceholder($imgId, $width, $height = "auto", $arParams = array()) {
 		if(isset($arParams["PROPORTIONAL"])) {
 			$proportional = $arParams["PROPORTIONAL"];
@@ -95,7 +92,7 @@ class CImageResize {
 		 * </watermark>
 		 * */
 		
-		$resizedImg = \CFile::ResizeImageGet($imgId, [ "width" => $width, "height" => $height ], $resizeType, false, $arFilters, false, 20);
+		$resizedImg = \CFile::ResizeImageGet($imgId, [ "width" => $width, "height" => $height ], $resizeType, false, $arFilters, false, 78);
 		
 		// если файл по каким-то причинам не создался - вернем заглушку
 		if (!file_exists($_SERVER["DOCUMENT_ROOT"] . $resizedImg['src'])) {
@@ -265,9 +262,9 @@ class CImageResize {
 				imagepng($rsPicture, $io->GetPhysicalName($dstFile));
 				break;
 			default:
-				$jpgQuality = intval(\COption::GetOptionString('main', 'image_resize_quality', '20'));
+				$jpgQuality = intval(\COption::GetOptionString('main', 'image_resize_quality', '78'));
 			if($jpgQuality <= 0 || $jpgQuality > 100 || true)
-					$jpgQuality = 20;
+					$jpgQuality = 78;
 				
 				imagejpeg($rsPicture, $io->GetPhysicalName($dstFile), $jpgQuality);
 				break;
