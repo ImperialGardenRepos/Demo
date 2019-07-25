@@ -28,19 +28,9 @@ if($arParams["IS_AJAX"] != 'Y') {
 						</a>
 						<div class="nav stabs" data-place='{"0": ".js-filter-stabs-mobile-place", "640": ".js-filter-stabs-place"}'>
 							<div class="stabs__list">
-								<div class="stabs__item<?=((!$arResult["IS_NEW"] && !$arResult["IS_ACTION"])?' active':'')?>">
+								<div class="stabs__item<?=((!$arResult["IS_NEW"] && !$arResult["IS_ACTION"])?' active':'')?> hidden">
 									<a class="stabs__link" href="/katalog/rasteniya/">
 										Все
-									</a>
-								</div>
-								<div class="stabs__item<?=(($arResult["IS_NEW"])?' active':'')?>">
-									<a class="stabs__link" href="/katalog/rasteniya/novinki/">
-										Новинки
-									</a>
-								</div>
-								<div class="stabs__item<?=(($arResult["IS_ACTION"])?' active':'')?>">
-									<a class="stabs__link" href="/katalog/rasteniya/akcii/">
-										Акции
 									</a>
 								</div>
 								<div class="stabs__item mobile-show-inline-block">
@@ -80,18 +70,8 @@ if($arParams["IS_AJAX"] != 'Y') {
 						<div class="nav stabs mobile-hide">
 							<div class="stabs__list">
 								<div class="stabs__item">
-									<a class="stabs__link" href="/katalog/tovary-dlya-sada/">
+									<a class="stabs__link hidden" href="/katalog/tovary-dlya-sada/">
 										Все
-									</a>
-								</div>
-								<div class="stabs__item">
-									<a class="stabs__link" href="/katalog/tovary-dlya-sada/novinki/">
-										Новинки
-									</a>
-								</div>
-								<div class="stabs__item">
-									<a class="stabs__link" href="/katalog/tovary-dlya-sada/akcii/">
-										Акции
 									</a>
 								</div>
 							</div>
