@@ -141,10 +141,10 @@ $arUrlRewrite = [
         'SORT' => 100,
     ],
     [
-        'CONDITION' => '#^/news/#',
-        'RULE' => '',
-        'ID' => 'bitrix:news',
-        'PATH' => '/news/index.php',
+        'CONDITION' => '#^/promo/(.*)/#',
+        'RULE' => 'CODE=$1',
+        'ID' => 'ig:landing.constructor',
+        'PATH' => '/promo/index.php',
         'SORT' => 100,
     ],
 ];

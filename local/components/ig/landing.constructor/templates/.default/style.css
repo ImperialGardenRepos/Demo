@@ -1,0 +1,28 @@
+.banner {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  min-height: 400px;
+  background-size: cover;
+  background-position: left center; }
+  .banner__content {
+    display: flex;
+    flex-direction: column;
+    color: white;
+    min-height: 100%;
+    justify-content: flex-end;
+    padding: 25px 29px; }
+  .banner__heading {
+    font-family: "Roboto", Arial, Helvetica, sans-serif;
+    font-size: 2.75rem;
+    font-weight: 300;
+    line-height: 1;
+    margin: 2.75rem 0; }
+  .banner__text {
+    font-family: "Roboto", Arial, Helvetica, sans-serif;
+    font-weight: 400;
+    font-size: 1.125rem; }
+    .banner__text p, .banner__text li, .banner__text ul, .banner__text ol {
+      margin: 0.125rem 0; }
+
+/*# sourceMappingURL=style.css.map */
