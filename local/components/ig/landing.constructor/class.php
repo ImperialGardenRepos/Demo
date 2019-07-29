@@ -15,6 +15,7 @@ class CLandingConstructor extends CBitrixComponent
      */
     private const BLOCK_NAMES = [
         'BANNER',
+        'TEXT',
     ];
 
 
@@ -131,9 +132,10 @@ class CLandingConstructor extends CBitrixComponent
             }
         );
         foreach (static::BLOCK_NAMES as $blockType) {
+
             foreach ($propertyKeys as $propertyKey) {
-                if (stristr($propertyKey, $blockType) !== false) {
-                    $landingBlocks[$blockType][] = str_replace(["{$blockType}_", '_1'], '', $propertyKey);
+                if (preg_match("/^{$blockType}_(.*)$/", $propertyKey) !== 0) {
+                    $landingBlocks[$blockType][] = preg_replace("/^{$blockType}_(.*)_1$/", '$1', $propertyKey);
                 }
             }
         }
@@ -173,6 +175,8 @@ class CLandingConstructor extends CBitrixComponent
 
     /**
      * Method returns active blocks in sorting order according to {BLOCK_NAME}_SORT_{BLOCK_NUMBER}
+     * Properties are also set here.
+     * For all properties except L[IST] only value is set, for L prop VALUE_XML_ID is set too
      * @param array $properties
      * @return array
      */
@@ -187,6 +191,17 @@ class CLandingConstructor extends CBitrixComponent
             for ($i = 1; $i <= $counter; $i++) {
                 $block = [];
                 foreach ($structure[$blockName] as $propertyName) {
+                    $property = $properties["{$blockName}_{$propertyName}_{$i}"];
+                    /**
+                     * If is Enum property, store VALUE_XML_ID too
+                     */
+                    if (array_key_exists('VALUE_XML_ID', $property)) {
+                        $block[$propertyName] = [
+                            'VALUE_XML_ID' => $property['VALUE_XML_ID'],
+                            'VALUE' => $property['VALUE'],
+                        ];
+                        continue;
+                    }
                     $block[$propertyName] = $properties["{$blockName}_{$propertyName}_{$i}"]["VALUE"];
                 }
                 $block['TEMPLATE'] = $blockName;

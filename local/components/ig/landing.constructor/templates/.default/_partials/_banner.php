@@ -1,8 +1,10 @@
 <?php
+if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) {
+    die();
+}
 /**
  * @var $block
  */
-//ToDo:: die without prolog
 ?>
 <section class="banner" style="background: url(<?=CFile::GetPath($block['IMAGE'])?>)">
     <div class="banner__content">

@@ -21,7 +21,7 @@ $iBlockProperty = new CIBlockProperty();
 $properties = [
 
     [
-        'NAME' => 'Сортировка блока',
+        'NAME' => 'Сортировка блока баннера',
         "ACTIVE" => "Y",
         "SORT" => 10,
         "CODE" => "BANNER_SORT",
@@ -30,7 +30,7 @@ $properties = [
         "IBLOCK_ID" => $iBlockId
     ],
     [
-        'NAME' => 'Активность блока',
+        'NAME' => 'Активность блока баннера',
         "ACTIVE" => "Y",
         "SORT" => 20,
         "CODE" => "BANNER_ACTIVE",
