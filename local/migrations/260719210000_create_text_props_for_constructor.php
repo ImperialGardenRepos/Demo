@@ -95,6 +95,15 @@ $properties = [
         ],
         "IBLOCK_ID" => $iBlockId
     ],
+    [
+        'NAME' => 'Максимальная ширина изображения (для обтекаемых изображений)',
+        "ACTIVE" => "Y",
+        "SORT" => 60,
+        "CODE" => "TEXT_IMAGE_WIDTH",
+        "PROPERTY_TYPE" => "S",
+        "IBLOCK_ID" => $iBlockId,
+    ],
+
 ];
 for ($i = 1; $i <= 5; $i++) {
     foreach ($properties as $property) {

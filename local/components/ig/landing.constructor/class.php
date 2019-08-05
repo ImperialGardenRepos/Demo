@@ -1,21 +1,34 @@
 <?php
+/**
+ * @package LandingConstructor
+ * @author Oleg Makeev me@olegmakeev.com
+ *
+ */
 
 use Bitrix\Main\Application;
 use Bitrix\Main\ArgumentException as ArgumentExceptionAlias;
 use Bitrix\Main\Loader;
 use Bitrix\Main\LoaderException;
+use Bitrix\Main\SystemException;
 
 class CLandingConstructor extends CBitrixComponent
 {
     /**
-     * To enable new blocks in constructor we need to
+     * To add new block to constructor
      * 1) Name all block properties like {BLOCK_NAME}_{PROPERTY_NAME}_{BLOCK_NUMBER},
      * where BLOCK_NUMBER must be a digit and start from 1 even for single block
-     * 2) Add block name in constant below
+     * 2) Add block name in constant below.
+     *
+     * Property creation can be automated
+     * @see /local/migrations/260719200000_create_banner_props_for_constructor.php
+     *
+     * Important: {BLOCK_NAME}_TEMPLATE property name is reserved
      */
     private const BLOCK_NAMES = [
         'BANNER',
         'TEXT',
+        'PRODUCT',
+
     ];
 
 
@@ -23,7 +36,7 @@ class CLandingConstructor extends CBitrixComponent
      * @param $arParams
      * @return array
      * @throws ArgumentExceptionAlias
-     * @throws \Bitrix\Main\SystemException
+     * @throws SystemException
      */
     public function onPrepareComponentParams($arParams)
     {
@@ -69,9 +82,10 @@ class CLandingConstructor extends CBitrixComponent
 
     /**
      * Method-wrapper of CIBlockElement::GetList with Constructor Parameters
-     * @return _CIBElement
+     * In case 404 is set inside function null is returned
+     * @return _CIBElement|null
      */
-    private function getElement(): _CIBElement
+    private function getElement(): ?_CIBElement
     {
         $element = CIBlockElement::GetList(
             ['ID' => 'ASC'],
@@ -81,6 +95,7 @@ class CLandingConstructor extends CBitrixComponent
             ],
             false,
             false,
+//ToDo:: optimize prop selection, select only from block names
             [
                 '*',
                 'PROPERTY_*'
@@ -88,7 +103,8 @@ class CLandingConstructor extends CBitrixComponent
         );
 
         if ($element->SelectedRowsCount() === 0) {
-//            ToDo:: set 404
+//ToDo:: set 404
+            return null;
         }
 
         return $element->GetNextElement();
@@ -145,14 +161,14 @@ class CLandingConstructor extends CBitrixComponent
 
     /**
      * Method returns array with active block counters for each block type.
-     * If no active blocks, it throws 404.
      * Blocks with zero counters aren't included into result.
+     * In case 404 is set inside function null is returned
      *
      * @param array $structure
      * @param array $properties
-     * @return array
+     * @return array|null
      */
-    private function getBlocksCounters(array $structure, array $properties): array
+    private function getBlocksCounters(array $structure, array $properties): ?array
     {
         $counters = [];
         $blockNames = array_keys($structure);
@@ -169,6 +185,7 @@ class CLandingConstructor extends CBitrixComponent
         }
         if ($counters === []) {
 //            ToDo:: set 404 as no active blocks
+            return null;
         }
         return $counters;
     }

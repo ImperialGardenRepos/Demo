@@ -23,6 +23,7 @@ __MACOSX
 *.orig
 *.swp
 *.swo
+*.sassc
 .idea
 /.idea
 /images
