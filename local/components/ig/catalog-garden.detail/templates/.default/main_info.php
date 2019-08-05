@@ -163,12 +163,7 @@
 											<div class="ptgb__inner">
 												<div class="ptgb__content">
 													<div class="ptgb__subtitle">Цена</div>
-													<div class="ptgb__title ptgb__title--textfield"><?
-														if(!empty($arOffer["BASE_PRICE_VALUE"])) { ?>
-															<div class="tcard__price-old">
-															<span class="line-through"><?=\ig\CFormat::getFormattedPrice($arOffer["BASE_PRICE_VALUE"], "RUB", array("RUB_SIGN" => '<span class="font-light">₽</span>'))?></span>
-															</div><?
-														}?>
+													<div class="ptgb__title ptgb__title--textfield">
 														<div class="tcard__price<?=(empty($arOffer["BASE_PRICE_VALUE"])?'':' color-active')?>"><span class="font-bold js-icard-price"><?=\ig\CFormat::getFormattedPrice($arOffer["MIN_PRICE_VALUE"], "RUB", array("RUB_SIGN"=>''))?></span> <span class="font-light">₽</span></div>
 													</div>
 												</div>

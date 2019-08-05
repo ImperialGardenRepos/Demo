@@ -208,11 +208,6 @@ $this->setFrameMode(true);
 																<div class="ptgb__title">
 																	<div class="js-icard-price-discount-wrapper<?=($floatBasePrice>0?'':' hidden')?>">
 																		<div class="ccard__price color-active"><span class="font-bold js-icard-price-discount"><?=\ig\CFormat::getFormattedPrice($floatMinPrice, "RUB", array("RUB_SIGN"=>''))?></span> <span class="font-light">₽</span></div>
-																		<div class="ccard__price-old">
-																			<span class="line-through">
-																				<?=\ig\CFormat::getFormattedPrice($floatBasePrice, "RUB", array("RUB_SIGN"=>''))?>
-																			</span>
-																		</div>
 																	</div>
 																	<div class="js-icard-price-wrapper<?=($floatBasePrice>0?' hidden':'')?>">
 																		<div class="ccard__price">

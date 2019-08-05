@@ -135,7 +135,6 @@ class CatalogSection extends \CBitrixComponent {
 						<div class="ptgb__title">
                             <div class="js-icard-price-discount-wrapper'.($arOffer["BASE_PRICE_VALUE"]>0?'':' hidden').'">
                                 <div class="icard__price color-active"><span class="font-bold js-icard-price-discount">'.\ig\CFormat::getFormattedPrice($arOffer["MIN_PRICE_VALUE"]).'</span></div>
-                                <div class="icard__price-old"><span class="line-through js-icard-price">'.\ig\CFormat::getFormattedPrice($arOffer["BASE_PRICE_VALUE"]).'</span></div>
                             </div>
                             <div class="js-icard-price-wrapper'.($arOffer["BASE_PRICE_VALUE"]>0?' hidden':'').'">
                                 <div class="icard__price"><span class="font-bold js-icard-price">'.\ig\CFormat::getFormattedPrice($arOffer["MIN_PRICE_VALUE"], "RUB", array("RUB_SIGN" => '')).'</span> <span class="font-light">₽</span></div>

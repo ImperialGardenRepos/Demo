@@ -89,13 +89,6 @@ class CatalogSection extends \CBitrixComponent
 									<span class="font-light">₽</span>
 								</div>';
 
-        if (isset($arOffer["BASE_PRICE_VALUE"])) {
-            $strResult .= '
-								<div class="icard__price-old">
-									<span class="line-through">' . \ig\CFormat::getFormattedPrice($arOffer["BASE_PRICE_VALUE"], "RUB", ["RUB_SIGN" => '']) . '</span>
-								</div>';
-        }
-
         $strResult .= '
 							</div>
 						</div>

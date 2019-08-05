@@ -31,7 +31,7 @@
 	if(!$arParams["IS_AJAX"]) { ?>
 		<div class="fcard__tabs js-header-sticky-wrapper">
 			<div class="fcard__tabs-inner js-header-sticky">
-				
+
 				<nav class="tabs tabs--flex tabs--active-allowed" data-goto-hash-change="true">
 					<div class="tabs__inner js-tabs-fixed-center">
 						<div class="tabs__scroll tabs__scroll--nopadding tabs__scroll--nopadding-always js-tabs-fixed-center-scroll">
@@ -47,7 +47,7 @@
 									<li class="tabs__item"><a class="tabs__link tabs__link--block js-goto" href="#useful"><span class="link link--ib link--dotted">Полезное</span></a></li>
 									<li class="tabs__item"><a class="tabs__link tabs__link--block js-goto" href="#services"><span class="link link--ib link--dotted">Услуги</span></a></li><?
 									}
-		
+
 									if(!empty($strSimilarProducts)) {?>
 									<li class="tabs__item"><a class="tabs__link tabs__link--block js-goto" href="#related"><span class="link link--ib link--dotted">Похожие растения</span></a></li><?
 									}?>
@@ -56,12 +56,12 @@
 						</div>
 					</div>
 				</nav>
-			
+
 			</div>
 		</div><?
 	}
-	
-	
+
+
 	$bHeightNowExtEnabled = \ig\CHelper::isPropertyEnabledForGroup("HEIGHT_NOW_EXT", $arSortProp["GROUP"]["VALUE"]);
 	?>
 	<div id="offers" class="fcard__offers" data-goto-offset-element=".header, .fcard__tabs">
@@ -106,19 +106,19 @@
 					Итого
 				</div>
 				<div class="thead__cell thead__cell--tcard-actions">
-				
+
 				</div>
 			</div>
 		</div>
-		
+
 		<div class="fcard__offers-content js-scrollbar<?=((count($arResult["OFFERS"])<10)?' fcard__offers-content--noscroll':'')?>" data-scrollbar-allow-page-scroll="true">
 			<div class="tcards">
 				<div class="tcards__inner"><?
-					
-					
+
+
 					foreach($arResult["OFFERS"] as $arOffer) {
 						$arOfferProp = $arOffer["PROPERTIES"];
-						
+
 						$intHeightSort = \ig\CHelper::getGroupPropertiesValues($arOfferProp["HEIGHT_NOW_EXT"]["VALUE"])["UF_SORT_ASC"];
 						if(strlen($intHeightSort)<=0) {
 							$intHeightSort = \ig\CHelper::getGroupPropertiesValues($arOfferProp["HEIGHT_NOW_EXT"]["VALUE"])["UF_SORT"];
@@ -132,7 +132,7 @@
 											if(!empty($arOfferProp["ACTION"]["VALUE"])) {
 												echo '<div class="tag">Скидка</div>';
 											}
-											
+
 											if(!empty($arOfferProp["NEW"]["VALUE"])) {
 												echo '<div class="tag">Новинка</div>';
 											}
@@ -152,7 +152,7 @@
 												</svg>
 												</div><?
 											}
-											
+
 											if(!empty($arOfferProp["ACTION"]["VALUE"])) { ?>
 												<div class="tag-icon tooltip tooltipstered tooltip-inited tooltip-active" data-title="Акция">
 												<svg class="icon">
@@ -212,18 +212,17 @@
 										</div>
 									</div>
 								</div>
-								
+
 								<div class="tcard__col tcard__col--price">
-									
+
 									<div class="ptgbs ptgbs--actions">
-										
+
 										<div class="ptgb ptgb--action-price">
 											<div class="ptgb__inner">
 												<div class="ptgb__content">
 													<div class="ptgb__subtitle">Цена</div>
 													<div class="ptgb__title ptgb__title--textfield">
 														<div class="js-icard-price-discount-wrapper<?=($arOffer["BASE_PRICE_VALUE"]>0?'':' hidden')?>">
-															<div class="tcard__price-old"><span class="line-through js-icard-price"><?=\ig\CFormat::getFormattedPrice($arOffer["BASE_PRICE_VALUE"], "RUB", array("RUB_SIGN" => ''))?></span></div>
 															<div class="tcard__price color-active"><span class="font-bold js-icard-price-discount"><?=\ig\CFormat::getFormattedPrice($arOffer["MIN_PRICE_VALUE"], "RUB", array("RUB_SIGN"=>''))?></span> <span class="font-light">₽</span></div>
 														</div>
 														<div class="js-icard-price-wrapper<?=($arOffer["BASE_PRICE_VALUE"]>0?' hidden':'')?>">
@@ -286,7 +285,7 @@
 												<use xlink:href="<?=SITE_TEMPLATE_PATH?>/build/svg/symbol/svg/sprite.symbol.svg#icon-trash"></use>
 											</svg>
 										</button>
-										
+
 										<button class="btn btn--icon btn--favorite js-favorites-toggle js-favoriteButton_<?=$arOffer["ID"]?>">
 											<svg class="icon icon--heart btn-toggle-state-default icon--nomargin">
 												<use xlink:href="<?=SITE_TEMPLATE_PATH?>/build/svg/symbol/svg/sprite.symbol.svg#icon-heart-outline"></use>

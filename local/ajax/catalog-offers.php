@@ -98,7 +98,6 @@ ob_start();
                         <div class="ptgb__subtitle">Цена шт.</div>
                         <div class="ptgb__title">
                             <div class="icard__price"><span class="font-bold js-icard-price">5 799</span> <span class="font-light">₽</span></div>
-                            <div class="icard__price-old"><span class="line-through">8 799</span></div>
                         </div>
                     </div>
                 </div>

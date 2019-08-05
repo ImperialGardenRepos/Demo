@@ -9321,8 +9321,12 @@ body:not(.header-scrolled) .header__inner {
   background-image: -webkit-linear-gradient(315deg, currentColor 0%, currentColor 50%, transparent 50%, transparent 100%), -webkit-linear-gradient(225deg, currentColor 0%, currentColor 50%, transparent 50%, transparent 100%), -webkit-linear-gradient(315deg, #c7cacc 0%, #c7cacc 50%, transparent 50%, transparent 100%), -webkit-linear-gradient(225deg, #c7cacc 0%, #c7cacc 50%, transparent 50%, transparent 100%);
   background-image: -o-linear-gradient(315deg, currentColor 0%, currentColor 50%, transparent 50%, transparent 100%), -o-linear-gradient(225deg, currentColor 0%, currentColor 50%, transparent 50%, transparent 100%), -o-linear-gradient(315deg, #c7cacc 0%, #c7cacc 50%, transparent 50%, transparent 100%), -o-linear-gradient(225deg, #c7cacc 0%, #c7cacc 50%, transparent 50%, transparent 100%);
   background-image: linear-gradient(135deg, currentColor 0%, currentColor 50%, transparent 50%, transparent 100%), linear-gradient(-135deg, currentColor 0%, currentColor 50%, transparent 50%, transparent 100%), linear-gradient(135deg, #c7cacc 0%, #c7cacc 50%, transparent 50%, transparent 100%), linear-gradient(-135deg, #c7cacc 0%, #c7cacc 50%, transparent 50%, transparent 100%);
-  background-position: bottom 1px left, bottom 2px left, bottom left, bottom 1px left;
-  background-size: 18px 18px, 18px 18px, 18px 18px, 18px 18px, 18px 18px, 18px 18px, 18px 18px, 18px 18px;
+  background-position: bottom 1px left, bottom 2px left,
+ bottom left, bottom 1px left;
+  background-size: 18px 18px, 18px 18px,
+ 18px 18px, 18px 18px,
+ 18px 18px, 18px 18px,
+ 18px 18px, 18px 18px;
   background-repeat: repeat-x;
   -webkit-transform: scaleY(-1);
       -ms-transform: scaleY(-1);
@@ -16599,6 +16603,8 @@ img:first-of-type:last-of-type ~ .icard__image .ihs-overlay {
   color: rgba(42, 55, 63, 0.5);
   white-space: nowrap;
   margin-top: -0.14286rem;
+    display: none;!important;
+    visibility: hidden;!important;
 }
 
 .icard__price-old:first-child {
@@ -17925,6 +17931,8 @@ img:first-of-type:last-of-type ~ .icard__image .ihs-overlay {
   margin-top: -0.14286rem;
   margin-left: 0.35714rem;
   margin-right: 0.35714rem;
+    display: none;!important;
+    visibility: hidden;!important;
 }
 
 .tcard__price-old:first-child {
@@ -18687,6 +18695,8 @@ img:first-of-type:last-of-type ~ .icard__image .ihs-overlay {
   color: rgba(42, 55, 63, 0.5);
   white-space: nowrap;
   margin-top: -0.14286rem;
+    display: none;!important;
+    visibility: hidden;!important;
 }
 
 .ccard__price-old:first-child {
