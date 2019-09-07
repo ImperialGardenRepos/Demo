@@ -1,5 +1,7 @@
 <?php
-if (!defined('B_PROLOG_INCLUDED') || B_PROLOG_INCLUDED !== true) die();
+if (!defined('B_PROLOG_INCLUDED') || B_PROLOG_INCLUDED !== true) {
+    die();
+}
 /** @var array $arParams */
 /** @var array $arResult */
 /** @global CMain $APPLICATION */
@@ -31,27 +33,26 @@ ob_start(); ?>
 
 <?php if ($isFirstPage && !empty($arResult['DESCRIPTION'])) : ?>
     <?php
-    $strPreviewText = \ig\CUtil::smartTrim($arResult['DESCRIPTION'], 300, false, '');
-    $strRestText = str_replace($strPreviewText, '', $arResult['DESCRIPTION']); ?>
+    $previewText = \ig\CUtil::smartTrim($arResult['DESCRIPTION'], 300, false, '');
+    $restText = str_replace($previewText, '', $arResult['DESCRIPTION']); ?>
     <div class="text p">
         <p>
-            <?= $strPreviewText ?>
-            <?php if (!empty($strRestText)) : ?>
+            <?= $previewText ?>
+            <?php if (!empty($restText)) : ?>
                 <a href="#filter-results-summary-more" class="link--dotted js-toggle-element"
                    data-toggle-change-label="Скрыть">
                     Показать полностью
                 </a>
             <?php endif; ?>
         </p>
-        <?php if (!empty($strRestText)): ?>
+        <?php if (!empty($restText)): ?>
             <div class="p hidden" id="filter-results-summary-more">
-                <?= $strRestText ?>
+                <?= $restText ?>
             </div>
         <?php endif; ?>
     </div>
 <?php endif; ?>
 <?php $intCnt = 0; ?>
-
 <?php foreach ($arResult['ITEMS'] as $arProduct): ?>
     <?php
     $arOffer = $arProduct['OFFER'];
