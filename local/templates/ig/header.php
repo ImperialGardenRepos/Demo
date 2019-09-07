@@ -10,11 +10,15 @@ use Bitrix\Main\Loader;
 use Bitrix\Sale;
 use ig\CSeo;
 
+/**
+ * @var CMain $APPLICATION
+ */
 Loader::includeModule('sale');
 
 $isVirtualTourPage = strpos($APPLICATION->GetCurDir(), '/o-nas/virtualnyy-tur/') === 0;
 
 $request = Application::getInstance()->getContext()->getRequest();
+$requestArray = $request->toArray();
 $arParams['IS_AJAX'] = $request->isAjaxRequest();
 
 $strPhone = Option::get('grain.customsettings', 'phone');
@@ -33,8 +37,11 @@ $basket = Sale\Basket::loadItemsForFUser(Sale\Fuser::getId(), Bitrix\Main\Contex
 <!--[if gt IE 9]><!-->
 <html class="no-js" lang="ru"> <!--<![endif]-->
 <head>
-    <title><? $APPLICATION->ShowTitle() ?></title>
-    <?php $APPLICATION->ShowMeta('description') ?>
+    <title><? $APPLICATION->ShowTitle() ?><?$APPLICATION->ShowViewContent('pagination_meta')?></title>
+    <?php if (!array_key_exists('PAGEN_1', $requestArray)): ?>
+        <? $APPLICATION->ShowMeta("description") ?>
+    <?php endif; ?>
+    <?$APPLICATION->ShowViewContent('canonical')?>
     <?php $APPLICATION->ShowCSS(); ?>
     <?php $APPLICATION->ShowHeadStrings() ?>
     <?php $APPLICATION->ShowHeadScripts() ?>
@@ -255,4 +262,3 @@ $basket = Sale\Basket::loadItemsForFUser(Sale\Fuser::getId(), Bitrix\Main\Contex
             "SITE_ID" => ""
         ));
     } ?>
-	
