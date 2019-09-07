@@ -27,12 +27,17 @@ if ($pageTitle === '') {
 $isLastPage = $arResult['NAV_RESULT']->NavPageCount <= $arResult['NAV_RESULT']->NavPageNomer;
 $isFirstPage = (int)$arResult['NAV_RESULT']->NavPageNomer === 1;
 
+$paginationSubstr = '';
+if ($arResult['NAV_RESULT']->NavPageNomer > 1) {
+    $paginationSubstr = ' &ndash; страница ' . $arResult['NAV_RESULT']->NavPageNomer . ' из ' . $arResult['NAV_RESULT']->NavPageCount;
+}
+
 /**
  * Generating section cards output without wrapper, pagination etc.
  */
 ob_start(); ?>
 <?php if ($arParams['PAGE_NUM'] < 2): ?>
-    <h1 class="h1--large"><?= $pageTitle ?></h1>
+    <h1 class="h1--large"><?= $pageTitle ?><?=$paginationSubstr ?></h1>
 <?php endif; ?>
 
 <?php if ($isFirstPage && !empty($arResult['DESCRIPTION'])) : ?>
