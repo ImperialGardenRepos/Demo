@@ -143,7 +143,14 @@ $arUrlRewrite = [
     [
         'CONDITION' => '#^/promo/(.*)/#',
         'RULE' => 'CODE=$1',
-        'ID' => 'ig:landing.constructor',
+        'ID' => 'ig:page.constructor',
+        'PATH' => '/promo/detail.php',
+        'SORT' => 100,
+    ],
+    [
+        'CONDITION' => '#^/promo/#',
+        'RULE' => '',
+        'ID' => 'bitrix:catalog.section.list',
         'PATH' => '/promo/index.php',
         'SORT' => 100,
     ],

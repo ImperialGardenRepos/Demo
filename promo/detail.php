@@ -5,7 +5,7 @@ $APPLICATION->IncludeComponent(
     'ig:page.constructor',
     '',
     [
-        'IBLOCK_ID' => 35
+        'IBLOCK_ID' => CONSTRUCTOR_IBLOCK_ID
     ],
     false
 );

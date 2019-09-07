@@ -1,18 +1,15 @@
 <?php
-require($_SERVER["DOCUMENT_ROOT"] . "/bitrix/header.php");
-?>
+require $_SERVER['DOCUMENT_ROOT'] . '/bitrix/header.php';
+$APPLICATION->SetTitle('Специальные предложения');
 
-<?php
 $APPLICATION->IncludeComponent(
-    'ig:landing.constructor',
-    '',
+    'bitrix:catalog.section.list',
+    'landings',
     [
-        'IBLOCK_ID' => 34
+        'IBLOCK_TYPE' => SERVICE_IBLOCK_TYPE,
+        'IBLOCK_ID' => CONSTRUCTOR_IBLOCK_ID,
+        'SEF_FOLDER' => '/promo/'
     ],
     false
 );
-?>
-
-<?php
-require($_SERVER["DOCUMENT_ROOT"] . "/bitrix/footer.php");
-?>
+require $_SERVER['DOCUMENT_ROOT'] . '/bitrix/footer.php';
