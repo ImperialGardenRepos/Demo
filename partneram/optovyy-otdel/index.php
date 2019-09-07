@@ -1,5 +1,6 @@
 <?
 require($_SERVER["DOCUMENT_ROOT"]."/bitrix/header.php");
+$APPLICATION->SetPageProperty("title", "Оптовый отдел - садовый центр Imperial Garden");
 $APPLICATION->SetTitle("Оптовый отдел");
 $APPLICATION->IncludeComponent(
 	"bitrix:main.include",

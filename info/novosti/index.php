@@ -1,5 +1,6 @@
 <?
 require_once($_SERVER["DOCUMENT_ROOT"]."/bitrix/modules/main/include/prolog_before.php");
+$APPLICATION->SetPageProperty("title", "Новые поступления! - на сайте садового центра Imperial Garden");
 $APPLICATION->SetTitle("Новости");
 $APPLICATION->SetPageProperty('intNavStartFrom', 2);
 require_once($_SERVER["DOCUMENT_ROOT"]."/bitrix/modules/main/include/prolog_after.php");

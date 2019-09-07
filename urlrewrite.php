@@ -32,7 +32,7 @@ $arUrlRewrite=array (
     'PATH' => '/e-store/xml_catalog/index.php',
     'SORT' => 100,
   ),
-  13 => 
+  20 => 
   array (
     'CONDITION' => '#^/katalog/rasteniya/#',
     'RULE' => '',
@@ -64,6 +64,14 @@ $arUrlRewrite=array (
     'PATH' => '/e-store/books/index.php',
     'SORT' => 100,
   ),
+  23 => 
+  array (
+    'CONDITION' => '#^/info/novosti/#',
+    'RULE' => '',
+    'ID' => 'bitrix:news',
+    'PATH' => '/info/novosti/index.php',
+    'SORT' => 100,
+  ),
   5 => 
   array (
     'CONDITION' => '#^/content/news/#',
@@ -72,15 +80,7 @@ $arUrlRewrite=array (
     'PATH' => '/content/news/index.php',
     'SORT' => 100,
   ),
-  19 => 
-  array (
-    'CONDITION' => '#^/info/novosti/#',
-    'RULE' => '',
-    'ID' => 'bitrix:news',
-    'PATH' => '/info/novosti/index.php',
-    'SORT' => 100,
-  ),
-  16 => 
+  21 => 
   array (
     'CONDITION' => '#^/o-nas/otzyvy/#',
     'RULE' => '',
@@ -96,7 +96,7 @@ $arUrlRewrite=array (
     'PATH' => '/content/faq/index.php',
     'SORT' => 100,
   ),
-  18 => 
+  26 => 
   array (
     'CONDITION' => '#^/o-nas/dosug/#',
     'RULE' => '',
@@ -104,7 +104,7 @@ $arUrlRewrite=array (
     'PATH' => '/o-nas/dosug/index.php',
     'SORT' => 100,
   ),
-  17 => 
+  27 => 
   array (
     'CONDITION' => '#^/portfolio/#',
     'RULE' => '',

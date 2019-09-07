@@ -1,5 +1,6 @@
 <?
 require($_SERVER["DOCUMENT_ROOT"]."/bitrix/header.php");
+$APPLICATION->SetPageProperty("title", "Каталог растений - на сайте садового центра Imperial Garden");
 $APPLICATION->SetTitle("Каталог растений");
 ?><?$APPLICATION->IncludeComponent(
 	"ig:catalog",

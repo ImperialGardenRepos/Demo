@@ -1,5 +1,6 @@
 <?
 require($_SERVER["DOCUMENT_ROOT"]."/bitrix/header.php");
+$APPLICATION->SetPageProperty("title", "Партнерам - садовый центр Imperial Garden");
 $APPLICATION->SetTitle("Партнерам");
 ?>
 	<div class="section section--grey section--article section--fullheight text">

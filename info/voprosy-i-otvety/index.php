@@ -1,5 +1,6 @@
 <?
 require($_SERVER["DOCUMENT_ROOT"]."/bitrix/header.php");
+$APPLICATION->SetPageProperty("title", "Вопросы и ответы - садовый центр Imperial Garden");
 $APPLICATION->SetTitle("Вопросы и ответы");
 ?>
 <?$APPLICATION->IncludeComponent(
