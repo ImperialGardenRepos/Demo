@@ -1,5 +1,6 @@
 <?
 require($_SERVER["DOCUMENT_ROOT"]."/bitrix/header.php");
+$APPLICATION->SetPageProperty("title", "Заказ, оплата, доставка - садовый центр Imperial Garden");
 $APPLICATION->SetTitle("Заказ, оплата, доставка");
 ?><div class="section section--grey section--article section--fullheight section--saw-before text">
 	<div class="container">

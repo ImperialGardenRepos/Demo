@@ -58,6 +58,7 @@ $APPLICATION->SetTitle("Досуг");
 		"SET_LAST_MODIFIED" => "N",
 		"SET_STATUS_404" => "N",
 		"SET_TITLE" => "Y",
+		"SET_BROWSER_TITLE" => "Y",
 		"SHOW_404" => "N",
 		"SORT_BY1" => "SORT",
 		"SORT_BY2" => "ID",

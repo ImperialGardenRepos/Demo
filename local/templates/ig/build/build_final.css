@@ -1,4 +1,3 @@
-
 /*
  * HTML5 Boilerplate
  *
@@ -9882,7 +9881,7 @@ body:not(.header-scrolled) .header__inner {
 }
 
 .atgb__title {
-  font-size: 1.71429rem;
+  font-size: 1.5rem;
   font-weight: 300;
   line-height: 1.2;
 }
@@ -20058,7 +20057,6 @@ Common property classes
 /*# sourceMappingURL=style.css.map */
 
 /*# sourceMappingURL=build.css.map */
-
 .fcard__offers-content--noscroll + .fcard__offers-more {
     display: none;
 }

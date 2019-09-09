@@ -1,5 +1,6 @@
 <?
 require($_SERVER["DOCUMENT_ROOT"]."/bitrix/header.php");
+$APPLICATION->SetPageProperty("title", "Благодарности - садовый центр Imperial Garden");
 $APPLICATION->SetTitle("Благодарности");
 
 if($_REQUEST["container-id"]) {

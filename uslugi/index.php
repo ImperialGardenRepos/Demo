@@ -1,5 +1,6 @@
 <?
 require($_SERVER["DOCUMENT_ROOT"]."/bitrix/header.php");
+$APPLICATION->SetPageProperty("title", "Благоустройство - садовый центр Imperial Garden");
 $APPLICATION->SetTitle("Услуги");
 ?><?$APPLICATION->IncludeComponent("bitrix:news", "uslugi", Array(
 	"ADD_ELEMENT_CHAIN" => "N",	// Включать название элемента в цепочку навигации

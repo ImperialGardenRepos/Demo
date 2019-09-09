@@ -147,11 +147,11 @@ $arUrlRewrite = [
         'PATH' => '/promo/detail.php',
         'SORT' => 100,
     ],
-    [
+    /*[
         'CONDITION' => '#^/promo/#',
         'RULE' => '',
         'ID' => 'bitrix:catalog.section.list',
         'PATH' => '/promo/index.php',
         'SORT' => 100,
-    ],
+    ],*/
 ];

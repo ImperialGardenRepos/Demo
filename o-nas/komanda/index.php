@@ -1,5 +1,6 @@
 <?
 require($_SERVER["DOCUMENT_ROOT"]."/bitrix/header.php");
+$APPLICATION->SetPageProperty("title", "Команда - садовый центр Imperial Garden");
 $APPLICATION->SetTitle("Команда");
 ?>
 <?$APPLICATION->IncludeComponent(
