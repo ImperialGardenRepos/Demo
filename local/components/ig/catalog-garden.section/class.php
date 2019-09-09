@@ -1,9 +1,11 @@
 <?php
 
+use ig\CFormat;
+
 if (!defined('B_PROLOG_INCLUDED') || B_PROLOG_INCLUDED !== true) die();
 
 
-class CatalogSection extends \CBitrixComponent
+class CatalogGardenSection extends \CBitrixComponent
 {
     public function prepareCartData()
     {
@@ -69,25 +71,71 @@ class CatalogSection extends \CBitrixComponent
 		<div class="icard__offer-params' . ($this->arParams["PRODUCT_ID"] > 0 ? '' : ' active') . '">
 			
 			<div class="ptgbs ptgbs--params">
-				
-				<div class="ptgb ptgb--param-volume">
+				';
+//        echo '<pre>';
+//        var_dump($arOfferProp);
+//        echo '</pre>';
+        if (array_key_exists('SIZE', $arOfferProp)) {
+            $strResult .=
+                '<div class="ptgb ptgb--param-volume">
 					<div class="ptgb__inner">
 						<div class="ptgb__content">
 							<div class="ptgb__subtitle">Объем</div>
 							<div class="ptgb__title">' . $arOfferProp["SIZE"]["VALUE"] . ' ' . $arOfferProp["UNIT"]["VALUE"] . '</div>
 						</div>
 					</div>
-				</div>
-				<div class="ptgb ptgb--param-price">
+				</div>';
+        }
+        if (array_key_exists('HEIGHT_NOW_EXT', $arOfferProp) && (string)$arOfferProp['HEIGHT_NOW_EXT']['VALUE'] !== '') {
+            $strResult .=
+                '<div class="ptgb ptgb--param-volume">
+					<div class="ptgb__inner">
+						<div class="ptgb__content">
+							<div class="ptgb__subtitle">Высота</div>
+							<div class="ptgb__title">' . CFormat::formatPropertyValue('HEIGHT_NOW_EXT', $arOfferProp['HEIGHT_NOW_EXT']['VALUE']) . '</div>
+						</div>
+					</div>
+				</div>';
+        } elseif (array_key_exists('CROWN_WIDTH', $arOfferProp) && (string)$arOfferProp['CROWN_WIDTH']['VALUE'] !== '') {
+            $strResult .=
+                '<div class="ptgb ptgb--param-volume">
+					<div class="ptgb__inner">
+						<div class="ptgb__content">
+							<div class="ptgb__subtitle">Ширина кроны</div>
+							<div class="ptgb__title">' . $arOfferProp['CROWN_WIDTH']['VALUE'] . '</div>
+						</div>
+					</div>
+				</div>';
+        } elseif (array_key_exists('PACK', $arOfferProp) && (string)$arOfferProp['PACK']['VALUE'] !== '') {
+            $strResult .=
+                '<div class="ptgb ptgb--param-volume">
+					<div class="ptgb__inner">
+						<div class="ptgb__content">
+							<div class="ptgb__subtitle">Упаковка</div>
+							<div class="ptgb__title">' . $arOfferProp['PACK']['VALUE'] . '</div>
+						</div>
+					</div>
+				</div>';
+        }
+
+        $strResult .=
+            '<div class="ptgb ptgb--param-price">
 					<div class="ptgb__inner">
 						<div class="ptgb__content">
 							<div class="ptgb__subtitle">Цена шт.</div>
 							<div class="ptgb__title nowrap">
 								
 								<div class="icard__price' . (isset($arOffer["BASE_PRICE_VALUE"]) ? ' color-active' : '') . '">
-									<span class="font-bold">' . \ig\CFormat::getFormattedPrice($arOffer["MIN_PRICE_VALUE"], "RUB", ["RUB_SIGN" => '']) . '</span>
+									<span class="font-bold">' . CFormat::getFormattedPrice($arOffer["MIN_PRICE_VALUE"], "RUB", ["RUB_SIGN" => '']) . '</span>
 									<span class="font-light">₽</span>
 								</div>';
+
+        if (isset($arOffer["BASE_PRICE_VALUE"])) {
+            $strResult .= '
+								<div class="icard__price-old">
+									<span class="line-through">' . CFormat::getFormattedPrice($arOffer["BASE_PRICE_VALUE"], "RUB", ["RUB_SIGN" => '']) . '</span>
+								</div>';
+        }
 
         $strResult .= '
 							</div>
@@ -132,7 +180,7 @@ class CatalogSection extends \CBitrixComponent
 							<div class="ptgb__subtitle">Цена</div>
 							<div class="ptgb__title ptgb__title--textfield">
 								<div class="icard__price-total">
-									<span class="font-bold js-icard-price">' . \ig\CFormat::getFormattedPrice($arOffer["MIN_PRICE_VALUE"], "RUB", ["RUB_SIGN" => '']) . '</span>
+									<span class="font-bold js-icard-price">' . CFormat::getFormattedPrice($arOffer["MIN_PRICE_VALUE"], "RUB", ["RUB_SIGN" => '']) . '</span>
 									<span class="font-light">₽</span>
 								</div>
 							

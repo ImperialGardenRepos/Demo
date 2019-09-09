@@ -23,6 +23,7 @@ __MACOSX
 *.orig
 *.swp
 *.swo
+*.sassc
 .idea
 /.idea
 /images
@@ -49,3 +50,4 @@ robots.txt
 *_nogit*
 /include/generated
 # user files
+/local/vendor/*
