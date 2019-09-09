@@ -32,7 +32,7 @@ $arUrlRewrite=array (
     'PATH' => '/e-store/xml_catalog/index.php',
     'SORT' => 100,
   ),
-  20 => 
+  28 => 
   array (
     'CONDITION' => '#^/katalog/rasteniya/#',
     'RULE' => '',
