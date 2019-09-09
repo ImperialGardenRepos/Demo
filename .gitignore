@@ -49,3 +49,5 @@ robots.txt
 *_nogit*
 /include/generated
 # user files
+/local/vendor/*
+/local/templates/ig/pic
