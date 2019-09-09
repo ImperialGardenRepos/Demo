@@ -266,7 +266,11 @@ class CRouter
         $arVariables['SECTION_ID'] = $section['ID'];
         $arVariables['SECTION_CODE_PATH'] = $sectionCodeFirst . '/' . $section['CODE'];
 
-        if (!isset($arPath[2]) || (bool)$arPath[2] === false) {
+        if (
+            !isset($arPath[2])
+            || (bool)$arPath[2] === false
+            || preg_match('/page-\d+/', $arPath[2]) !== 0
+        ) {
             return 'section';
         }
 
