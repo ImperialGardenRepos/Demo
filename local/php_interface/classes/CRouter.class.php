@@ -178,8 +178,6 @@ class CRouter
             LocalRedirect($strRedirectUrl);
         }
 
-
-        $tpl = false;
         /**
          * Zero-level is catalog root section
          */
@@ -232,13 +230,11 @@ class CRouter
                 'select' => ['ID', 'CODE', 'IBLOCK_SECTION_ID']
             ]
         );
-        if ($productModel->getSelectedRowsCount() === 1) {
+        if ($productModel->getSelectedRowsCount() > 1) {
             $product = $productModel->fetch();
             $arVariables['SECTION_ID'] = $product['IBLOCK_SECTION_ID'];
             $arVariables['ELEMENT_CODE'] = $product['CODE'];
             $arVariables['ELEMENT_ID'] = $product['ID'];
-            echo 111;
-            die();
             return 'element';
         }
         /**
