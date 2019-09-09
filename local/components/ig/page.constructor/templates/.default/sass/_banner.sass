@@ -1,0 +1,56 @@
+.banner
+  width: 100%
+  max-width: 1200px
+  padding: 15px
+  margin: 0 auto
+  min-height: 400px
+  background-size: cover
+  background-position: left center
+  display: block
+  text-decoration: none
+  color: white
+  &--top .banner__content
+    justify-content: flex-start
+  &--middle .banner__content
+    justify-content: center
+  &--bottom .banner__content
+    justify-content: flex-end
+  &--left .banner__content
+    align-items: flex-start
+  &--center .banner__content
+    align-items: center
+  &--right .banner__content
+    align-items: flex-end
+  &--full-width
+    max-width: none
+  &:hover
+    color: white
+    text-decoration: none
+    & .banner__heading
+      text-decoration: underline
+  &__content
+    display: flex
+    flex-direction: column
+    height: calc(100% - 50px)
+    width: 100%
+    max-width: 1200px
+    justify-content: flex-end
+    margin: 25px auto
+    padding-top: 29px
+    padding-bottom: 29px
+  &__heading
+    font-family: "Roboto", Arial, Helvetica, sans-serif
+    font-size: 2.75rem
+    font-weight: 300
+    line-height: 1
+    margin: 2.75rem 0
+  &__text
+    font-family: "Roboto", Arial, Helvetica, sans-serif
+    font-weight: 400
+    font-size: 1.125rem
+    & p,
+    & li,
+    & ul,
+    & ol
+      margin: 0.125rem 0
+

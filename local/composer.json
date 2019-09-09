@@ -1,0 +1,12 @@
+{
+    "name": "makeev/local",
+    "require": {
+        "phpoffice/phpspreadsheet": "^1.8"
+    },
+    "authors": [
+        {
+            "name": "Oleg Makeev",
+            "email": "wotmc@yandex.ru"
+        }
+    ]
+}

@@ -1,0 +1,122 @@
+.text
+  width: 100%
+  max-width: 1230px
+  margin: 2rem auto 1rem
+  padding: 0 15px
+
+  &__content
+    display: flex
+    flex-direction: column
+    flex-wrap: nowrap
+    @media screen and (min-width: 800px)
+
+      &--img-flow-center
+        & .text__img
+          margin-top: 1.75rem
+          margin-bottom: 1rem
+
+      &--img-flow-center
+        & .text__img
+          width: auto
+          max-width: 100%
+          margin-left: auto
+          margin-right: auto
+
+      &--img-flow-left,
+      &--img-flow-right
+        justify-content: space-between
+        align-items: stretch
+
+      &--img-flow-right
+        flex-direction: row
+      &--img-flow-left
+        flex-direction: row-reverse
+
+      &--img-flow-left,
+      &--img-flow-right
+        $i: 25
+        @while $i < 70
+          &.text__content--img-width-#{$i}
+            & .text__img
+              width: $i * 1%
+            & .text__text
+              width: 95% - $i
+          $i: $i+5
+
+  &__text
+    display: block
+    font-family: "Roboto", Arial, Helvetica, sans-serif
+    font-weight: 400
+    font-size: 1.125rem
+
+    & p,
+    & li,
+    & ul,
+    & ol
+      margin: 0.75rem 0
+
+    & h1
+      margin: 2.5rem 0
+
+    & h2
+      margin: 2rem 0
+
+    & h3
+      margin: 1.75rem 0
+
+    & h4
+      margin: 1.5rem 0
+
+    & table
+      min-width: 100%
+
+    & table th
+      background: #94464a
+      color: white
+
+    & table td
+      overflow: auto
+      background: #eaebec
+
+    & td,
+    & th
+      border: 2px solid white
+      padding: 7px 11px
+    &--top
+      align-self: flex-start
+    &--middle
+      align-self: center
+    &--bottom
+      align-self: flex-end
+
+    &--left
+      text-align: left
+    &--center
+      text-align: center
+    &--right
+      text-align: right
+    &--justify
+      text-align: justify
+
+
+  &__img
+    display: flex
+    &--top
+      align-self: flex-start
+    &--middle
+      align-self: center
+    &--bottom
+      align-self: flex-end
+    &--left
+      justify-content: flex-start
+    &--center
+      justify-content: center
+    &--right
+      justify-content: flex-end
+
+  &__heading
+    margin: 2.5rem 0
+    font-family: "Roboto", Arial, Helvetica, sans-serif
+    font-size: 2.75rem
+    font-weight: 300
+    line-height: 1

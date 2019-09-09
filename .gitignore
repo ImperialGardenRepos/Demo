@@ -23,6 +23,7 @@ __MACOSX
 *.orig
 *.swp
 *.swo
+*.sassc
 .idea
 /.idea
 /images
@@ -50,4 +51,7 @@ robots.txt
 /include/generated
 # user files
 /local/vendor/*
+<<<<<<< HEAD
 /local/templates/ig/pic
+=======
+>>>>>>> d5270d7e754f30b9c2e60801b11d52c414139f88
