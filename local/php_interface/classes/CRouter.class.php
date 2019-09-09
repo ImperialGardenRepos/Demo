@@ -82,7 +82,7 @@ class CRouter
                 $arVariables['SECTION_ID'] = $arSection1['ID'];
                 $arVariables['SECTION_CODE_PATH'] = $arSection1['CODE'];
 
-                if ((string)$arPath[1] !== '' && preg_match('/page-\d+/', $arPath[1]) === false) {
+                if ((string)$arPath[1] !== '' && preg_match('/page-\d+/', $arPath[1]) === 0) {
                     if ($arSection2 = SectionTable::getList(array(
                         'filter' => [
                             'IBLOCK_ID' => $intIblockID,
@@ -194,7 +194,7 @@ class CRouter
             $arVariables['SECTION_ID'] = $arSection1['ID'];
             $arVariables['SECTION_CODE_PATH'] = $arSection1['CODE'];
 
-            if ($arPath[1] !== '' && preg_match('/page-\d+/', $arPath[1]) === false) {
+            if ($arPath[1] !== '' && preg_match('/page-\d+/', $arPath[1]) === 0) {
                 if (
                 $arSection2 = SectionTable::getList(
                     [
