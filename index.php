@@ -91,8 +91,8 @@ if(empty($strImagePath)) {
 		"STRICT_SECTION_CHECK" => "N"
 	)
 );?>
-				<a class="hero__inner mobile-hide" style="padding-bottom: 33%;" href="/promo/10-let"></a>
-				<a class="hero__inner mobile-show" style="padding-bottom: 82%;" href="/promo/10-let"></a>
+				<a class="hero__inner mobile-hide" style="padding-bottom: 33%;" href="/promo/bolshie-derevya/"></a>
+				<a class="hero__inner mobile-show" style="padding-bottom: 82%;" href="/promo/bolshie-derevya/"></a>
 			 <?
 				if(false) {
 					$APPLICATION->IncludeComponent("bitrix:main.include", "", Array(
