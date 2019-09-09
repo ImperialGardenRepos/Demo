@@ -237,6 +237,8 @@ class CRouter
             $arVariables['SECTION_ID'] = $product['IBLOCK_SECTION_ID'];
             $arVariables['ELEMENT_CODE'] = $product['CODE'];
             $arVariables['ELEMENT_ID'] = $product['ID'];
+            echo 111;
+            die();
             return 'element';
         }
         /**
