@@ -226,12 +226,6 @@ class CIblockEvents
 
                 $dataArray = $activeSheet->toArray();
 
-                var_dump($dataArray);
-//                die();
-//                unset($spreadsheet);
-//
-//                $spreadsheet = new Spreadsheet();
-//                $activeSheet-s
 
                 $spreadsheet->discardMacros();
                 $spreadsheet->setMinimized(true);
@@ -239,7 +233,6 @@ class CIblockEvents
                 $writer = new Html($spreadsheet);
                 $writer->setUseInlineCss(true);
                 $writer->setGenerateSheetNavigationBlock(false);
-//                $writer->setSheetIndex(0);
 
                 $htmlTable = $writer->generateSheetData();
 
@@ -255,7 +248,6 @@ class CIblockEvents
                     'TYPE' => 'html',
                 ];
             }
-//            die();
         }
     }
 

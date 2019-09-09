@@ -173,11 +173,6 @@ class CRouter
             return false;
         }
 
-        if ((string)$arPath[1] !== '' && $arPath[1] === $arPath[2]) {
-            $strRedirectUrl = $folder404 . implode('/', array_slice($arPath, 0, count($arPath) - 2)) . '/';
-            LocalRedirect($strRedirectUrl);
-        }
-
         /**
          * Zero-level is catalog root section
          */
@@ -225,6 +220,7 @@ class CRouter
                 'filter' => [
                     'IBLOCK_ID' => CATALOG_IBLOCK_ID,
                     'ACTIVE' => 'Y',
+                    'IBLOCK_SECTION_ID' => $section['ID'],
                     '=CODE' => $arPath[1]
                 ],
                 'select' => ['ID', 'CODE', 'IBLOCK_SECTION_ID']

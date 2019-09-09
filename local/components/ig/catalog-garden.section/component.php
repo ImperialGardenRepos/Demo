@@ -293,7 +293,6 @@ if ($this->startResultCache(false, [($arParams['CACHE_GROUPS'] === 'N' ? false :
         $arI = $obI->GetFields();
         $arI['PROPERTIES'] = $obI->GetProperties();
 
-        $arI["DETAIL_PAGE_URL"] = CHelper::prepareCatalogDetailUrl($arI);
 
         $arResult['SECTIONS'][$arI['IBLOCK_SECTION_ID']] = [];
 

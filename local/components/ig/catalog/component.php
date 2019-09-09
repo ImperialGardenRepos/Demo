@@ -14,6 +14,7 @@ $arResult = CRouter::getUrlInfo();
 if (!empty($arResult)) {
     $componentPage = 'section';
 } else {
+
     $smartBase = $arParams['SEF_URL_TEMPLATES']['section'] ?: '#SECTION_ID#/';
     $arDefaultUrlTemplates404 = array(
         'sections' => '',
@@ -35,6 +36,7 @@ if (!empty($arResult)) {
 
     if ($arParams['SEF_MODE'] === 'Y') {
         $arVariables = array();
+
 
         $engine = new CComponentEngine($this);
         if (Loader::includeModule('iblock')) {
@@ -152,4 +154,5 @@ if (!empty($arResult)) {
         );
     }
 }
+
 $this->IncludeComponentTemplate($componentPage);
