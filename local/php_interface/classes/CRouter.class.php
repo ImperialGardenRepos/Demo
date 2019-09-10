@@ -143,8 +143,6 @@ class CRouter
     {
         Loader::includeModule('iblock');
 
-        $strComponentPage = 'sections';
-
         if (!isset($arVariables) || !is_array($arVariables)) {
             $arVariables = array();
         }
@@ -176,11 +174,32 @@ class CRouter
         /**
          * Zero-level is catalog root section
          */
-        if ((string)$arPath[0] === '') {
+        if (
+            (string)$arPath[0] === ''
+            || preg_match('/page-\d+/', $arPath[0]) !== 0
+        ) {
             return 'section';
         }
+
         /**
          * Get 1st section level. On 1st level we have no products.
+         * It can be either filter or section.
+         * First we check filter SEF.
+         */
+        $filterUrl = '/' . trim($requestURL, '/') . '/';
+        $filterUrl = preg_replace('/(.*\/)page-\d+\//','$1',$filterUrl);
+        $filterModel = CVirtualPage::getFirst(false,
+            [
+                'UF_URL' => $filterUrl,
+            ],
+            ['ID']
+        );
+        if ($filterModel !== null) {
+            return 'smart_filter';
+        }
+
+        /**
+         * Then section SEF.
          */
         $sectionModel = SectionTable::getList(
             [
@@ -192,6 +211,10 @@ class CRouter
                 'select' => ['ID', 'CODE']
             ]
         );
+
+        /**
+         * If neither filter nor 1st level section exist, return false.
+         */
         if ($sectionModel->getSelectedRowsCount() === 0) {
             return false;
         }
@@ -202,7 +225,7 @@ class CRouter
         $arVariables['SECTION_CODE_PATH'] = $section['CODE'];
 
         /**
-         * If no 2nd level or 2nd level is pagination, return 1st level section
+         * If neither 2nd level exists nor 2nd level is pagination, return 1st level section.
          */
         if (
             !isset($arPath[1])
@@ -211,32 +234,10 @@ class CRouter
         ) {
             return 'section';
         }
-        /**
-         * If we have 2nd level, it can both be element and section.
-         * At first we try to get element by its code.
-         */
-        $productModel = ElementTable::getList(
-            [
-                'filter' => [
-                    'IBLOCK_ID' => CATALOG_IBLOCK_ID,
-                    'ACTIVE' => 'Y',
-                    'IBLOCK_SECTION_ID' => $section['ID'],
-                    '=CODE' => $arPath[1]
-                ],
-                'select' => ['ID', 'CODE', 'IBLOCK_SECTION_ID']
-            ]
-        );
-        if ($productModel->getSelectedRowsCount() > 1) {
-            $product = $productModel->fetch();
-            $arVariables['SECTION_ID'] = $product['IBLOCK_SECTION_ID'];
-            $arVariables['ELEMENT_CODE'] = $product['CODE'];
-            $arVariables['ELEMENT_ID'] = $product['ID'];
-            return 'element';
-        }
-        /**
-         * If no product, try to get section 2nd level
-         */
 
+        /**
+         * If 2nd level exists, it can be section only.
+         */
         $sectionCodeFirst = $section['CODE'];
         $sectionModel = SectionTable::getList(
             [
@@ -250,6 +251,10 @@ class CRouter
                 'select' => ['ID', 'CODE']
             ]
         );
+
+        /**
+         * If no 2nd level section exists, return false.
+         */
 
         if ($sectionModel->getSelectedRowsCount() === 0) {
             return false;
@@ -269,9 +274,8 @@ class CRouter
         }
 
         /**
-         * If 3rd level is defined, it is definitely a product
+         * If 3rd level is defined, it is definitely a product.
          */
-
         $productModel = ElementTable::getList(
             [
                 'filter' => [
@@ -284,11 +288,17 @@ class CRouter
             ]
         );
 
+        /**
+         * If no product exists, return false.
+         */
         if ($productModel->getSelectedRowsCount() === 0) {
             return false;
         }
-        $product = $productModel->fetch();
 
+        /**
+         * Finally return product.
+         */
+        $product = $productModel->fetch();
         $arVariables['ELEMENT_CODE'] = $product['CODE'];
         $arVariables['ELEMENT_ID'] = $product['ID'];
         return 'element';
