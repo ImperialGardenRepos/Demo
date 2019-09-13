@@ -147,11 +147,15 @@ $arUrlRewrite = [
         'PATH' => '/promo/detail.php',
         'SORT' => 100,
     ],
-    /*[
-        'CONDITION' => '#^/promo/#',
-        'RULE' => '',
-        'ID' => 'bitrix:catalog.section.list',
-        'PATH' => '/promo/index.php',
+    /**
+     * Pagination rules
+     */
+    [
+        'CONDITION' => '#^/o-nas/partnyery/page-([0-9]+)/#',
+        'RULE' => 'PAGEN_1=$1&',
+        'ID' => '',
+        'PATH' => '/o-nas/partnyery/index.php',
         'SORT' => 100,
-    ],*/
+    ]
 ];
+

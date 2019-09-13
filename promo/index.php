@@ -38,31 +38,6 @@ $APPLICATION->SetTitle("Спецпредложения");
                     </a>
                 </div>
                 <div class="tgb tgb--1-2 tgb--h50 tgb--img-hover">
-                    <a class="tgb__inner" href="/promo/10-let/">
-                        <div class="tgb__image img-to-bg img-to-bg--inited" style="background-image: url(10letv2.png);">
-                            <img alt="Эскизное проектирование" src="10letv2.png" data-lazy-src="tgb__image">
-                        </div>
-                        <div class="tgb__overlay">
-                            <div class="tgb__overlay-part">
-                                <div class="tgb__overlay-part-inner">
-                                    <div class="tgb__title h3">
-                                        10 лет Садовому центру
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="tgb__overlay-part mobile-hide">
-                                <div class="tgb__overlay-part-inner">
-                                    <div class="text">
-                                        <p>
-                                            Дополнительная скидка всем клиентам – держателям карт Imperial Garden
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                <div class="tgb tgb--1-2 tgb--h50 tgb--img-hover">
                     <a class="tgb__inner" href="/promo/rulonniy-gazon/">
                         <div class="tgb__image img-to-bg img-to-bg--inited" style="background-image: url(rulongazon2.png);">
                             <img src="rulongazon2.png" data-lazy-src="groub" alt="Газон">

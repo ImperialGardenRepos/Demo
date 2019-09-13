@@ -6,8 +6,8 @@ $APPLICATION->SetPageProperty("description", "Садовый центр Imperial
 $APPLICATION->SetPageProperty("keywords", "садовый центр, Imperial Garden, сц на Новой Риге");
 $APPLICATION->SetPageProperty("title", "Питомник растений и садовый центр Imperial Garden на Новой Риге");
 
-$APPLICATION->SetPageProperty("big-background-image-path", "/local/templates/ig/pic/derevofull.jpg");
-$APPLICATION->SetPageProperty("big-background-image-path-mobile", "/local/templates/ig/pic/derevomob.jpg");
+$APPLICATION->SetPageProperty("big-background-image-path", "/local/templates/ig/pic/desktopderevo2.jpg");
+$APPLICATION->SetPageProperty("big-background-image-path-mobile", "/local/templates/ig/pic/mobderevo4.jpg");
 
 $APPLICATION->SetPageProperty("NOT_SHOW_NAV_CHAIN", "Y");
 
