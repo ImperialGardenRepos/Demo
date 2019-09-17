@@ -1,12 +1,17 @@
 {
-    "name": "makeev/local",
-    "require": {
-        "phpoffice/phpspreadsheet": "^1.8"
-    },
-    "authors": [
-        {
-            "name": "Oleg Makeev",
-            "email": "wotmc@yandex.ru"
-        }
-    ]
+  "name": "makeev/local",
+  "require": {
+    "phpoffice/phpspreadsheet": "^1.8",
+    "ext-gd": "*",
+    "ext-mbstring": "*"
+  },
+  "require-dev": {
+    "roave/security-advisories": "dev-master"
+  },
+  "authors": [
+    {
+      "name": "Oleg Makeev",
+      "email": "wotmc@yandex.ru"
+    }
+  ]
 }

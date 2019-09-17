@@ -1,4 +1,5 @@
 <?php
+require_once $_SERVER['DOCUMENT_ROOT'] . '/local/php_interface/core/single_redirect.php';
 /**
  * Autoload
  */
