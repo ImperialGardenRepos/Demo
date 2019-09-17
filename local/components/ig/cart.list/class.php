@@ -1,24 +1,28 @@
 <?php
 
-if (!defined('B_PROLOG_INCLUDED') || B_PROLOG_INCLUDED !== true) die();
+use ig\CFormat;
+use ig\CFormatGarden;
+use ig\CHelper;
 
-\CBitrixComponent::includeComponentClass('ig:catalog.section');
+if (!defined('B_PROLOG_INCLUDED') || B_PROLOG_INCLUDED !== true) {
+    die();
+}
 
-class CartList extends \CatalogSection {
+CBitrixComponent::includeComponentClass('ig:catalog.section');
+
+/** @noinspection AutoloadingIssuesInspection */
+
+class CartList extends CatalogSection {
 	public function getParamsBlockHtml($arSort, $arOffer) {
-		if($arSort["IBLOCK_ID"] == \ig\CHelper::getIblockIdByCode('catalog')) {
+		if($arSort["IBLOCK_ID"] == CHelper::getIblockIdByCode('catalog')) {
 			return parent::getParamsBlockHtml($arSort, $arOffer);
 		} else {
-			return \ig\CFormatGarden::getParamsBlockHtml($arSort, $arOffer);
+			return CFormatGarden::getParamsBlockHtml($arSort, $arOffer);
 		}
 	}
 	
 	public function getActionsBlockHtml($arSort, $arOffer)
 	{
-		$arSortProp = $arSort["PROPERTIES"];
-		$arOfferProp = $arOffer["PROPERTIES"];
-		
-		$intCartQuantity = $this -> arResult["CART"][$arOffer["ID"]]["QUANTITY"];
 		if($this -> arResult["CART"][$arOffer["ID"]]["PRICE"]>0) {
 			$arOffer["MIN_PRICE_VALUE"] = $this->arResult["CART"][$arOffer["ID"]]["PRICE"];
 		}
@@ -35,7 +39,7 @@ class CartList extends \CatalogSection {
 						<div class="ptgb__title ptgb__title--textfield">
 							
 							<div class="icard__price-total">
-								<span class="font-bold js-icard-price">'.\ig\CFormat::getFormattedPrice($arOffer["MIN_PRICE_VALUE"], 'RUB', array("RUB_SIGN" => '')).'</span>
+								<span class="font-bold js-icard-price">'. CFormat::getFormattedPrice($arOffer["MIN_PRICE_VALUE"], 'RUB', array("RUB_SIGN" => '')).'</span>
 								<span class="font-light">₽</span>
 							</div>
 						

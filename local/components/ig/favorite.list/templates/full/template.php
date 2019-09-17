@@ -142,19 +142,7 @@ $this->setFrameMode(true);
 												</div><?
 												}?>
 												<div class="ptgbs ptgbs--params">
-													<div class="ptgb ptgb--param-stock">
-														<div class="ptgb__inner">
-															<div class="ptgb__content">
-																<div class="ptgb__subtitle">Наличие</div>
-																<div class="ptgb__title">
-																	<div class="tags">
-																		
-																		<div class="tag tag--circled<?=(\ig\CHelper::isAvailable($arOffer["PROPERTIES"]["AVAILABLE"]["VALUE"]) ? ' color-green' : '')?>"><?=$arOffer["PROPERTIES"]["AVAILABLE"]["VALUE"]?></div>
-																	</div>
-																</div>
-															</div>
-														</div>
-													</div><?
+													<?
 													if(!empty($arOfferProp["SIZE"]["VALUE"])) { ?>
 													<div class="ptgb ptgb--param-height">
 														<div class="ptgb__inner">
