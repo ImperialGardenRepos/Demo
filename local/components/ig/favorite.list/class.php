@@ -19,7 +19,7 @@ class FavoriteList extends CatalogSection
      * @param $arOffer
      * @return string
      */
-    public function getParamsBlockHtml($arSort, $arOffer)
+    public function getParamsBlockHtml($arSort, $arOffer):string
     {
         if ((int)$arSort['IBLOCK_ID'] === (int)CHelper::getIblockIdByCode('catalog')) {
             return parent::getParamsBlockHtml($arSort, $arOffer);
@@ -27,12 +27,8 @@ class FavoriteList extends CatalogSection
         return CFormatGarden::getParamsBlockHtml($arSort, $arOffer);
     }
 
-    public function getActionsBlockHtml($arSort, $arOffer)
+    public function getActionsBlockHtml($arSort, $arOffer):string
     {
-        $arSortProp = $arSort["PROPERTIES"];
-        $arOfferProp = $arOffer["PROPERTIES"];
-
-        $intCartQuantity = $this->arResult["CART"][$arOffer["ID"]]["QUANTITY"];
         if ($this->arResult["CART"][$arOffer["ID"]]["PRICE"] > 0) {
             $arOffer["MIN_PRICE_VALUE"] = $this->arResult["CART"][$arOffer["ID"]]["PRICE"];
         }
