@@ -18,7 +18,7 @@ use Bitrix\Main\Application,
     Bitrix\Iblock,
     Bitrix\Main\Data\Cache;
 
-$cCatalogOffers = new \ig\sphinx\CCatalogOffers();
+$cCatalogOffers = new \ig\sphinx\CatalogOffers();
 $request = Application::getInstance()->getContext()->getRequest();
 $arParams["IS_AJAX"] = ($request->isAjaxRequest()); // && $_REQUEST["frmCatalogFilterSent"] == 'Y'?'Y':'N'
 $arParams["EXPAND_FILTER"] = intval($_COOKIE["filter_active"]) > 0 ? 'Y' : 'N';
@@ -58,7 +58,7 @@ if ($obCache->initCache($arParams["CACHE_TIME"], $strCacheID)) {
     $arResult = $obCache->getVars();
 } elseif ($obCache->startDataCache()) {
     $arResult["OFFER_PARAMS"]["GROUP"] = array();
-    $rsGroup = \ig\CHighload::getList(\ig\CHighload::getHighloadBlockIDByName("Group"), array("UF_ACTIVE" => 1), array(
+    $rsGroup = \ig\Highload\Base::getList(\ig\Highload\Base::getHighloadBlockIDByName("Group"), array("UF_ACTIVE" => 1), array(
         "UF_NAME",
         "ID",
         "UF_XML_ID",
@@ -75,20 +75,20 @@ if ($obCache->initCache($arParams["CACHE_TIME"], $strCacheID)) {
             "ID" => $arGroup["ID"],
             "NAME" => $arGroup["UF_NAME"],
             "VALUE" => $arGroup["UF_XML_ID"],
-            "SPHINX_VALUE" => \ig\sphinx\CCatalogOffers::convertValueToSphinx("PROPERTY_GROUP", $arGroup["UF_XML_ID"]),
+            "SPHINX_VALUE" => \ig\sphinx\CatalogOffers::convertValueToSphinx("PROPERTY_GROUP", $arGroup["UF_XML_ID"]),
             "COUNT" => 0,
             "ICON" => $strIcon,
             "DISABLED" => "N"
         );
     }
     $arResult["OFFER_PARAMS"]["COLOR"] = array();
-    $rsList = \ig\CHighload::getList(\ig\CHighload::getHighloadBlockIDByName("Colors"), array("UF_ACTIVE" => 1), array(
+    $rsList = \ig\Highload\Base::getList(\ig\Highload\Base::getHighloadBlockIDByName("Colors"), array("UF_ACTIVE" => 1), array(
         "UF_NAME",
         "ID",
         "UF_XML_ID"
     ), array(), true);
     while ($arList = $rsList->Fetch()) {
-        $sphinxVal = \ig\sphinx\CCatalogOffers::convertValueToSphinx("PROPERTY_COLOR_FRUIT", $arList["UF_XML_ID"]);
+        $sphinxVal = \ig\sphinx\CatalogOffers::convertValueToSphinx("PROPERTY_COLOR_FRUIT", $arList["UF_XML_ID"]);
         $arResult["OFFER_PARAMS"]["COLOR"]["VALUES"][$arList["UF_XML_ID"]] = array(
             "ID" => $arList["ID"],
             "COLOR" => $arList["UF_XML_ID"],
@@ -101,7 +101,7 @@ if ($obCache->initCache($arParams["CACHE_TIME"], $strCacheID)) {
     }
 
     $arResult["OFFER_PARAMS"]["HEIGHT_NOW"] = array();
-    $rsList = \ig\CHighload::getList(\ig\CHighload::getHighloadBlockIDByName("PeriodHeightNow"), array("UF_ACTIVE" => 1), array(
+    $rsList = \ig\Highload\Base::getList(\ig\Highload\Base::getHighloadBlockIDByName("PeriodHeightNow"), array("UF_ACTIVE" => 1), array(
         "UF_NAME",
         "ID",
         "UF_XML_ID"
@@ -111,14 +111,14 @@ if ($obCache->initCache($arParams["CACHE_TIME"], $strCacheID)) {
             "ID" => $arList["ID"],
             "NAME" => $arList["UF_NAME"],
             "VALUE" => $arList["UF_XML_ID"],
-            "SPHINX_VALUE" => \ig\sphinx\CCatalogOffers::convertValueToSphinx("PROPERTY_HEIGHT_NOW", $arList["UF_XML_ID"]),
+            "SPHINX_VALUE" => \ig\sphinx\CatalogOffers::convertValueToSphinx("PROPERTY_HEIGHT_NOW", $arList["UF_XML_ID"]),
             "COUNT" => 0,
             "DISABLED" => "N"
         );
     }
 
     $arResult["OFFER_PARAMS"]["HEIGHT_10"] = array();
-    $rsList = \ig\CHighload::getList(\ig\CHighload::getHighloadBlockIDByName("PeriodHeight"), array("UF_ACTIVE" => 1), array(
+    $rsList = \ig\Highload\Base::getList(\ig\Highload\Base::getHighloadBlockIDByName("PeriodHeight"), array("UF_ACTIVE" => 1), array(
         "UF_NAME",
         "ID",
         "UF_XML_ID"
@@ -128,14 +128,14 @@ if ($obCache->initCache($arParams["CACHE_TIME"], $strCacheID)) {
             "ID" => $arList["ID"],
             "NAME" => $arList["UF_NAME"],
             "VALUE" => $arList["UF_XML_ID"],
-            "SPHINX_VALUE" => \ig\sphinx\CCatalogOffers::convertValueToSphinx("PROPERTY_HEIGHT_10", $arList["UF_XML_ID"]),
+            "SPHINX_VALUE" => \ig\sphinx\CatalogOffers::convertValueToSphinx("PROPERTY_HEIGHT_10", $arList["UF_XML_ID"]),
             "COUNT" => 0,
             "DISABLED" => "N"
         );
     }
 
     $arResult["OFFER_PARAMS"]["CATALOG_PRICE_LIST"] = array();
-    $rsList = \ig\CHighload::getList(\ig\CHighload::getHighloadBlockIDByName("PeriodPrice"), array("UF_ACTIVE" => 1), array(
+    $rsList = \ig\Highload\Base::getList(\ig\Highload\Base::getHighloadBlockIDByName("PeriodPrice"), array("UF_ACTIVE" => 1), array(
         "UF_NAME",
         "ID",
         "UF_XML_ID"
@@ -145,7 +145,7 @@ if ($obCache->initCache($arParams["CACHE_TIME"], $strCacheID)) {
             "ID" => $arList["ID"],
             "NAME" => $arList["UF_NAME"],
             "VALUE" => $arList["UF_XML_ID"],
-            "SPHINX_VALUE" => \ig\sphinx\CCatalogOffers::convertValueToSphinx("CATALOG_PRICE_LIST", $arList["UF_XML_ID"]),
+            "SPHINX_VALUE" => \ig\sphinx\CatalogOffers::convertValueToSphinx("CATALOG_PRICE_LIST", $arList["UF_XML_ID"]),
             "COUNT" => 0,
             "DISABLED" => "N"
         );
@@ -161,7 +161,7 @@ if ($obCache->initCache($arParams["CACHE_TIME"], $strCacheID)) {
             "ID" => $arList["ID"],
             "NAME" => $arList["VALUE"],
             "VALUE" => $arList["ID"],
-            "SPHINX_VALUE" => \ig\sphinx\CCatalogOffers::convertValueToSphinx("PROPERTY_AVAILABLE", $arList["ID"]),
+            "SPHINX_VALUE" => \ig\sphinx\CatalogOffers::convertValueToSphinx("PROPERTY_AVAILABLE", $arList["ID"]),
             "COUNT" => 0,
             "DISABLED" => "N"
         );
@@ -294,7 +294,7 @@ if ($arRequest["search"] == 'Y') {
                 "NAME" => $arValue["NAME"],
                 "ICON" => $arValue["ICON"],
                 "VALUE" => $arValue["XML_ID"],
-                "SPHINX_VALUE" => \ig\sphinx\CCatalogOffers::convertValueToSphinx("PROPERTY_" . $strParamCode, $arValue["XML_ID"]),
+                "SPHINX_VALUE" => \ig\sphinx\CatalogOffers::convertValueToSphinx("PROPERTY_" . $strParamCode, $arValue["XML_ID"]),
                 "COUNT" => 0,
                 "DISABLED" => $arValue["DISABLED"]
             );
@@ -303,7 +303,7 @@ if ($arRequest["search"] == 'Y') {
 
 // глобальное выключение свойств для группы
     if ($arResult["GROUP_ID"] > 0) {
-        $rsPropGroup = \ig\CHighload::getList(\ig\CHighload::getHighloadBlockIDByName("PropertyGroup"), array("UF_ACTIVE" => 1), array(
+        $rsPropGroup = \ig\Highload\Base::getList(\ig\Highload\Base::getHighloadBlockIDByName("PropertyGroup"), array("UF_ACTIVE" => 1), array(
             "UF_NAME",
             "ID",
             "UF_CODE",
@@ -340,7 +340,7 @@ if ($arRequest["search"] == 'Y') {
             }
 
             if (!empty(\CatalogFilter::$arRequestFilter[$strCode])) {
-                $arSearchParams[$strCode] = \ig\sphinx\CCatalogOffers::convertValueToSphinx($strCode, \CatalogFilter::$arRequestFilter[$strCode]);
+                $arSearchParams[$strCode] = \ig\sphinx\CatalogOffers::convertValueToSphinx($strCode, \CatalogFilter::$arRequestFilter[$strCode]);
             }
         }
 
@@ -356,7 +356,7 @@ if ($arRequest["search"] == 'Y') {
     $arFacetExcludeParams = array_unique($arFacetExcludeParams);
 
 
-    $obSearch = new \ig\sphinx\CCatalogOffers();
+    $obSearch = new \ig\sphinx\CatalogOffers();
 
     $arResult["COUNT_TOTAL_OFFERS"] = $obSearch->getCount(array(), 'id');
     $arResult["COUNT_DATA"] = array();
@@ -388,7 +388,7 @@ if ($arRequest["search"] == 'Y') {
 
     // GROUP
     $arFacetSearchParams = array("FILTER" => $arSearchGroupParams);
-    $arFacetFields = \ig\sphinx\CCatalogOffers::getFacetFields(array("INCLUDE" => "PROPERTY_GROUP"));
+    $arFacetFields = \ig\sphinx\CatalogOffers::getFacetFields(array("INCLUDE" => "PROPERTY_GROUP"));
 
 
 
@@ -409,7 +409,7 @@ if ($arRequest["search"] == 'Y') {
     }
 
     // USAGE
-    $arFacetData = $obSearch->searchFacet(array("FILTER" => $arSearchUsageParams), \ig\sphinx\CCatalogOffers::getFacetFields(array("INCLUDE" => "PROPERTY_USAGE")), true);
+    $arFacetData = $obSearch->searchFacet(array("FILTER" => $arSearchUsageParams), \ig\sphinx\CatalogOffers::getFacetFields(array("INCLUDE" => "PROPERTY_USAGE")), true);
 
     $arResult["COUNT_DATA"]["USAGE"]["TOTAL"] = $obSearch->getCount($arSearchUsageParams, 'id');
     $arResult["COUNT_USAGE_PRODUCTS"] = $obSearch->getCount($arSearchUsageParams, 'id');
@@ -425,13 +425,13 @@ if ($arRequest["search"] == 'Y') {
 
     if (!$arResult["IS_ACTION"] && !$arResult["IS_NEW"]) {
         // фасетим по нефильтрованным параметрам
-        $arFacetData = $obSearch->searchFacet(array("FILTER" => $arSearchParams), \ig\sphinx\CCatalogOffers::getFacetFields(array("EXCLUDE" => $arFacetExcludeParams)), true);
+        $arFacetData = $obSearch->searchFacet(array("FILTER" => $arSearchParams), \ig\sphinx\CatalogOffers::getFacetFields(array("EXCLUDE" => $arFacetExcludeParams)), true);
         foreach ($arFacetData["FACET"] as $strSphinxCode => $arDataList) {
 
-            $strCode = str_replace("PROPERTY_", '', \ig\sphinx\CCatalogOffers::convertFieldCode($strSphinxCode, false));
+            $strCode = str_replace("PROPERTY_", '', \ig\sphinx\CatalogOffers::convertFieldCode($strSphinxCode, false));
 
             $arTotalFilter = $arSearchParams;
-            unset($arTotalFilter[\ig\sphinx\CCatalogOffers::convertFieldCode($strSphinxCode, false)]);
+            unset($arTotalFilter[\ig\sphinx\CatalogOffers::convertFieldCode($strSphinxCode, false)]);
 
             $arResult["COUNT_DATA"][$strCode]["TOTAL"] = $obSearch->getCount($arTotalFilter, 'id');
             foreach ($arDataList as $arData) {
@@ -443,17 +443,17 @@ if ($arRequest["search"] == 'Y') {
         foreach ($arSearchParams as $strCode => $value) {
             $arTmpFilter = $arSearchParams;
 
-            $arParamData = \ig\sphinx\CCatalogOffers::getSphinxConfig(\ig\sphinx\CCatalogOffers::convertFieldCode($strCode));
+            $arParamData = \ig\sphinx\CatalogOffers::getSphinxConfig(\ig\sphinx\CatalogOffers::convertFieldCode($strCode));
 
             if ($arParamData["CONTROL"] == 'CHECKBOX' && $arParamData["MULTIPLE"] == 'Y') {
                 // сначала берем фасет по неотмеченным вариантам
                 $arTmpFilter["NOT_" . $strCode] = $arTmpFilter[$strCode];
                 unset($arTmpFilter[$strCode]);
 
-                $arFacetData = $obSearch->searchFacet(array("FILTER" => $arTmpFilter), \ig\sphinx\CCatalogOffers::getFacetFields(array("INCLUDE" => $strCode)), true);
+                $arFacetData = $obSearch->searchFacet(array("FILTER" => $arTmpFilter), \ig\sphinx\CatalogOffers::getFacetFields(array("INCLUDE" => $strCode)), true);
 
                 foreach ($arFacetData["FACET"] as $strSphinxCode => $arDataList) {
-                    $strCodeTmp = str_replace("PROPERTY_", '', \ig\sphinx\CCatalogOffers::convertFieldCode($strSphinxCode, false));
+                    $strCodeTmp = str_replace("PROPERTY_", '', \ig\sphinx\CatalogOffers::convertFieldCode($strSphinxCode, false));
                     foreach ($arDataList as $arData) {
                         $arResult["COUNT_DATA"][$strCodeTmp][$arData[$strSphinxCode]] = $arData["count"];
                     }
@@ -475,10 +475,10 @@ if ($arRequest["search"] == 'Y') {
             } else {
                 unset($arTmpFilter[$strCode]);
 
-                $arFacetData = $obSearch->searchFacet(array("FILTER" => $arTmpFilter), \ig\sphinx\CCatalogOffers::getFacetFields(array("INCLUDE" => $strCode)), true);
+                $arFacetData = $obSearch->searchFacet(array("FILTER" => $arTmpFilter), \ig\sphinx\CatalogOffers::getFacetFields(array("INCLUDE" => $strCode)), true);
 
                 foreach ($arFacetData["FACET"] as $strSphinxCode => $arDataList) {
-                    $strCode = str_replace("PROPERTY_", '', \ig\sphinx\CCatalogOffers::convertFieldCode($strSphinxCode, false));
+                    $strCode = str_replace("PROPERTY_", '', \ig\sphinx\CatalogOffers::convertFieldCode($strSphinxCode, false));
                     $arResult["COUNT_DATA"][$strCode]["TOTAL"] = $obSearch->getCount($arTmpFilter, 'id');
                     foreach ($arDataList as $arData) {
                         $arResult["COUNT_DATA"][$strCode][$arData[$strSphinxCode]] = $arData["count"];

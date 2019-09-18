@@ -2,8 +2,8 @@
 
 namespace ig;
 
-use ig\sphinx\CCatalogGardenOffers;
-use ig\sphinx\CCatalogOffers;
+use ig\sphinx\CatalogGardenOffers;
+use ig\sphinx\CatalogOffers;
 
 class CCatalogSphinxIndexer
 {
@@ -12,8 +12,8 @@ class CCatalogSphinxIndexer
         @set_time_limit(0);
         if (!is_array($NS)) $NS = [];
 
-        $obCatalogOffersIndex = new CCatalogOffers();
-        $obCatalogGardenOffersIndex = new CCatalogGardenOffers();
+        $obCatalogOffersIndex = new CatalogOffers();
+        $obCatalogGardenOffersIndex = new CatalogGardenOffers();
 
 
         $NS["ENTITY"] = trim($NS["ENTITY"]);

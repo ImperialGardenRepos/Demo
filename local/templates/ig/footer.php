@@ -79,6 +79,7 @@ if ($APPLICATION->GetProperty('hideFooter') !== 'Y') : ?>
                             <!--/noindex-->
                         </div>
                     </div>
+
                     <div class="footer__col footer__col--copyright">
                         &copy;
                         <?php
@@ -108,6 +109,7 @@ if ($APPLICATION->GetProperty('hideFooter') !== 'Y') : ?>
 <script>
     var obDynamicData = <?=json_encode(CHelper::getDynamicData())?>;
 </script>
-<?= CSeo::includeJs() ?>
+
+<?php $APPLICATION->ShowHeadScripts() ?>
 </body>
 </html>

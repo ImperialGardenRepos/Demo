@@ -23,7 +23,7 @@ $intOffersIblockID = \ig\CHelper::getIblockIdByCode('offers');
 
 $arResult = array();
 
-$rsGroup = \ig\CHighload::getList(\ig\CHighload::getHighloadBlockIDByName("Group"), array("UF_ACTIVE" => 1), array("UF_NAME", "UF_XML_ID"), array(), true);
+$rsGroup = \ig\Highload\Base::getList(\ig\Highload\Base::getHighloadBlockIDByName("Group"), array("UF_ACTIVE" => 1), array("UF_NAME", "UF_XML_ID"), array(), true);
 while($arGroup = $rsGroup -> Fetch()) {
 	$arResult["GROUP"][$arGroup["UF_XML_ID"]] = array(
 		"NAME" => $arGroup["UF_NAME"],

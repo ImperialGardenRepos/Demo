@@ -2,6 +2,7 @@
   "name": "makeev/local",
   "require": {
     "phpoffice/phpspreadsheet": "^1.8",
+    "tedivm/jshrink": "^1.3",
     "ext-gd": "*",
     "ext-mbstring": "*"
   },

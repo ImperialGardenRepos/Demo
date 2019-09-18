@@ -2,158 +2,161 @@
 if (!defined('B_PROLOG_INCLUDED') || B_PROLOG_INCLUDED !== true) {
     die();
 }
-IncludeTemplateLangFile(__FILE__);
 
 use Bitrix\Main\Application;
 use Bitrix\Main\Config\Option;
 use Bitrix\Main\Loader;
+use Bitrix\Main\Localization\Loc;
+use Bitrix\Main\Page\Asset;
 use Bitrix\Sale;
-use ig\CSeo;
 
-/**
- * @var CMain $APPLICATION
- */
+Loc::loadLanguageFile(__FILE__);
 Loader::includeModule('sale');
 
-$isVirtualTourPage = strpos($APPLICATION->GetCurDir(), '/o-nas/virtualnyy-tur/') === 0;
 
 $request = Application::getInstance()->getContext()->getRequest();
 $requestArray = $request->toArray();
 $arParams['IS_AJAX'] = $request->isAjaxRequest();
-
+$isVirtualTourPage = strpos($request->getRequestedPageDirectory(), '/o-nas/virtualnyy-tur/') === 0;
 $strPhone = Option::get('grain.customsettings', 'phone');
-
 $basket = Sale\Basket::loadItemsForFUser(Sale\Fuser::getId(), Bitrix\Main\Context::getCurrent()->getSite());
+$asset = Asset::getInstance();
+
+$asset->addJs(SITE_TEMPLATE_PATH . '/build/build_final.js');
+$asset->addCss(SITE_TEMPLATE_PATH . '/build/build.css');
+$asset->addCss('/local/css/template_styles.css');
+
 ?>
-<!DOCTYPE html>
-<!--[if lt IE 7]>
-<html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="ru"> <![endif]-->
-<!--[if IE 7]>
-<html class="no-js lt-ie9 lt-ie8" lang="ru"> <![endif]-->
-<!--[if IE 8]>
-<html class="no-js lt-ie9" lang="ru"> <![endif]-->
-<!--[if IE 9]>
-<html class="no-js lte-ie9" lang="ru"> <![endif]-->
-<!--[if gt IE 9]><!-->
-<html class="no-js" lang="ru"> <!--<![endif]-->
-<head>
-    <title><? $APPLICATION->ShowTitle() ?><?$APPLICATION->ShowViewContent('pagination_meta')?></title>
-    <?php if (!array_key_exists('PAGEN_1', $requestArray)): ?>
-        <? $APPLICATION->ShowMeta("description") ?>
-    <?php endif; ?>
-    <?$APPLICATION->ShowViewContent('canonical')?>
-    <?php $APPLICATION->ShowCSS(); ?>
-    <?php $APPLICATION->ShowHeadStrings() ?>
-    <?php $APPLICATION->ShowHeadScripts() ?>
+    <!DOCTYPE html>
+    <!--[if lt IE 7]>
+    <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="ru"> <![endif]-->
+    <!--[if IE 7]>
+    <html class="no-js lt-ie9 lt-ie8" lang="ru"> <![endif]-->
+    <!--[if IE 8]>
+    <html class="no-js lt-ie9" lang="ru"> <![endif]-->
+    <!--[if IE 9]>
+    <html class="no-js lte-ie9" lang="ru"> <![endif]-->
+    <!--[if gt IE 9]><!-->
+    <html class="no-js" lang="ru"> <!--<![endif]-->
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=<?=LANG_CHARSET?>">
+        <title><?php $APPLICATION->ShowTitle(false) ?></title>
+        <?php
+        $APPLICATION->ShowMeta('robots', false, false);
+        $APPLICATION->ShowMeta('keywords', false, false);
+        $APPLICATION->ShowMeta('description', false, false);
+        $APPLICATION->ShowLink('canonical', null, false);
+        $APPLICATION->ShowCSS(true, false);
+        $APPLICATION->ShowHeadStrings()
+        ?>
 
-    <meta charset="<?= LANG_CHARSET; ?>"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
-    <meta name="format-detection" content="telephone=no">
-    <?= CSeo::includeCss() ?>
-    <script data-skip-moving="true" src="<?= SITE_TEMPLATE_PATH ?>/build/build-head.js"></script>
+        <meta charset="<?= LANG_CHARSET ?>"/>
 
-    <!-- Global site tag (gtag.js) - Google Analytics -->
-    <script data-skip-moving="true" async src="https://www.googletagmanager.com/gtag/js?id=UA-143791931-1"></script>
-    <script data-skip-moving="true">
-        window.dataLayer = window.dataLayer || [];
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
+        <meta name="format-detection" content="telephone=no">
 
-        function gtag() {
-            dataLayer.push(arguments);
-        }
+        <!-- Global site tag (gtag.js) - Google Analytics -->
+        <script data-skip-moving="true" async src="https://www.googletagmanager.com/gtag/js?id=UA-143791931-1"></script>
+        <script data-skip-moving="true">
+            window.dataLayer = window.dataLayer || [];
 
-        gtag('js', new Date());
+            function gtag() {
+                dataLayer.push(arguments);
+            }
 
-        gtag('config', 'UA-143791931-1');
-    </script>
+            gtag('js', new Date());
 
-    <!-- Yandex.Metrika counter -->
-    <script data-skip-moving="true" type="text/javascript">
-        (function (m, e, t, r, i, k, a) {
-            m[i] = m[i] || function () {
-                (m[i].a = m[i].a || []).push(arguments)
-            };
-            m[i].l = 1 * new Date();
-            k = e.createElement(t), a = e.getElementsByTagName(t)[0], k.async = 1, k.src = r, a.parentNode.insertBefore(k, a)
-        })
-        (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+            gtag('config', 'UA-143791931-1');
+        </script>
 
-        ym(54440035, "init", {
-            clickmap: true,
-            trackLinks: true,
-            accurateTrackBounce: true,
-            webvisor: true
-        });
-    </script>
-    <!-- /Yandex.Metrika counter -->
-</head>
+        <!-- Yandex.Metrika counter -->
+        <script data-skip-moving="true" type="text/javascript">
+            (function (m, e, t, r, i, k, a) {
+                m[i] = m[i] || function () {
+                    (m[i].a = m[i].a || []).push(arguments)
+                };
+                m[i].l = 1 * new Date();
+                k = e.createElement(t), a = e.getElementsByTagName(t)[0], k.async = 1, k.src = r, a.parentNode.insertBefore(k, a)
+            })
+            (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+
+            ym(54440035, "init", {
+                clickmap: true,
+                trackLinks: true,
+                accurateTrackBounce: true,
+                webvisor: true
+            });
+        </script>
+        <!-- /Yandex.Metrika counter -->
+    </head>
 <body class="not-loaded " data-svg-sprite-url="<?= SITE_TEMPLATE_PATH ?>/build/svg/symbol/svg/sprite.symbol.svg"
       data-cart-url="/local/ajax/cart.php" data-favorites-url="/local/ajax/favorite.php">
-<!-- Yandex.Metrika counter -->
-<noscript>
-    <div><img src="https://mc.yandex.ru/watch/54440035" style="position:absolute; left:-9999px;" alt=""/></div>
-</noscript>
-<!-- /Yandex.Metrika counter -->
-<div id="panel"><? $APPLICATION->ShowPanel() ?></div>
-<div class="respon-meter"></div>
+    <!-- Yandex.Metrika counter -->
+    <noscript>
+        <div><img src="https://mc.yandex.ru/watch/54440035" style="position:absolute; left:-9999px;" alt=""/></div>
+    </noscript>
+    <!-- /Yandex.Metrika counter -->
+    <div id="panel"><? $APPLICATION->ShowPanel() ?></div>
+    <div class="respon-meter"></div>
 
-<div class="wrap<?= ($isVirtualTourPage ? ' js-fix-100vh-min' : '') ?>" id="top"><?
-    if ($APPLICATION->GetProperty('hideTopBar') !== 'Y') { ?>
-        <div class="topbar mobile-hide">
-        <div class="container">
+    <div class="wrap<?= ($isVirtualTourPage ? ' js-fix-100vh-min' : '') ?>" id="top"><?
+if ($APPLICATION->GetProperty('hideTopBar') !== 'Y') { ?>
+    <div class="topbar mobile-hide">
+    <div class="container">
 
-            <div class="cols-wrapper cols-wrapper--topbar">
-                <div class="cols cols--auto">
+        <div class="cols-wrapper cols-wrapper--topbar">
+            <div class="cols cols--auto">
 
-                    <div class="col">
+                <div class="col">
+                    <svg class="icon color-active">
+                        <use xlink:href="<?= SITE_TEMPLATE_PATH ?>/build/svg/symbol/svg/sprite.symbol.svg#icon-clock"></use>
+                    </svg>
+                    <span class="font-bold"><? $APPLICATION->IncludeComponent(
+                            "bitrix:main.include",
+                            "",
+                            Array(
+                                "AREA_FILE_SHOW" => "file",
+                                "AREA_FILE_SUFFIX" => "inc",
+                                "EDIT_TEMPLATE" => "",
+                                "PATH" => "/local/inc_area/worktime.php"
+                            )
+                        ); ?></span>
+                </div>
+
+                <div class="col">
+                    <svg class="icon color-active">
+                        <use xlink:href="<?= SITE_TEMPLATE_PATH ?>/build/svg/symbol/svg/sprite.symbol.svg#icon-marker"></use>
+                    </svg>
+                    <span class="font-bold"><? $APPLICATION->IncludeComponent(
+                            "bitrix:main.include",
+                            "",
+                            Array(
+                                "AREA_FILE_SHOW" => "file",
+                                "AREA_FILE_SUFFIX" => "inc",
+                                "EDIT_TEMPLATE" => "",
+                                "PATH" => "/local/inc_area/address.php"
+                            )
+                        ); ?></span>
+                    <a href="/o-nas/kontakty/" class="link-after-text link--ib link--bordered">Как проехать</a>
+                </div>
+
+                <div class="col">
+
+                    <a class="hphone" href="tel:<?= str_replace(' ', '', $strPhone) ?>">
                         <svg class="icon color-active">
-                            <use xlink:href="<?= SITE_TEMPLATE_PATH ?>/build/svg/symbol/svg/sprite.symbol.svg#icon-clock"></use>
+                            <use xlink:href="<?= SITE_TEMPLATE_PATH ?>/build/svg/symbol/svg/sprite.symbol.svg#icon-phone"></use>
                         </svg>
-                        <span class="font-bold"><? $APPLICATION->IncludeComponent(
-                                "bitrix:main.include",
-                                "",
-                                Array(
-                                    "AREA_FILE_SHOW" => "file",
-                                    "AREA_FILE_SUFFIX" => "inc",
-                                    "EDIT_TEMPLATE" => "",
-                                    "PATH" => "/local/inc_area/worktime.php"
-                                )
-                            ); ?></span>
-                    </div>
-
-                    <div class="col">
-                        <svg class="icon color-active">
-                            <use xlink:href="<?= SITE_TEMPLATE_PATH ?>/build/svg/symbol/svg/sprite.symbol.svg#icon-marker"></use>
-                        </svg>
-                        <span class="font-bold"><? $APPLICATION->IncludeComponent(
-                                "bitrix:main.include",
-                                "",
-                                Array(
-                                    "AREA_FILE_SHOW" => "file",
-                                    "AREA_FILE_SUFFIX" => "inc",
-                                    "EDIT_TEMPLATE" => "",
-                                    "PATH" => "/local/inc_area/address.php"
-                                )
-                            ); ?></span>
-                        <a href="/o-nas/kontakty/" class="link-after-text link--ib link--bordered">Как проехать</a>
-                    </div>
-
-                    <div class="col">
-
-                        <a class="hphone" href="tel:<?= str_replace(' ', '', $strPhone) ?>">
-                            <svg class="icon color-active">
-                                <use xlink:href="<?= SITE_TEMPLATE_PATH ?>/build/svg/symbol/svg/sprite.symbol.svg#icon-phone"></use>
-                            </svg>
-                            <span><?= $strPhone ?></span>
-                        </a>
-
-                    </div>
+                        <span><?= $strPhone ?></span>
+                    </a>
 
                 </div>
-            </div>
 
+            </div>
         </div>
-        </div><?
-    } ?>
+
+    </div>
+    </div><?
+} ?>
     <div class="header-replace"></div>
     <header class="header">
         <div class="header__inner compensate-for-scrollbar">
@@ -251,14 +254,14 @@ $basket = Sale\Basket::loadItemsForFUser(Sale\Fuser::getId(), Bitrix\Main\Contex
         </div>
     </div>
     <div class="menu-overlay-bg"></div>
-    <? $APPLICATION->ShowViewContent('before_breadcrumb'); ?>
-    <?
-    if (!$arParams["IS_AJAX"]) {
-        $intNavStartFrom = intval($APPLICATION->GetProperty('intNavStartFrom'));
+<? $APPLICATION->ShowViewContent('before_breadcrumb'); ?>
+<?
+if (!$arParams["IS_AJAX"]) {
+    $intNavStartFrom = intval($APPLICATION->GetProperty('intNavStartFrom'));
 
-        $APPLICATION->IncludeComponent("bitrix:breadcrumb", ".default", Array(
-            "START_FROM" => $intNavStartFrom,
-            "PATH" => "",
-            "SITE_ID" => ""
-        ));
-    } ?>
+    $APPLICATION->IncludeComponent("bitrix:breadcrumb", ".default", Array(
+        "START_FROM" => $intNavStartFrom,
+        "PATH" => "",
+        "SITE_ID" => ""
+    ));
+} ?>

@@ -19,7 +19,7 @@ use Bitrix\Main\Application;
 use Bitrix\Main\Loader;
 use ig\CHelper;
 use ig\CRegistry;
-use ig\sphinx\CCatalogGardenOffers;
+use ig\sphinx\CatalogGardenOffers;
 
 CPageOption::SetOptionString('main', 'nav_page_in_session', 'N');
 
@@ -237,7 +237,7 @@ if ($this->startResultCache(false, [($arParams['CACHE_GROUPS'] === 'N' ? false :
             'LIMIT' => 100000,
         ];
 
-        $obSearch = new CCatalogGardenOffers();
+        $obSearch = new CatalogGardenOffers();
 
         $rsItems = $obSearch->search($arOffersSearchParams);
         while ($arItem = $obSearch->fetch($rsItems)) {

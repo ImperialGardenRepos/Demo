@@ -228,7 +228,6 @@ if($this->startResultCache(false))
 		}
 		
 		// seo
-		$arResult["META_TAGS"] = \ig\CSeo::getMetaCatalogDetail($arResult);
 		$arResult["IS_VIEW"] = empty($arResult["PROPERTIES"]["IS_VIEW"]["VALUE"]) ? 'N' : 'Y';
 		
 		$resultCacheKeys = array(

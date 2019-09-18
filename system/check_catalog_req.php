@@ -28,7 +28,7 @@ $arOffersPropertyGroups = array(
 //	)
 );
 
-$rsGroup = \ig\CHighload::getList(\ig\CHighload::getHighloadBlockIDByName("Group"), array("UF_ACTIVE" => 1), array("UF_NAME", "ID", "UF_XML_ID"), array(), true);
+$rsGroup = \ig\Highload\Base::getList(\ig\Highload\Base::getHighloadBlockIDByName("Group"), array("UF_ACTIVE" => 1), array("UF_NAME", "ID", "UF_XML_ID"), array(), true);
 while($arGroup = $rsGroup -> Fetch()) {
 	$arResult["GROUP"][$arGroup["UF_XML_ID"]] = $arGroup["ID"];
 }
@@ -91,7 +91,7 @@ $arBaseFilter = array("ACTIVE" => "Y", "IBLOCK_ID" =>\ig\CHelper::getIblockIdByC
 $arSelect = array("ID", "IBLOCK_ID", "NAME", "PROPERTY_GROUP");
 
 $arSubFilter = array("LOGIC" => "OR");
-$rsPropertyGroup = \ig\CHighload::getList(\ig\CHighload::getHighloadBlockIDByName("PropertyGroup"), array("UF_ACTIVE" => 1), array("UF_NAME", "ID", "UF_CODE", "UF_POINTER", "UF_REQUIRED"), array(), true);
+$rsPropertyGroup = \ig\Highload\Base::getList(\ig\Highload\Base::getHighloadBlockIDByName("PropertyGroup"), array("UF_ACTIVE" => 1), array("UF_NAME", "ID", "UF_CODE", "UF_POINTER", "UF_REQUIRED"), array(), true);
 while($arPropertyGroup = $rsPropertyGroup -> Fetch()) {
 	if($arPropertyGroup["UF_REQUIRED"] == 1) {
 		//$arSubFilter[] = array("!PROPERTY_".$arPropertyGroup["UF_CODE"] => false);

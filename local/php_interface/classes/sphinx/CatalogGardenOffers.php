@@ -4,7 +4,7 @@ namespace ig\sphinx;
 
 use ig\CRegistry;
 
-class CCatalogGardenOffers extends CEngine
+class CatalogGardenOffers extends Engine
 {
     private static $obCatalogGardenOffers = false,
         $arPropToCrc = [];
@@ -12,7 +12,7 @@ class CCatalogGardenOffers extends CEngine
     public static function getIndexObject()
     {
         if (!self::$obCatalogGardenOffers)
-            self::$obCatalogGardenOffers = new CCatalogGardenOffers();
+            self::$obCatalogGardenOffers = new CatalogGardenOffers();
 
         return self::$obCatalogGardenOffers;
 
@@ -22,28 +22,28 @@ class CCatalogGardenOffers extends CEngine
     function OnAfterIBlockElementDeleteHandler($intID)
     {
         if ($intID > 0) {
-            CCatalogGardenOffers::getIndexObject()->deleteById($intID);
+            CatalogGardenOffers::getIndexObject()->deleteById($intID);
         }
     }
 
     function OnAfterIBlockElementAddHandler(&$arFields)
     {
         if ($arFields["ID"] > 0 && $arFields["IBLOCK_ID"] == \ig\CHelper::getIblockIdByCode("offers-garden")) {
-            CCatalogGardenOffers::getIndexObject()->indexItem($arFields["ID"]);
+            CatalogGardenOffers::getIndexObject()->indexItem($arFields["ID"]);
         }
     }
 
     function OnAfterIBlockElementUpdateHandler(&$arFields)
     {
         if ($arFields["RESULT"] && $arFields["IBLOCK_ID"] == \ig\CHelper::getIblockIdByCode("offers-garden")) {
-            CCatalogGardenOffers::getIndexObject()->indexItem($arFields["ID"]);
+            CatalogGardenOffers::getIndexObject()->indexItem($arFields["ID"]);
         } else if ($arFields["ID"] > 0 && $arFields["IBLOCK_ID"] == \ig\CHelper::getIblockIdByCode("catalog-garden")) {
             $rsI = \CIBlockElement::GetList(false, [
                 "IBLOCK_ID" => \ig\CHelper::getIblockIdByCode("offers-garden"), "PROPERTY_CML2_LINK" => $arFields["ID"]], false, false, [
                 "ID",
             ]);
             while ($arI = $rsI->Fetch()) {
-                CCatalogGardenOffers::getIndexObject()->indexItem($arI["ID"]);
+                CatalogGardenOffers::getIndexObject()->indexItem($arI["ID"]);
             }
         }
     }

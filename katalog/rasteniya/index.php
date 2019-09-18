@@ -1,7 +1,5 @@
 <?php
 require $_SERVER['DOCUMENT_ROOT'] . '/bitrix/header.php';
-$APPLICATION->SetPageProperty("title", "Каталог растений на сайте садового центра Imperial Garden");
-$APPLICATION->SetTitle("Каталог растений - на сайте садового центра Imperial Garden");
 $APPLICATION->IncludeComponent(
     'ig:catalog',
     '',
@@ -13,7 +11,7 @@ $APPLICATION->IncludeComponent(
         'AJAX_OPTION_JUMP' => 'N',
         'AJAX_OPTION_STYLE' => 'Y',
         'BIG_DATA_RCM_TYPE' => 'personal',
-        'CACHE_FILTER' => 'N',
+        'CACHE_FILTER' => 'Y',
         'CACHE_TIME' => '36000000',
         'CACHE_TYPE' => 'A',
         'COMMON_ADD_TO_BASKET_ACTION' => 'ADD',

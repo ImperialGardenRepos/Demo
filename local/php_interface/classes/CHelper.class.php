@@ -6,6 +6,7 @@ use Bitrix\Main\Loader;
 use Bitrix\Main\LoaderException;
 use CCatalogSKU;
 use CIBlockProperty;
+use ig\Highload\Base;
 
 class CHelper
 {
@@ -289,7 +290,7 @@ class CHelper
             $arResult["OFFER_PARAMS"] = array();
         }
 
-        $rsGroup = \ig\CHighload::getList(\ig\CHighload::getHighloadBlockIDByName("Group"), array("UF_ACTIVE" => 1), array(
+        $rsGroup = \ig\Highload\Base::getList(\ig\Highload\Base::getHighloadBlockIDByName("Group"), array("UF_ACTIVE" => 1), array(
             "UF_NAME",
             "ID",
             "UF_XML_ID",
@@ -303,7 +304,7 @@ class CHelper
                 "UF_CODE" => $arGroup["UF_CODE"],
                 "URL" => \ig\CRouter::getCatalogGroupPageUrl($arGroup),
                 "VALUE" => $arGroup["UF_XML_ID"],
-                "SPHINX_VALUE" => \ig\sphinx\CCatalogOffers::convertValueToSphinx("PROPERTY_GROUP", $arGroup["UF_XML_ID"]),
+                "SPHINX_VALUE" => \ig\sphinx\CatalogOffers::convertValueToSphinx("PROPERTY_GROUP", $arGroup["UF_XML_ID"]),
                 "COUNT" => 0,
                 "ICON" => $arGroup["UF_ICON"],
                 "DISABLED" => "N"
@@ -430,9 +431,9 @@ class CHelper
     public static function getGroupsData()
     {
         if (empty(self::$arGroupData)) {
-            $rsGroup = \ig\CHighload::getList(\ig\CHighload::getHighloadBlockIDByName("Group"), array("UF_ACTIVE" => 1), array("*"), array(), true);
+            $rsGroup = \ig\Highload\Base::getList(\ig\Highload\Base::getHighloadBlockIDByName("Group"), array("UF_ACTIVE" => 1), array("*"), array(), true);
             while ($arGroup = $rsGroup->Fetch()) {
-                $arGroup["SPHINX_VALUE"] = \ig\sphinx\CCatalogOffers::convertValueToSphinx("PROPERTY_GROUP", $arGroup["UF_XML_ID"]);
+                $arGroup["SPHINX_VALUE"] = \ig\sphinx\CatalogOffers::convertValueToSphinx("PROPERTY_GROUP", $arGroup["UF_XML_ID"]);
                 self::$arGroupData[$arGroup["UF_XML_ID"]] = $arGroup;
             }
         }
@@ -443,7 +444,7 @@ class CHelper
     public static function getGroupPropertiesData()
     {
         if (empty(self::$arGroupProperties)) {
-            $rsGroupProperties = \ig\CHighload::getList(\ig\CHighload::getHighloadBlockIDByName("PropertyGroup"), array("UF_ACTIVE" => 1), array("*"), array("order" => array("UF_SORT" => "ASC", "UF_NAME" => "ASC")), true);
+            $rsGroupProperties = \ig\Highload\Base::getList(\ig\Highload\Base::getHighloadBlockIDByName("PropertyGroup"), array("UF_ACTIVE" => 1), array("*"), array("order" => array("UF_SORT" => "ASC", "UF_NAME" => "ASC")), true);
             while ($arGroupProperty = $rsGroupProperties->Fetch()) {
                 self::$arGroupProperties[$arGroupProperty["ID"]] = $arGroupProperty;
             }
@@ -455,22 +456,22 @@ class CHelper
     public static function getGroupPropertiesValues($strXmlID = false)
     {
         if (empty(self::$arGroupPropertyValues)) {
-            $rsValues = \ig\CHighload::getList(\ig\CHighload::getHighloadBlockIDByName("PropertyValues"), array("UF_ACTIVE" => 1), array("*"), array("order" => array("UF_SORT" => "ASC", "UF_NAME" => "ASC")), true);
+            $rsValues = \ig\Highload\Base::getList(\ig\Highload\Base::getHighloadBlockIDByName("PropertyValues"), array("UF_ACTIVE" => 1), array("*"), array("order" => array("UF_SORT" => "ASC", "UF_NAME" => "ASC")), true);
             while ($arValue = $rsValues->Fetch()) {
                 self::$arGroupPropertyValues[$arValue["UF_XML_ID"]] = $arValue;
             }
 
-            $rsValues = \ig\CHighload::getList(\ig\CHighload::getHighloadBlockIDByName("Colors"), array("UF_ACTIVE" => 1), array("*"), array("order" => array("UF_SORT" => "ASC", "UF_NAME" => "ASC")), true);
+            $rsValues = \ig\Highload\Base::getList(\ig\Highload\Base::getHighloadBlockIDByName("Colors"), array("UF_ACTIVE" => 1), array("*"), array("order" => array("UF_SORT" => "ASC", "UF_NAME" => "ASC")), true);
             while ($arValue = $rsValues->Fetch()) {
                 self::$arGroupPropertyValues[$arValue["UF_XML_ID"]] = $arValue;
             }
 
-            $rsValues = \ig\CHighload::getList(\ig\CHighload::getHighloadBlockIDByName("PeriodHeightExt"), array("UF_ACTIVE" => 1), array("*"), array("order" => array("UF_SORT" => "ASC", "UF_NAME" => "ASC")), true);
+            $rsValues = \ig\Highload\Base::getList(\ig\Highload\Base::getHighloadBlockIDByName("PeriodHeightExt"), array("UF_ACTIVE" => 1), array("*"), array("order" => array("UF_SORT" => "ASC", "UF_NAME" => "ASC")), true);
             while ($arValue = $rsValues->Fetch()) {
                 self::$arGroupPropertyValues[$arValue["UF_XML_ID"]] = $arValue;
             }
 
-            $rsValues = \ig\CHighload::getList(\ig\CHighload::getHighloadBlockIDByName("PeriodHeightNowExt"), array("UF_ACTIVE" => 1), array("*"), array("order" => array("UF_SORT" => "ASC", "UF_NAME" => "ASC")), true);
+            $rsValues = \ig\Highload\Base::getList(\ig\Highload\Base::getHighloadBlockIDByName("PeriodHeightNowExt"), array("UF_ACTIVE" => 1), array("*"), array("order" => array("UF_SORT" => "ASC", "UF_NAME" => "ASC")), true);
             while ($arValue = $rsValues->Fetch()) {
                 self::$arGroupPropertyValues[$arValue["UF_XML_ID"]] = $arValue;
             }
@@ -546,8 +547,8 @@ class CHelper
 
         if (strlen($strHeightNowExt) > 0) {
             if (empty(self::$arHeightNowConverter)) {
-                $arHeightNow = \ig\CHighload::getList(\ig\CHighload::getHighloadBlockIDByName('PeriodHeightNow'));
-                $arHeightNowExt = \ig\CHighload::getList(\ig\CHighload::getHighloadBlockIDByName('PeriodHeightNowExt'));
+                $arHeightNow = \ig\Highload\Base::getList(\ig\Highload\Base::getHighloadBlockIDByName('PeriodHeightNow'));
+                $arHeightNowExt = \ig\Highload\Base::getList(\ig\Highload\Base::getHighloadBlockIDByName('PeriodHeightNowExt'));
                 foreach ($arHeightNowExt as $arHExt) {
                     self::$arHeightNowConverter[$arHExt["UF_XML_ID"]] = $arHeightNow[$arHExt["UF_POINTER"]]["UF_XML_ID"];
                 }
@@ -576,8 +577,8 @@ class CHelper
 
         if (strlen($strHeight10Ext) > 0) {
             if (empty(self::$arHeight10Converter)) {
-                $arHeight10 = \ig\CHighload::getList(\ig\CHighload::getHighloadBlockIDByName('PeriodHeight'));
-                $arHeight10Ext = \ig\CHighload::getList(\ig\CHighload::getHighloadBlockIDByName('PeriodHeightExt'));
+                $arHeight10 = \ig\Highload\Base::getList(\ig\Highload\Base::getHighloadBlockIDByName('PeriodHeight'));
+                $arHeight10Ext = \ig\Highload\Base::getList(\ig\Highload\Base::getHighloadBlockIDByName('PeriodHeightExt'));
                 foreach ($arHeight10Ext as $arHExt) {
                     self::$arHeight10Converter[$arHExt["UF_XML_ID"]] = $arHeight10[$arHExt["UF_POINTER"]]["UF_XML_ID"];
                 }
@@ -604,7 +605,7 @@ class CHelper
     public static function getPricePediod()
     {
         if (!CRegistry::exists("PERIOD_PRICE")) {
-            $arPricePeriod = CHighload::getList(CHighload::getHighloadBlockIDByName("PeriodPrice"));
+            $arPricePeriod = Base::getList(Base::getHighloadBlockIDByName("PeriodPrice"));
             $arTmp = array();
             foreach ($arPricePeriod as $arPediod) {
                 $arTmp[$arPediod["UF_XML_ID"]] = array(
@@ -641,7 +642,7 @@ class CHelper
     public static function getHLGroupID()
     {
         if (!CRegistry::exists("HIGHLOAD_IBLOCK_ID__GROUP")) {
-            CRegistry::add("HIGHLOAD_IBLOCK_ID__GROUP", CHighload::getHighloadBlockIDByName('Group'));
+            CRegistry::add("HIGHLOAD_IBLOCK_ID__GROUP", Base::getHighloadBlockIDByName('Group'));
         }
 
         return CRegistry::get("HIGHLOAD_IBLOCK_ID__GROUP");
@@ -650,7 +651,7 @@ class CHelper
     public static function getHLPropertyGroupID()
     {
         if (!CRegistry::exists("HIGHLOAD_IBLOCK_ID__PROPERTY_GROUP")) {
-            CRegistry::add("HIGHLOAD_IBLOCK_ID__PROPERTY_GROUP", CHighload::getHighloadBlockIDByName('PropertyGroup'));
+            CRegistry::add("HIGHLOAD_IBLOCK_ID__PROPERTY_GROUP", Base::getHighloadBlockIDByName('PropertyGroup'));
         }
 
         return CRegistry::get("HIGHLOAD_IBLOCK_ID__PROPERTY_GROUP");
@@ -734,7 +735,7 @@ class CHelper
     {
         $arPropertyTree = self::getPropertyTree();
         if (!is_int($varGroup) && strlen($varGroup) > 0) {
-            $intGroup = \ig\CHighload::getIDByXmlID($varGroup, \ig\CHelper::getHLGroupID());
+            $intGroup = \ig\Highload\Base::getIDByXmlID($varGroup, \ig\CHelper::getHLGroupID());
         } else {
             $intGroup = $varGroup;
         }
@@ -756,7 +757,7 @@ class CHelper
                 "GROUP" => array(1, 4, 5, 9, 10, 11, 12)
             );
 
-            $obProperty = CHighload::getList(CHighload::getHighloadBlockIDByName("PropertyGroup"), array(), array("UF_NAME", "ID", "UF_CODE", "UF_POINTER"), array(), true);
+            $obProperty = Base::getList(Base::getHighloadBlockIDByName("PropertyGroup"), array(), array("UF_NAME", "ID", "UF_CODE", "UF_POINTER"), array(), true);
             while ($arProperty = $obProperty->Fetch()) {
                 $arPropertyIDToCode[$arProperty["ID"]] = $arProperty["UF_CODE"];
 
@@ -772,7 +773,7 @@ class CHelper
             if ($arParams["TYPE"] > 0) {
                 $arValuesFilter["UF_POINTER"] = $arParams["TYPE"];
             }
-            $obPropertyValue = CHighload::getList(CHighload::getHighloadBlockIDByName("PropertyValues"), $arValuesFilter, array("UF_NAME", "UF_POINTER", "UF_PROPERTY", "ID", "UF_XML_ID", "UF_ICON"), array("order" => array("UF_SORT" => "ASC")), true);
+            $obPropertyValue = Base::getList(Base::getHighloadBlockIDByName("PropertyValues"), $arValuesFilter, array("UF_NAME", "UF_POINTER", "UF_PROPERTY", "ID", "UF_XML_ID", "UF_ICON"), array("order" => array("UF_SORT" => "ASC")), true);
             while ($arPropertyValue = $obPropertyValue->Fetch()) {
                 $arTmp = array(
                     "NAME" => $arPropertyValue["UF_NAME"],
@@ -861,7 +862,7 @@ class CHelper
         ));
         if ($arI = $rsI->GetNext()) {
             if (!empty($arI["PROPERTY_GROUP_VALUE"])) {
-                $arValue = array_shift(CHighload::getList(CHighload::getHighloadBlockIDByName("Group"), array("UF_XML_ID" => $arI["PROPERTY_GROUP_VALUE"]), array("ID")));
+                $arValue = array_shift(Base::getList(Base::getHighloadBlockIDByName("Group"), array("UF_XML_ID" => $arI["PROPERTY_GROUP_VALUE"]), array("ID")));
 
                 if ($arValue["ID"] > 0) {
                     return $arValue["ID"];

@@ -1,10 +1,10 @@
 <?php
 
-namespace ig\sphinx;
+namespace IG\Sphinx;
 
 use ig\CRegistry;
 
-class CCatalogOffers extends CEngine
+class CatalogOffers extends Engine
 {
     private $arBatchData;
 
@@ -15,7 +15,7 @@ class CCatalogOffers extends CEngine
     public static function getIndexObject()
     {
         if (!self::$obCatalogOffers)
-            self::$obCatalogOffers = new CCatalogOffers();
+            self::$obCatalogOffers = new CatalogOffers();
 
         return self::$obCatalogOffers;
 
@@ -25,28 +25,28 @@ class CCatalogOffers extends CEngine
     function OnAfterIBlockElementDeleteHandler($intID)
     {
         if ($intID > 0) {
-            CCatalogOffers::getIndexObject()->deleteById($intID);
+            CatalogOffers::getIndexObject()->deleteById($intID);
         }
     }
 
     function OnAfterIBlockElementAddHandler(&$arFields)
     {
         if ($arFields["ID"] > 0 && $arFields["IBLOCK_ID"] == \ig\CHelper::getIblockIdByCode("offers")) {
-            CCatalogOffers::getIndexObject()->indexItem($arFields["ID"]);
+            CatalogOffers::getIndexObject()->indexItem($arFields["ID"]);
         }
     }
 
     function OnAfterIBlockElementUpdateHandler(&$arFields)
     {
         if ($arFields["RESULT"] && $arFields["IBLOCK_ID"] == \ig\CHelper::getIblockIdByCode("offers")) {
-            CCatalogOffers::getIndexObject()->indexItem($arFields["ID"]);
+            CatalogOffers::getIndexObject()->indexItem($arFields["ID"]);
         } else if ($arFields["ID"] > 0 && $arFields["IBLOCK_ID"] == \ig\CHelper::getIblockIdByCode("catalog")) {
             $rsI = \CIBlockElement::GetList(false, [
                 "IBLOCK_ID" => \ig\CHelper::getIblockIdByCode("offers"), "PROPERTY_CML2_LINK" => $arFields["ID"]], false, false, [
                 "ID",
             ]);
             while ($arI = $rsI->Fetch()) {
-                CCatalogOffers::getIndexObject()->indexItem($arI["ID"]);
+                CatalogOffers::getIndexObject()->indexItem($arI["ID"]);
             }
         }
     }
