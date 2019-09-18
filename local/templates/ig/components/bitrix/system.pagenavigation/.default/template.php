@@ -1,4 +1,8 @@
 <?php
+
+use Bitrix\Main\Application;
+use ig\Seo\Meta;
+
 if (!defined('B_PROLOG_INCLUDED') || B_PROLOG_INCLUDED !== true) {
     die();
 }
@@ -23,17 +27,28 @@ $arResult['sUrlPath'] = str_replace('page-' . $arResult['NavPageNomer'] . '/', '
  * Setting view targets for meta
  */
 
-$pageNum = '';
-if ($arResult['NavPageNomer'] > 1) {
-    $pageNum = ' – страница ' . $arResult['NavPageNomer'] . ' из ' . $arResult['NavPageCount'];
+$meta = Meta::getInstance();
+$meta->setCurrentPage((int)$arResult['NavPageNomer']);
+$meta->setTotalPage((int)$arResult['NavPageCount']);
+
+$requestArray = Application::getInstance()->getContext()->getRequest()->toArray();
+$allowedParams = [
+    'filterAlias'
+];
+$requestArrayClean = [];
+$navQueryStringFull = '';
+foreach ($requestArray as $key => $value) {
+    if (in_array($key, $allowedParams, true)) {
+        $requestArrayClean[] = "$key=$value";
+    }
 }
-$APPLICATION->AddViewContent('pagination_meta', $pageNum);
-$APPLICATION->AddViewContent('canonical', '<link rel="canonical" href="' . $arResult['sUrlPath'] . '">');
+if ($requestArrayClean !== []) {
+    $navQueryStringFull = '?' . implode('&', $requestArrayClean);
+}
+
 ?>
 <div class="pager">
     <?php
-    $navQueryStringFull = ((string)$arResult['NavQueryString'] !== '' ? '?' . $arResult['NavQueryString'] : '');
-
     $bFirst = true;
 
     if ($arResult['NavPageNomer'] > 1):?>

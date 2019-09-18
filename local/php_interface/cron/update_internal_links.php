@@ -79,7 +79,7 @@ class skInternalLinks {
 		$arParams["COUNT"] = intval($arParams["COUNT"]);
 		if($arParams["COUNT"]<=0) $arParams["COUNT"] = 4;
 		
-		$obSearch = new \ig\sphinx\CCatalogOffers();
+		$obSearch = new \ig\sphinx\CatalogOffers();
 		
 		$arProduct = array();
 		$arTmp = array();

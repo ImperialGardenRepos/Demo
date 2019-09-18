@@ -1,10 +1,10 @@
-<?
+<?php
 
-namespace ig\sphinx;
+namespace IG\Sphinx;
 
 use mysqli;
 
-abstract class CEngine
+abstract class Engine
 {
     /**
      * @var bool|mysqli

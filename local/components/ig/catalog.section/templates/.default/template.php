@@ -18,12 +18,6 @@ if (!defined('B_PROLOG_INCLUDED') || B_PROLOG_INCLUDED !== true) {
 /** @var CBitrixComponent $component */
 $this->setFrameMode(true);
 
-
-$pageTitle = (string)$arResult['META_TAGS']['H1'];
-if ($pageTitle === '') {
-    $pageTitle = $arResult['NAME'];
-}
-
 $isLastPage = $arResult['NAV_RESULT']->NavPageCount <= $arResult['NAV_RESULT']->NavPageNomer;
 $isFirstPage = (int)$arResult['NAV_RESULT']->NavPageNomer === 1;
 
@@ -31,31 +25,7 @@ $isFirstPage = (int)$arResult['NAV_RESULT']->NavPageNomer === 1;
  * Generating section cards output without wrapper, pagination etc.
  */
 ob_start(); ?>
-<?php if ($arParams['PAGE_NUM'] < 2): ?>
-    <h1 class="h1--large"><?= $pageTitle ?></h1>
-<?php endif; ?>
 
-<?php if ($isFirstPage && !empty($arResult['DESCRIPTION'])) : ?>
-    <?php
-    $previewText = \ig\CUtil::smartTrim($arResult['DESCRIPTION'], 300, false, '');
-    $restText = str_replace($previewText, '', $arResult['DESCRIPTION']); ?>
-    <div class="text p">
-        <p>
-            <?= $previewText ?>
-            <?php if (!empty($restText)) : ?>
-                <a href="#filter-results-summary-more" class="link--dotted js-toggle-element"
-                   data-toggle-change-label="Скрыть">
-                    Показать полностью
-                </a>
-            <?php endif; ?>
-        </p>
-        <?php if (!empty($restText)): ?>
-            <div class="p hidden" id="filter-results-summary-more">
-                <?= $restText ?>
-            </div>
-        <?php endif; ?>
-    </div>
-<?php endif; ?>
 <?php $intCnt = 0; ?>
 <?php foreach ($arResult['ITEMS'] as $arSort): ?>
     <?php
@@ -242,6 +212,33 @@ $bufferedSectionContent = ob_get_clean();
 <?php if (!$arParams['IS_AJAX']): ?>
     <div class="section section--results section--grey">
         <div class="container">
+
+            <?php if ($arParams['PAGE_NUM'] < 2): ?>
+                <h1 class="h1--large"><?php $APPLICATION->ShowTitle() ?></h1>
+            <?php endif; ?>
+
+            <?php if ($isFirstPage && !empty($arResult['DESCRIPTION'])) : ?>
+                <?php
+                $previewText = \ig\CUtil::smartTrim($arResult['DESCRIPTION'], 300, false, '');
+                $restText = str_replace($previewText, '', $arResult['DESCRIPTION']); ?>
+                <div class="text p js-toggle-container">
+                    <p>
+                        <?= $previewText ?>
+                        <?php if (!empty($restText)) : ?>
+                            <a href="#filter-results-summary-more" class="link--dotted js-toggle-element"
+                               data-toggle-change-label="Скрыть">
+                                Показать полностью
+                            </a>
+                        <?php endif; ?>
+                    </p>
+                    <?php if (!empty($restText)): ?>
+                        <div class="p js-toggle-block hidden" id="filter-results-summary-more">
+                            <?= $restText ?>
+                        </div>
+                    <?php endif; ?>
+                </div>
+            <?php endif; ?>
+
             <div class="filter-results js-filter-results">
                 <?= $bufferedSectionContent ?>
             </div>

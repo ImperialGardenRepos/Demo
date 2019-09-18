@@ -87,7 +87,7 @@ $arShowTabs = array(
 $arPropertyTree = \ig\CHelper::getPropertyTree();
 
 $arGroups = array();
-$rsGroup = \ig\CHighload::getList(\ig\CHighload::getHighloadBlockIDByName("Group"), array("UF_ACTIVE" => 1), array("UF_NAME", "ID", "UF_XML_ID"), array(), true);
+$rsGroup = \ig\Highload\Base::getList(\ig\Highload\Base::getHighloadBlockIDByName("Group"), array("UF_ACTIVE" => 1), array("UF_NAME", "ID", "UF_XML_ID"), array(), true);
 while($arGroup = $rsGroup -> Fetch()) {
 	$arGroups[$arGroup["UF_XML_ID"]] = array(
 		"NAME" => $arGroup["UF_NAME"],
@@ -96,7 +96,7 @@ while($arGroup = $rsGroup -> Fetch()) {
 }
 
 $arPropertyGroups = array();
-$rsPropertyGroup = \ig\CHighload::getList(\ig\CHighload::getHighloadBlockIDByName("PropertyGroup"), array("UF_ACTIVE" => 1), array("UF_NAME", "ID", "UF_CODE", "UF_POINTER", "UF_REQUIRED"), array(), true);
+$rsPropertyGroup = \ig\Highload\Base::getList(\ig\Highload\Base::getHighloadBlockIDByName("PropertyGroup"), array("UF_ACTIVE" => 1), array("UF_NAME", "ID", "UF_CODE", "UF_POINTER", "UF_REQUIRED"), array(), true);
 while($arPropertyGroup = $rsPropertyGroup -> Fetch()) {
 	$arPropertyGroups[$arPropertyGroup["UF_CODE"]] = array(
 		"NAME" => $arPropertyGroup["UF_NAME"],
@@ -107,7 +107,7 @@ while($arPropertyGroup = $rsPropertyGroup -> Fetch()) {
 }
 
 $arColors = array();
-$rsColors = \ig\CHighload::getList(\ig\CHighload::getHighloadBlockIDByName("Colors"), array("UF_ACTIVE" => 1), array("UF_NAME", "ID", "UF_XML_ID"), array("order" => array("UF_SORT" => "ASC")), true);
+$rsColors = \ig\Highload\Base::getList(\ig\Highload\Base::getHighloadBlockIDByName("Colors"), array("UF_ACTIVE" => 1), array("UF_NAME", "ID", "UF_XML_ID"), array("order" => array("UF_SORT" => "ASC")), true);
 while($arColor = $rsColors -> Fetch()) {
 	$arColors[$arColor["UF_XML_ID"]] = array(
 		"ID" => $arColor["ID"],
@@ -956,7 +956,7 @@ do{ //one iteration loop
 				
 				if(!$USER -> IsAdmin()) {
 					$strGroupID = \ig\CHelper::getFirst($_REQUEST["PROP"][\ig\CHelper::getPropertyIDByCode("GROUP", \ig\CHelper::getPropertyIDByCode('catalog'))])["VALUE"];
-					$intGroupID = \ig\CHighload::getIDByXmlID($strGroupID, \ig\CHighload::getHighloadBlockIDByName('Group'));
+					$intGroupID = \ig\Highload\Base::getIDByXmlID($strGroupID, \ig\Highload\Base::getHighloadBlockIDByName('Group'));
 					
 					if($intGroupID>0) {
 						foreach ($arPropertyGroups as $strPropertyGroupCode => $arPropertyGroup) {
@@ -1235,8 +1235,8 @@ do{ //one iteration loop
 					
 					// конвертируем высоту
 //					$arHeight10Converter = array();
-//					$arHeight10 = \ig\CHighload::getList(\ig\CHighload::getHighloadBlockIDByName('PeriodHeight'));
-//					$arHeight10Ext = \ig\CHighload::getList(\ig\CHighload::getHighloadBlockIDByName('PeriodHeightExt'));
+//					$arHeight10 = \ig\Highload\Base::getList(\ig\Highload\Base::getHighloadBlockIDByName('PeriodHeight'));
+//					$arHeight10Ext = \ig\Highload\Base::getList(\ig\Highload\Base::getHighloadBlockIDByName('PeriodHeightExt'));
 //					foreach($arHeight10Ext as $arHExt) {
 //						$arHeight10Converter[$arHExt["UF_XML_ID"]] = $arHeight10[$arHExt["UF_POINTER"]]["UF_XML_ID"];
 //					}

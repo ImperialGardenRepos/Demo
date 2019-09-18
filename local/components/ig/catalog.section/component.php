@@ -10,7 +10,6 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) die();
 /** @global CUser $USER */
 /** @global CMain $APPLICATION */
 
-/** @global CIntranetToolbar $INTRANET_TOOLBAR */
 
 global $INTRANET_TOOLBAR;
 
@@ -19,53 +18,57 @@ use Bitrix\Main\Application;
 use Bitrix\Main\Loader;
 use ig\CHelper;
 use ig\CRegistry;
-use ig\sphinx\CCatalogOffers;
+use ig\sphinx\CatalogOffers;
 
-CPageOption::SetOptionString("main", "nav_page_in_session", "N");
+CPageOption::SetOptionString('main', 'nav_page_in_session', "N");
 
-if (!isset($arParams["CACHE_TIME"]))
-    $arParams["CACHE_TIME"] = 36000000;
+if (!isset($arParams['CACHE_TIME'])) {
+    $arParams['CACHE_TIME'] = 36000000;
+}
 
 $request = Application::getInstance()->getContext()->getRequest();
-$arParams["IS_AJAX"] = ($request->isAjaxRequest());
 
-$arParams["SET_LAST_MODIFIED"] = $arParams["SET_LAST_MODIFIED"] === "Y";
-$arParams["CATALOG_PRICE_ID"] = CRegistry::get("CATALOG_BASE_PRICE_ID");
-$arParams["CATALOG_OLD_PRICE_ID"] = CRegistry::get("CATALOG_OLD_PRICE_ID");
+/**
+ * Adjust arParams array.
+ */
+$arParams['IS_AJAX'] = $request->isAjaxRequest();
 
+$arParams['SET_LAST_MODIFIED'] = $arParams['SET_LAST_MODIFIED'] === 'Y';
+$arParams['CATALOG_PRICE_ID'] = CRegistry::get('CATALOG_BASE_PRICE_ID');
+$arParams['CATALOG_OLD_PRICE_ID'] = CRegistry::get('CATALOG_OLD_PRICE_ID');
+$arParams['SORT_BY1'] = trim($arParams['SORT_BY1']);
+$arParams['DETAIL_URL'] = trim($arParams['DETAIL_URL']);
 
-$arParams["SORT_BY1"] = trim($arParams["SORT_BY1"]);
-$arParams["DETAIL_URL"] = trim($arParams["DETAIL_URL"]);
+$arParams['CACHE_FILTER'] = $arParams['CACHE_FILTER'] === 'Y';
+if (!$arParams['CACHE_FILTER'] && count($arrFilter) > 0) {
+    $arParams['CACHE_TIME'] = 0;
+}
 
-$arParams["CACHE_FILTER"] = $arParams["CACHE_FILTER"] == "Y";
-if (!$arParams["CACHE_FILTER"] && count($arrFilter) > 0)
-    $arParams["CACHE_TIME"] = 0;
+$arParams['NEWS_COUNT'] = (int)$arParams['NEWS_COUNT'];
+if ($arParams['NEWS_COUNT'] <= 0) {
+    $arParams['NEWS_COUNT'] = 10;
+}
 
-$arParams["NEWS_COUNT"] = intval($arParams["NEWS_COUNT"]);
-if ($arParams["NEWS_COUNT"] <= 0)
-    $arParams["NEWS_COUNT"] = 10;
-
-if ($_REQUEST["sortID"] > 0) {
-    $intSortID = intval($_REQUEST["sortID"]);
+if ($_REQUEST['sortID'] > 0) {
+    $intSortID = (int)$_REQUEST['sortID'];
     if ($intSortID > 0) {
-        $arParams["SORT_ID"] = $intSortID;
+        $arParams['SORT_ID'] = $intSortID;
     }
 } elseif (
-    (is_array($_REQUEST["F"]["sortsID"]) && !empty($_REQUEST["F"]["sortsID"]))
-    ||
-    (is_array($_REQUEST["F"]["vidsID"]) && !empty($_REQUEST["F"]["vidsID"]))
+    (is_array($_REQUEST['F']['sortsID']) && !empty($_REQUEST['F']['sortsID']))
+    || (is_array($_REQUEST['F']['vidsID']) && !empty($_REQUEST['F']['vidsID']))
 ) {
-    foreach ($_REQUEST["F"]["sortsID"] as $intSortID) {
-        $intSortID = intval($intSortID);
+    foreach ($_REQUEST['F']['sortsID'] as $intSortID) {
+        $intSortID = (int)$intSortID;
         if ($intSortID > 0) {
-            $arParams["SORTS_ID"][] = $intSortID;
+            $arParams['SORTS_ID'][] = $intSortID;
         }
     }
 
-    foreach ($_REQUEST["F"]["vidsID"] as $intVidID) {
-        $intVidID = intval($intVidID);
+    foreach ($_REQUEST['F']['vidsID'] as $intVidID) {
+        $intVidID = (int)$intVidID;
         if ($intVidID > 0) {
-            $arParams["VIDS_ID"][] = $intVidID;
+            $arParams['VIDS_ID'][] = $intVidID;
         }
     }
 }
@@ -165,8 +168,6 @@ if ($this->startResultCache(false, array(($arParams["CACHE_GROUPS"] === "N" ? fa
 
             $rsPath->SetUrlTemplates("", $arParams["SECTION_URL"], $arParams["IBLOCK_URL"]);
             while ($arPath = $rsPath->GetNext()) {
-//				$ipropValues = new \Bitrix\Iblock\InheritedProperty\SectionValues($arPath["IBLOCK_ID"], $arPath["ID"]);
-//				$arPath["IPROPERTY_VALUES"] = $ipropValues->getValues();
 
                 $arUF = $USER_FIELD_MANAGER->GetUserFields("IBLOCK_" . $arPath["IBLOCK_ID"] . "_SECTION", $arPath['ID']);
                 foreach ($arUF as $strCode => $arValue) {
@@ -242,7 +243,7 @@ if ($this->startResultCache(false, array(($arParams["CACHE_GROUPS"] === "N" ? fa
         );
         unset($arOffersSearchParams['FILTER']['vidsID'], $arOffersSearchParams['FILTER']['sortsID']);
 
-        $obSearch = new CCatalogOffers();
+        $obSearch = new CatalogOffers();
         $rsItems = $obSearch->search($arOffersSearchParams);
         while ($arItem = $obSearch->fetch($rsItems)) {
             $arFilterExt['ID'][] = $arItem['cat_id'];
@@ -412,12 +413,6 @@ if ($this->startResultCache(false, array(($arParams["CACHE_GROUPS"] === "N" ? fa
     // seo
     if ($arVirtualPage) {
         $arResult["META_TAGS"]["H1"] = $arVirtualPage["UF_H1"];
-    } elseif ($arResult["SECTION"]) {
-        if (intval($arResult["SECTION"]["DEPTH_LEVEL"]) > 1) {
-            $arResult["META_TAGS"] = \ig\CSeo::getMetaCatalogVid($arResult);
-        } else {
-            $arResult["META_TAGS"] = \ig\CSeo::getMetaCatalogRod($arResult);
-        }
     } else {
         $arResult["META_TAGS"]["H1"] = $APPLICATION->GetTitle();
         $arResult["META_TAGS"]["BROWSER_TITLE"] = $APPLICATION->GetTitle();

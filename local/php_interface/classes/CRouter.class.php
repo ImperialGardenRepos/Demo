@@ -1,4 +1,4 @@
-<?
+<?php
 
 namespace ig;
 
@@ -11,11 +11,12 @@ use Bitrix\Main\LoaderException;
 use Bitrix\Main\ObjectPropertyException;
 use Bitrix\Main\SystemException;
 use CHTTP;
+use ig\Highload\FilterAlias;
+use ig\Highload\VirtualPage;
 
 class CRouter
 {
-    private static $strCatalogBaseUrl = '/katalog/rasteniya/';
-
+    private const CATALOG_BASE_URL = '/katalog/rasteniya/';
 
     /**
      * @param $folder404
@@ -143,13 +144,14 @@ class CRouter
     {
         Loader::includeModule('iblock');
 
+        $request = Context::getCurrent()->getRequest();
         if (!isset($arVariables) || !is_array($arVariables)) {
             $arVariables = array();
         }
 
         if ($requestURL === false) {
             /** @noinspection CallableParameterUseCaseInTypeContextInspection */
-            $requestURL = Context::getCurrent()->getRequest()->getRequestedPageDirectory();
+            $requestURL = $request->getRequestedPageDirectory();
         }
 
         $folder404 = str_replace("\\", '/', $folder404);
@@ -161,6 +163,16 @@ class CRouter
         if (strpos($requestURL . '/', $folder404) !== 0) {
             return false;
         }
+        $requestArray = $request->toArray();
+        if (array_key_exists('filterAlias', $requestArray)) {
+            $isFilter = FilterAlias::isUniqueAliasExist($requestArray['filterAlias']);
+            if ($isFilter === true) {
+                $arVariables['SECTION_ID'] = 0;
+                return 'smart_filter';
+            }
+            CHTTP::setStatus('404 Not Found');
+            return false;
+        }
 
         $currentPageUrl = substr($requestURL, strlen($folder404));
         $arPathParts = parse_url($currentPageUrl);
@@ -170,6 +182,7 @@ class CRouter
             CHTTP::setStatus('404 Not Found');
             return false;
         }
+
 
         /**
          * Zero-level is catalog root section
@@ -187,8 +200,9 @@ class CRouter
          * First we check filter SEF.
          */
         $filterUrl = '/' . trim($requestURL, '/') . '/';
-        $filterUrl = preg_replace('/(.*\/)page-\d+\//','$1',$filterUrl);
-        $filterModel = CVirtualPage::getFirst(false,
+        $filterUrl = preg_replace('/(.*\/)page-\d+\//', '$1', $filterUrl);
+
+        $filterModel = VirtualPage::getFirst(false,
             [
                 'UF_URL' => $filterUrl,
             ],
@@ -304,37 +318,12 @@ class CRouter
         return 'element';
     }
 
-    public static function getUrlInfo($strUrl = '')
+    /**
+     * @param $arGroup
+     * @return string
+     */
+    public static function getCatalogGroupPageUrl($arGroup): string
     {
-        $arResult = array();
-
-        if (empty($strUrl)) {
-            $strUrl = \Bitrix\Main\Application::getInstance()->getContext()->getRequest()->getRequestedPageDirectory();
-        }
-
-        // search seo pages here
-        if (false) {
-            $arResult = array(
-                "FOLDER" => self::$strCatalogBaseUrl,
-                "VARIABLES" => array(
-                    "SEO_URL" => '',
-                    "SEO_ID" => 12
-                )
-            );
-        }
-
-        return $arResult;
-    }
-
-    public
-    static function getCatalogBaseUrl()
-    {
-        return self::$strCatalogBaseUrl;
-    }
-
-    public
-    static function getCatalogGroupPageUrl($arGroup)
-    {
-        return self::getCatalogBaseUrl() . $arGroup["UF_CODE"] . '/';
+        return self::CATALOG_BASE_URL . $arGroup['UF_CODE'] . '/';
     }
 }

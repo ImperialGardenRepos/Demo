@@ -69,7 +69,7 @@ if ($obCache->initCache($arParams["CACHE_TIME"], $strCacheID)) {
 	}
 	
 	$arResult["OFFER_PARAMS"]["CATALOG_PRICE_LIST"] = array();
-	$rsList = \ig\CHighload::getList(\ig\CHighload::getHighloadBlockIDByName("PeriodPrice"), array("UF_ACTIVE" => 1), array(
+	$rsList = \ig\Highload\Base::getList(\ig\Highload\Base::getHighloadBlockIDByName("PeriodPrice"), array("UF_ACTIVE" => 1), array(
 		"UF_NAME",
 		"ID",
 		"UF_XML_ID"
@@ -79,7 +79,7 @@ if ($obCache->initCache($arParams["CACHE_TIME"], $strCacheID)) {
 			"ID"           => $arList["ID"],
 			"NAME"         => $arList["UF_NAME"],
 			"VALUE"        => $arList["UF_XML_ID"],
-			"SPHINX_VALUE" => \ig\sphinx\CCatalogGardenOffers::convertValueToSphinx("CATALOG_PRICE_LIST", $arList["UF_XML_ID"]),
+			"SPHINX_VALUE" => \ig\sphinx\CatalogGardenOffers::convertValueToSphinx("CATALOG_PRICE_LIST", $arList["UF_XML_ID"]),
 			"COUNT"        => 0,
 			"DISABLED"     => "N"
 		);
@@ -95,7 +95,7 @@ if ($obCache->initCache($arParams["CACHE_TIME"], $strCacheID)) {
 			"ID"           => $arList["ID"],
 			"NAME"         => $arList["VALUE"],
 			"VALUE"        => $arList["ID"],
-			"SPHINX_VALUE" => \ig\sphinx\CCatalogGardenOffers::convertValueToSphinx("PROPERTY_AVAILABLE", $arList["ID"]),
+			"SPHINX_VALUE" => \ig\sphinx\CatalogGardenOffers::convertValueToSphinx("PROPERTY_AVAILABLE", $arList["ID"]),
 			"COUNT"        => 0,
 			"DISABLED"     => "N"
 		);
@@ -111,7 +111,7 @@ if ($obCache->initCache($arParams["CACHE_TIME"], $strCacheID)) {
 			"ID"           => $arList["ID"],
 			"NAME"         => $arList["VALUE"],
 			"VALUE"        => $arList["ID"],
-			"SPHINX_VALUE" => \ig\sphinx\CCatalogGardenOffers::convertValueToSphinx("PROPERTY_USAGE", $arList["ID"]),
+			"SPHINX_VALUE" => \ig\sphinx\CatalogGardenOffers::convertValueToSphinx("PROPERTY_USAGE", $arList["ID"]),
 			"COUNT"        => 0,
 			"DISABLED"     => "N"
 		);
@@ -179,7 +179,7 @@ if($_REQUEST["search"] == 'Y') {
 			}
 			
 			if(!empty(\CatalogFilter::$arRequestFilter[$strCode])) {
-				$arSearchParams[$strCode] = \ig\sphinx\CCatalogGardenOffers::convertValueToSphinx($strCode, \CatalogFilter::$arRequestFilter[$strCode]);
+				$arSearchParams[$strCode] = \ig\sphinx\CatalogGardenOffers::convertValueToSphinx($strCode, \CatalogFilter::$arRequestFilter[$strCode]);
 			}
 		}
 		
@@ -195,7 +195,7 @@ if($_REQUEST["search"] == 'Y') {
 	$arFacetExcludeParams = array_unique($arFacetExcludeParams);
 	
 	
-	$obSearch = new \ig\sphinx\CCatalogGardenOffers();
+	$obSearch = new \ig\sphinx\CatalogGardenOffers();
 	
 	$arResult["COUNT_TOTAL_OFFERS"] = $obSearch->getCount(array(), 'id');
 	$arResult["COUNT_DATA"] = array();
@@ -213,12 +213,12 @@ if($_REQUEST["search"] == 'Y') {
 	
 	if(!$arResult["IS_ACTION"] && !$arResult["IS_NEW"]) {
 // фасетим по нефильтрованным параметрам
-		$arFacetData = $obSearch->searchFacet(array("FILTER" => $arSearchParams), \ig\sphinx\CCatalogGardenOffers::getFacetFields(array("EXCLUDE" => $arFacetExcludeParams)), true);
+		$arFacetData = $obSearch->searchFacet(array("FILTER" => $arSearchParams), \ig\sphinx\CatalogGardenOffers::getFacetFields(array("EXCLUDE" => $arFacetExcludeParams)), true);
 		foreach ($arFacetData["FACET"] as $strSphinxCode => $arDataList) {
-			$strCode = str_replace("PROPERTY_", '', \ig\sphinx\CCatalogGardenOffers::convertFieldCode($strSphinxCode, false));
+			$strCode = str_replace("PROPERTY_", '', \ig\sphinx\CatalogGardenOffers::convertFieldCode($strSphinxCode, false));
 			
 			$arTotalFilter = $arSearchParams;
-			unset($arTotalFilter[\ig\sphinx\CCatalogGardenOffers::convertFieldCode($strSphinxCode, false)]);
+			unset($arTotalFilter[\ig\sphinx\CatalogGardenOffers::convertFieldCode($strSphinxCode, false)]);
 			
 			$arResult["COUNT_DATA"][$strCode]["TOTAL"] = $obSearch->getCount($arTotalFilter, 'id');
 			foreach ($arDataList as $arData) {
@@ -230,17 +230,17 @@ if($_REQUEST["search"] == 'Y') {
 		foreach ($arSearchParams as $strCode => $value) {
 			$arTmpFilter = $arSearchParams;
 			
-			$arParamData = \ig\sphinx\CCatalogGardenOffers::getSphinxConfig(\ig\sphinx\CCatalogGardenOffers::convertFieldCode($strCode));
+			$arParamData = \ig\sphinx\CatalogGardenOffers::getSphinxConfig(\ig\sphinx\CatalogGardenOffers::convertFieldCode($strCode));
 			
 			if($arParamData["CONTROL"] == 'CHECKBOX' && $arParamData["MULTIPLE"] == 'Y') {
 				// сначала берем фасет по неотмеченным вариантам
 				$arTmpFilter["NOT_".$strCode] = $arTmpFilter[$strCode];
 				unset($arTmpFilter[$strCode]);
 				
-				$arFacetData = $obSearch->searchFacet(array("FILTER" => $arTmpFilter), \ig\sphinx\CCatalogGardenOffers::getFacetFields(array("INCLUDE" => $strCode)), true);
+				$arFacetData = $obSearch->searchFacet(array("FILTER" => $arTmpFilter), \ig\sphinx\CatalogGardenOffers::getFacetFields(array("INCLUDE" => $strCode)), true);
 				
 				foreach ($arFacetData["FACET"] as $strSphinxCode => $arDataList) {
-					$strCodeTmp = str_replace("PROPERTY_", '', \ig\sphinx\CCatalogGardenOffers::convertFieldCode($strSphinxCode, false));
+					$strCodeTmp = str_replace("PROPERTY_", '', \ig\sphinx\CatalogGardenOffers::convertFieldCode($strSphinxCode, false));
 					foreach ($arDataList as $arData) {
 						$arResult["COUNT_DATA"][$strCodeTmp][$arData[$strSphinxCode]] = $arData["count"];
 					}
@@ -262,10 +262,10 @@ if($_REQUEST["search"] == 'Y') {
 			} else {
 				unset($arTmpFilter[$strCode]);
 				
-				$arFacetData = $obSearch->searchFacet(array("FILTER" => $arTmpFilter), \ig\sphinx\CCatalogGardenOffers::getFacetFields(array("INCLUDE" => $strCode)), true);
+				$arFacetData = $obSearch->searchFacet(array("FILTER" => $arTmpFilter), \ig\sphinx\CatalogGardenOffers::getFacetFields(array("INCLUDE" => $strCode)), true);
 				
 				foreach ($arFacetData["FACET"] as $strSphinxCode => $arDataList) {
-					$strCode = str_replace("PROPERTY_", '', \ig\sphinx\CCatalogGardenOffers::convertFieldCode($strSphinxCode, false));
+					$strCode = str_replace("PROPERTY_", '', \ig\sphinx\CatalogGardenOffers::convertFieldCode($strSphinxCode, false));
 					$arResult["COUNT_DATA"][$strCode]["TOTAL"] = $obSearch->getCount($arTmpFilter, 'id');
 					foreach ($arDataList as $arData) {
 						$arResult["COUNT_DATA"][$strCode][$arData[$strSphinxCode]] = $arData["count"];

@@ -102,11 +102,22 @@ class ComposerStaticInit48e23e88f4d46054be8c56c43ac9174d
         ),
     );
 
+    public static $prefixesPsr0 = array (
+        'J' => 
+        array (
+            'JShrink' => 
+            array (
+                0 => __DIR__ . '/..' . '/tedivm/jshrink/src',
+            ),
+        ),
+    );
+
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
             $loader->prefixLengthsPsr4 = ComposerStaticInit48e23e88f4d46054be8c56c43ac9174d::$prefixLengthsPsr4;
             $loader->prefixDirsPsr4 = ComposerStaticInit48e23e88f4d46054be8c56c43ac9174d::$prefixDirsPsr4;
+            $loader->prefixesPsr0 = ComposerStaticInit48e23e88f4d46054be8c56c43ac9174d::$prefixesPsr0;
 
         }, null, ClassLoader::class);
     }

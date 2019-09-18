@@ -1,23 +1,28 @@
 <?php
 
-if (!defined('B_PROLOG_INCLUDED') || B_PROLOG_INCLUDED !== true) die();
+use ig\CFormat;
+use ig\CHelper;
+
+if (!defined('B_PROLOG_INCLUDED') || B_PROLOG_INCLUDED !== true) {
+    die();
+}
 
 
-class CatalogSection extends \CBitrixComponent
+class CatalogSection extends CBitrixComponent
 {
-    public function prepareCartData()
+    public function prepareCartData(): void
     {
-        \ig\CHelper::prepareCartData($this->arResult);
+        CHelper::prepareCartData($this->arResult);
     }
 
-    public function prepareGroupData()
+    public function prepareGroupData(): void
     {
-        \ig\CHelper::prepareGroupData($this->arResult);
+        CHelper::prepareGroupData($this->arResult);
     }
 
-    public function getImagesBlockHtml($arSort, $arOffer)
+    public function getImagesBlockHtml($arSort, $arOffer): string
     {
-        $arImages = \ig\CHelper::getImagesArray($arOffer, $arSort, array(
+        $arImages = CHelper::getImagesArray($arOffer, $arSort, array(
             "RESIZE" => array("WIDTH" => 246, "HEIGHT" => 246), "TITLE" => array("OFFER_DETAIL_PICTURE" => "Сейчас", "SORT_DETAIL_PICTURE" => 'Общий вид')
         ));
 
@@ -61,7 +66,7 @@ class CatalogSection extends \CBitrixComponent
         return $strResult;
     }
 
-    public function getParamsBlockHtml($arSort, $arOffer)
+    public function getParamsBlockHtml($arSort, $arOffer): string
     {
         $arSortProp = $arSort["PROPERTIES"];
         $arOfferProp = $arOffer["PROPERTIES"];
@@ -78,7 +83,7 @@ class CatalogSection extends \CBitrixComponent
 							<div class="ptgb__subtitle">
 								Высота (cм)
 							</div>
-							<div class="ptgb__title noerap">' . \ig\CFormat::formatPropertyValue('HEIGHT_NOW_EXT', $arOfferProp["HEIGHT_NOW_EXT"]["VALUE"]) . '</div>
+							<div class="ptgb__title noerap">' . CFormat::formatPropertyValue('HEIGHT_NOW_EXT', $arOfferProp["HEIGHT_NOW_EXT"]["VALUE"]) . '</div>
 						</div>
 					</div>
 				</div>';
@@ -150,7 +155,7 @@ class CatalogSection extends \CBitrixComponent
 							Упаковка
 						</div>
 						<div class="ptgb__title">
-							<div class="ptgb__title-inner">' . \ig\CFormat::formatContainerPack($arOffer, $arSort) . '</div>
+							<div class="ptgb__title-inner">' . CFormat::formatContainerPack($arOffer, $arSort) . '</div>
 						</div>
 					</div>
 				</div>
@@ -162,11 +167,11 @@ class CatalogSection extends \CBitrixComponent
 						<div class="ptgb__subtitle">Цена шт.</div>
 						<div class="ptgb__title">
                             <div class="js-icard-price-discount-wrapper' . ($arOffer["BASE_PRICE_VALUE"] > 0 ? '' : ' hidden') . '">
-                                <div class="icard__price color-active"><span class="font-bold js-icard-price-discount">' . \ig\CFormat::getFormattedPrice($arOffer["MIN_PRICE_VALUE"]) . '</span></div>
+                                <div class="icard__price color-active"><span class="font-bold js-icard-price-discount">' . CFormat::getFormattedPrice($arOffer["MIN_PRICE_VALUE"]) . '</span></div>
                                 
                             </div>
                             <div class="js-icard-price-wrapper' . ($arOffer["BASE_PRICE_VALUE"] > 0 ? ' hidden' : '') . '">
-                                <div class="icard__price"><span class="font-bold js-icard-price">' . \ig\CFormat::getFormattedPrice($arOffer["MIN_PRICE_VALUE"], "RUB", array("RUB_SIGN" => '')) . '</span> <span class="font-light">₽</span></div>
+                                <div class="icard__price"><span class="font-bold js-icard-price">' . CFormat::getFormattedPrice($arOffer["MIN_PRICE_VALUE"], "RUB", array("RUB_SIGN" => '')) . '</span> <span class="font-light">₽</span></div>
                             </div>
 						</div>
 					</div>
@@ -198,7 +203,7 @@ class CatalogSection extends \CBitrixComponent
         return $strResult;
     }
 
-    public function getActionsBlockHtml($arSort, $arOffer)
+    public function getActionsBlockHtml($arSort, $arOffer): string
     {
         $arSortProp = $arSort["PROPERTIES"];
         $arOfferProp = $arOffer["PROPERTIES"];
@@ -220,7 +225,7 @@ class CatalogSection extends \CBitrixComponent
 						<div class="ptgb__title ptgb__title--textfield">
 							
 							<div class="icard__price-total">
-								<span class="font-bold js-icard-price">' . \ig\CFormat::getFormattedPrice($arOffer["MIN_PRICE_VALUE"]) . '</span>
+								<span class="font-bold js-icard-price">' . CFormat::getFormattedPrice($arOffer["MIN_PRICE_VALUE"]) . '</span>
 							</div>
 						
 						</div>

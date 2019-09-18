@@ -4,7 +4,7 @@ if (!defined('B_PROLOG_INCLUDED') || B_PROLOG_INCLUDED !== true) die();
 
 \CBitrixComponent::includeComponentClass('ig:catalog.section');
 
-class CartList extends \CatalogGardenSection {
+class CartList extends \CatalogSection {
 	public function getParamsBlockHtml($arSort, $arOffer) {
 		if($arSort["IBLOCK_ID"] == \ig\CHelper::getIblockIdByCode('catalog')) {
 			return parent::getParamsBlockHtml($arSort, $arOffer);

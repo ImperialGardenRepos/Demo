@@ -6,7 +6,7 @@ class CatalogFilter extends \CBitrixComponent {
 	public static $arRequestFilter = array();
 	
 	private static function getFilterAliasHL() {
-		return \ig\CHighload::getHighloadBlockIDByName('CatalogFilterAlias');
+		return \ig\Highload\Base::getHighloadBlockIDByName('CatalogFilterAlias');
 	}
 	
 	private function canStoreStat() {
@@ -74,7 +74,7 @@ class CatalogFilter extends \CBitrixComponent {
 	public function searchEntity($strQuery) {
 		$strQuery = trim($strQuery);
 		
-		$obSearch = new \ig\sphinx\CCatalogGardenOffers();
+		$obSearch = new \ig\sphinx\CatalogGardenOffers();
 		
 		$arSearchParams = array(
 			"MATCH_FILTER" => array("NAME" => $strQuery),
@@ -249,7 +249,7 @@ class CatalogFilter extends \CBitrixComponent {
 		$strAlias = trim($strAlias);
 		
 		if(strlen($strAlias)>0) {
-			$arFilter = \ig\CHighload::getFirst(\CatalogFilter::getFilterAliasHL(), array("UF_XML_ID" => $strAlias), array("ID", "UF_REQUEST", "UF_ALIAS_USE_CNT"));
+			$arFilter = \ig\Highload\Base::getFirst(\CatalogFilter::getFilterAliasHL(), array("UF_XML_ID" => $strAlias), array("ID", "UF_REQUEST", "UF_ALIAS_USE_CNT"));
 			if($arFilter["ID"]>0) {
 				$this -> processUseFilterByAlias($arFilter["ID"], $arFilter["UF_ALIAS_USE_CNT"]);
 				$arResult = unserialize($arFilter["UF_REQUEST"]);
@@ -266,10 +266,10 @@ class CatalogFilter extends \CBitrixComponent {
 		$strFilterSerialized = serialize($arFilterParams);
 		$strFilterHash = md5($strFilterSerialized);
 		
-		$arFilter = \ig\CHighload::getFirst(\CatalogFilter::getFilterAliasHL(), array("UF_XML_ID" => $strFilterHash), array("ID", "UF_USE_CNT"));
+		$arFilter = \ig\Highload\Base::getFirst(\CatalogFilter::getFilterAliasHL(), array("UF_XML_ID" => $strFilterHash), array("ID", "UF_USE_CNT"));
 		if($arFilter["ID"]>0) { // reuse
 			if($this -> canStoreStat()) {
-				\ig\CHighload::update(\CatalogFilter::getFilterAliasHL(), array("ID" => $arFilter["ID"]), array("UF_USE_CNT" => ($arFilter["UF_USE_CNT"] + 1)));
+				\ig\Highload\Base::update(\CatalogFilter::getFilterAliasHL(), array("ID" => $arFilter["ID"]), array("UF_USE_CNT" => ($arFilter["UF_USE_CNT"] + 1)));
 			}
 			$strReturn = $strFilterHash;
 		} else { // new filter
@@ -280,7 +280,7 @@ class CatalogFilter extends \CBitrixComponent {
 				"UF_ALIAS_USE_CNT" => 0
 			);
 			
-			$rsAdd = \ig\CHighload::add(\CatalogFilter::getFilterAliasHL(), $arNewFilter);
+			$rsAdd = \ig\Highload\Base::add(\CatalogFilter::getFilterAliasHL(), $arNewFilter);
 			if($rsAdd>0) {
 				$strReturn = $strFilterHash;
 			}
@@ -298,14 +298,14 @@ class CatalogFilter extends \CBitrixComponent {
 			}
 			
 			if(is_numeric($intOldCnt)) {
-				\ig\CHighload::update(\CatalogFilter::getFilterAliasHL(), $arFilter, array("UF_ALIAS_USE_CNT" => ($intOldCnt + 1)));
+				\ig\Highload\Base::update(\CatalogFilter::getFilterAliasHL(), $arFilter, array("UF_ALIAS_USE_CNT" => ($intOldCnt + 1)));
 			} else {
-				$arResult = \ig\CHighload::getFirst(\CatalogFilter::getFilterAliasHL(), array("UF_XML_ID" => $strAlias), array(
+				$arResult = \ig\Highload\Base::getFirst(\CatalogFilter::getFilterAliasHL(), array("UF_XML_ID" => $strAlias), array(
 					"ID",
 					"UF_ALIAS_USE_CNT"
 				));
 				if($arResult["ID"]>0) {
-					\ig\CHighload::update(\CatalogFilter::getFilterAliasHL(), $arFilter, array("UF_ALIAS_USE_CNT" => ($arResult["UF_ALIAS_USE_CNT"] + 1)));
+					\ig\Highload\Base::update(\CatalogFilter::getFilterAliasHL(), $arFilter, array("UF_ALIAS_USE_CNT" => ($arResult["UF_ALIAS_USE_CNT"] + 1)));
 				}
 			}
 		}
@@ -330,23 +330,7 @@ class CatalogFilter extends \CBitrixComponent {
 			}
 		} else return $bFound;
 	}
-	
-	/*
-	$arParams = array(
-		"REQUEST" => $arResult["F"],
-		"DEFAULT" => array(
-			"NAME" => "Любая"
-			"VALUE" => "",
-			"COUNT" => 0
-		),
-		"BLOCK_TITLE" => "Группа растений",
-		"BLOCK_PARAMS" => ' data-ddbox-reset-inputs="#ddbox-usage, .js-filter-section" id="ddbox-group"',
-		"VALUES" => array(
-			array("NAME" => "123", "VALUE" => "123", "DISABLED" => "Y\N"),
-			array("NAME" => "1234", "VALUE" => "1234", "DISABLED" => "Y\N")
-		)
-	);
-	 */
+
 	public function getPropertyHtml($strType, $strName, $arParams = array()) {
 		$strResult = '';
 		$strValues = '';
