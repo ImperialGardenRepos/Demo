@@ -1,4 +1,7 @@
 <?php
+
+use ig\Helpers\Url;
+
 if (!defined('B_PROLOG_INCLUDED') || B_PROLOG_INCLUDED !== true) {
     die();
 }
@@ -61,7 +64,7 @@ ob_start(); ?>
     <div class="icards__item">
         <div class="icard icard--goods js-icard<?= $isLastPage ? ' scroll-load-last-one' : '' ?>"
              data-offer-index="0"
-             data-offers-url="<?= $APPLICATION->GetCurPageParam('productID=' . $arProduct['ID'], array('productID')) ?>">
+             data-offers-url="<?= Url::getUrlWithoutParams()?>?productID=<?=$arProduct['ID']?>">
             <div class="icard__inner">
                 <div class="icard__content">
                     <div class="icard__header">

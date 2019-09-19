@@ -1,6 +1,6 @@
 <?php
 
-namespace ig;
+namespace ig\Base;
 
 use Bitrix\Iblock\ElementTable;
 use Bitrix\Iblock\SectionTable;
@@ -14,145 +14,31 @@ use CHTTP;
 use ig\Highload\FilterAlias;
 use ig\Highload\VirtualPage;
 
-class CRouter
+class Router
 {
     private const CATALOG_BASE_URL = '/katalog/rasteniya/';
 
     /**
      * @param $folder404
-     * @param $arUrlTemplates
      * @param $arVariables
-     * @param mixed $requestURL
+     * @param int $iBlockId
      * @return bool|string
      * @throws ArgumentException
      * @throws LoaderException
      * @throws ObjectPropertyException
      * @throws SystemException
      */
-    public static function guessCatalogGardenPath($folder404, $arUrlTemplates, &$arVariables, $requestURL = false)
-    {
-        Loader::includeModule('iblock');
-
-        $strComponentPage = 'sections';
-
-        if (!isset($arVariables) || !is_array($arVariables)) {
-            $arVariables = [];
-        }
-
-        if ($requestURL === false) {
-            $requestURL = Context::getCurrent()->getRequest()->getRequestedPageDirectory();
-        }
-
-        $folder404 = str_replace("\\", '/', $folder404);
-        if ($folder404 !== '/') {
-            $folder404 = '/' . trim($folder404, "/ \t\n\r\0\x0B") . '/';
-        }
-
-        //SEF base URL must match current URL (several components on the same page)
-        if (strpos($requestURL . '/', $folder404) !== 0) {
-            return false;
-        }
-
-        $currentPageUrl = substr($requestURL, strlen($folder404));
-        $arPathParts = parse_url($currentPageUrl);
-        $arPath = explode('/', $arPathParts['path']);
-
-        if (!empty($arPath[3])) {
-            CHTTP::setStatus('404 Not Found');
-            return false;
-        }
-
-        if ((string)$arPath[1] !== '' && (string)$arPath[1] === (string)$arPath[2]) {
-            $strRedirectUrl = $folder404 . implode('/', array_slice($arPath, 0, count($arPath) - 2)) . '/';
-            LocalRedirect($strRedirectUrl);
-        }
-
-        $intIblockID = CHelper::getIblockIdByCode('catalog-garden');
-
-        if (
-            ((string)$arPath[0] !== '')
-            && $arSection1 = SectionTable::getList(
-                [
-                    'filter' => [
-                        'IBLOCK_ID' => $intIblockID,
-                        'DEPTH_LEVEL' => 1,
-                        '=CODE' => $arPath[0]
-                    ],
-                    'select' => ['ID', 'CODE']
-                ]
-            )->fetch()
-        ) {
-            $strComponentPage = 'section';
-            $arVariables['SECTION_CODE'] = $arSection1['CODE'];
-            $arVariables['SECTION_ID'] = $arSection1['ID'];
-            $arVariables['SECTION_CODE_PATH'] = $arSection1['CODE'];
-
-            if ((string)$arPath[1] !== '' && preg_match('/page-\d+/', $arPath[1]) === 0) {
-                if ($arSection2 = SectionTable::getList([
-                    'filter' => [
-                        'IBLOCK_ID' => $intIblockID,
-                        'DEPTH_LEVEL' => 2,
-                        'ACTIVE' => 'Y',
-                        'IBLOCK_SECTION_ID' => $arSection1['ID'],
-                        '=CODE' => $arPath[1]
-                    ],
-                    'select' => ['ID', 'CODE']
-                ])->fetch()) {
-                    $strComponentPage = 'section';
-                    $arVariables['SECTION_CODE'] = $arSection2['CODE'];
-                    $arVariables['SECTION_ID'] = $arSection2['ID'];
-                    $arVariables['SECTION_CODE_PATH'] = $arSection1['CODE'] . '/' . $arSection2['CODE'];
-
-                    if ((string)$arPath[2] !== '') {
-                        if ($arProduct = ElementTable::getList([
-                            'filter' => [
-                                'IBLOCK_ID' => $intIblockID,
-                                'ACTIVE' => 'Y',
-                                'IBLOCK_SECTION_ID' => $arSection2['ID'],
-                                '=CODE' => $arPath[2]
-                            ],
-                            'select' => ['ID', 'CODE']
-                        ])->fetch()) {
-                            $strComponentPage = 'element';
-                            $arVariables['ELEMENT_CODE'] = $arProduct['CODE'];
-                            $arVariables['ELEMENT_ID'] = $arProduct['ID'];
-                        } else {
-                            $arVariables['ELEMENT_ID'] = -1;
-                        }
-                    }
-                } else {
-                    $arVariables['SECTION_ID'] = -1;
-                }
-            }
-        }
-
-        return $strComponentPage;
-    }
-
-    /**
-     * @param $folder404
-     * @param $arUrlTemplates
-     * @param $arVariables
-     * @param bool $requestURL
-     * @return bool|string
-     * @throws ArgumentException
-     * @throws LoaderException
-     * @throws ObjectPropertyException
-     * @throws SystemException
-     */
-    public static function guessCatalogPath($folder404, $arUrlTemplates, &$arVariables, $requestURL = false)
+    public static function guessCatalogPath($folder404, &$arVariables, $iBlockId = CATALOG_IBLOCK_ID)
     {
         Loader::includeModule('iblock');
 
         $request = Context::getCurrent()->getRequest();
         if (!isset($arVariables) || !is_array($arVariables)) {
-            $arVariables = array();
+            $arVariables = [];
         }
 
-        if ($requestURL === false) {
-            /** @noinspection CallableParameterUseCaseInTypeContextInspection */
-            $requestURL = $request->getRequestedPageDirectory();
-        }
+        $requestURL = $request->getRequestedPageDirectory();
+
 
         $folder404 = str_replace("\\", '/', $folder404);
         if ($folder404 !== '/') {
@@ -178,11 +64,29 @@ class CRouter
         $arPathParts = parse_url($currentPageUrl);
         $arPath = explode('/', $arPathParts['path']);
 
+        /**
+         * 404 on 4th level existence
+         */
         if (!empty($arPath[3])) {
             CHTTP::setStatus('404 Not Found');
             return false;
         }
 
+        $isPageFirst = isset($arPath[0]) && strpos($arPath[0], 'page-') !== false;
+        $isPageSecond = isset($arPath[1]) && strpos($arPath[1], 'page-') !== false;
+        $isPageThird = isset($arPath[2]) && strpos($arPath[2], 'page-') !== false;
+
+        /**
+         * 404 on repeating pagination
+         */
+        if (
+            ($isPageFirst && $isPageSecond)
+            || ($isPageFirst && $isPageThird)
+            || ($isPageSecond && $isPageThird)
+        ) {
+            CHTTP::setStatus('404 Not Found');
+            return false;
+        }
 
         /**
          * Zero-level is catalog root section
@@ -218,7 +122,7 @@ class CRouter
         $sectionModel = SectionTable::getList(
             [
                 'filter' => [
-                    'IBLOCK_ID' => CATALOG_IBLOCK_ID,
+                    'IBLOCK_ID' => $iBlockId,
                     'DEPTH_LEVEL' => 1,
                     '=CODE' => $arPath[0]
                 ],
@@ -256,7 +160,7 @@ class CRouter
         $sectionModel = SectionTable::getList(
             [
                 'filter' => [
-                    'IBLOCK_ID' => CATALOG_IBLOCK_ID,
+                    'IBLOCK_ID' => $iBlockId,
                     'DEPTH_LEVEL' => 2,
                     'ACTIVE' => 'Y',
                     'IBLOCK_SECTION_ID' => $section['ID'],
@@ -293,7 +197,7 @@ class CRouter
         $productModel = ElementTable::getList(
             [
                 'filter' => [
-                    'IBLOCK_ID' => CATALOG_IBLOCK_ID,
+                    'IBLOCK_ID' => $iBlockId,
                     'ACTIVE' => 'Y',
                     'IBLOCK_SECTION_ID' => $section['ID'],
                     '=CODE' => $arPath[2]

@@ -46,6 +46,10 @@ if (is_file($possibleFilePah) === false) {
 }
 /** Remove multiple slashes */
 $url = preg_replace('/[\/]{2,}/', '/', $url);
+
+/** Remove /page-1/ */
+$url = str_replace('/page-1/', '/', $url);
+
 /** Transform request to lc */
 $url = mb_strtolower($url);
 

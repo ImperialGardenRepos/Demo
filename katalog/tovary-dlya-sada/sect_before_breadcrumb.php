@@ -1,4 +1,4 @@
-<?
+<?php
 $APPLICATION->IncludeComponent(
 	"ig:catalog-garden.filter",
 	"",
@@ -6,4 +6,3 @@ $APPLICATION->IncludeComponent(
 		"COMPLEX_RESULT" => $arParams["COMPLEX_RESULT"],
 	)
 );
-?>

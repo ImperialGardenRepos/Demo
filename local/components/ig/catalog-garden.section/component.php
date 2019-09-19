@@ -1,6 +1,8 @@
-<?
-if (!defined('B_PROLOG_INCLUDED') || B_PROLOG_INCLUDED !== true) die();
-/** @var CBitrixComponent $this */
+<?php
+if (!defined('B_PROLOG_INCLUDED') || B_PROLOG_INCLUDED !== true) {
+    die();
+}
+/** @var CatalogGardenSection $this */
 /** @var array $arParams */
 /** @var array $arResult */
 /** @var string $componentPath */
@@ -10,11 +12,9 @@ if (!defined('B_PROLOG_INCLUDED') || B_PROLOG_INCLUDED !== true) die();
 /** @global CUser $USER */
 /** @global CMain $APPLICATION */
 
-/** @global CIntranetToolbar $INTRANET_TOOLBAR */
-
-global $INTRANET_TOOLBAR;
 
 use Bitrix\Iblock;
+use Bitrix\Iblock\InheritedProperty\SectionValues;
 use Bitrix\Main\Application;
 use Bitrix\Main\Loader;
 use ig\CHelper;
@@ -23,11 +23,12 @@ use ig\sphinx\CatalogGardenOffers;
 
 CPageOption::SetOptionString('main', 'nav_page_in_session', 'N');
 
-if (!isset($arParams['CACHE_TIME']))
+if (!isset($arParams['CACHE_TIME'])) {
     $arParams['CACHE_TIME'] = 36000000;
+}
 
 $request = Application::getInstance()->getContext()->getRequest();
-$arParams['IS_AJAX'] = ($request->isAjaxRequest());
+$arParams['IS_AJAX'] = $request->isAjaxRequest();
 
 $arParams['SET_LAST_MODIFIED'] = $arParams['SET_LAST_MODIFIED'] === 'Y';
 $arParams['CATALOG_PRICE_ID'] = CRegistry::get('CATALOG_BASE_PRICE_ID');
@@ -37,37 +38,38 @@ $arParams['CATALOG_OLD_PRICE_ID'] = CRegistry::get('CATALOG_OLD_PRICE_ID');
 $arParams['SORT_BY1'] = trim($arParams['SORT_BY1']);
 $arParams['DETAIL_URL'] = trim($arParams['DETAIL_URL']);
 
-$arParams['CACHE_FILTER'] = $arParams['CACHE_FILTER'] == 'Y';
-if (!$arParams['CACHE_FILTER'] && count($arrFilter) > 0)
+$arParams['CACHE_FILTER'] = $arParams['CACHE_FILTER'] === 'Y';
+if (!$arParams['CACHE_FILTER'] && count($arrFilter) > 0) {
     $arParams['CACHE_TIME'] = 0;
+}
 
-$arParams['NEWS_COUNT'] = intval($arParams['NEWS_COUNT']);
-if ($arParams['NEWS_COUNT'] <= 0)
-    $arParams['NEWS_COUNT'] = 3 * rand(1, 4); //12;
+$arParams['NEWS_COUNT'] = (int)$arParams['NEWS_COUNT'];
+if ($arParams['NEWS_COUNT'] <= 0) {
+    $arParams['NEWS_COUNT'] = 12;
+}
 
-if (empty($arParams['VARIABLES']['SECTION_ID']) && !empty($_REQUEST['F']['SECTION'])) {
+if (!empty($_REQUEST['F']['SECTION']) && empty($arParams['VARIABLES']['SECTION_ID'])) {
     $arParams['VARIABLES']['SECTION_ID'] = substr($_REQUEST['F']['SECTION'], 1);
 }
 
 if ($_REQUEST['productID'] > 0) {
-    $intSortID = intval($_REQUEST['productID']);
+    $intSortID = (int)$_REQUEST['productID'];
     if ($intSortID > 0) {
         $arParams['PRODUCT_ID'] = $intSortID;
     }
 } else if (
     (is_array($_REQUEST['F']['sortsID']) && !empty($_REQUEST['F']['sortsID']))
-    ||
-    (is_array($_REQUEST['F']['vidsID']) && !empty($_REQUEST['F']['vidsID']))
+    || (is_array($_REQUEST['F']['vidsID']) && !empty($_REQUEST['F']['vidsID']))
 ) {
     foreach ($_REQUEST['F']['sortsID'] as $intSortID) {
-        $intSortID = intval($intSortID);
+        $intSortID = (int)$intSortID;
         if ($intSortID > 0) {
             $arParams['SORTS_ID'][] = $intSortID;
         }
     }
 
     foreach ($_REQUEST['F']['vidsID'] as $intVidID) {
-        $intVidID = intval($intVidID);
+        $intVidID = (int)$intVidID;
         if ($intVidID > 0) {
             $arParams['VIDS_ID'][] = $intVidID;
         }
@@ -76,9 +78,10 @@ if ($_REQUEST['productID'] > 0) {
 
 if (empty($arParams['PRODUCT_ID'])) {
     if ($_REQUEST['page'] > 0) {
-        $arParams['PAGE_NUM'] = intval($_REQUEST['page']);
-        if ($arParams['PAGE_NUM'] <= 0)
+        $arParams['PAGE_NUM'] = (int)$_REQUEST['page'];
+        if ($arParams['PAGE_NUM'] <= 0) {
             $arParams['PAGE_NUM'] = 1;
+        }
     }
 
     if ($arParams['DISPLAY_TOP_PAGER'] || $arParams['DISPLAY_BOTTOM_PAGER']) {
@@ -93,7 +96,7 @@ if (empty($arParams['PRODUCT_ID'])) {
         }
 
         $arNavigation = CDBResult::GetNavParams($arNavParams);
-        if ($arNavigation['PAGEN'] == 0 && $arParams['PAGER_DESC_NUMBERING_CACHE_TIME'] > 0) {
+        if ((int)$arNavigation['PAGEN'] === 0 && $arParams['PAGER_DESC_NUMBERING_CACHE_TIME'] > 0) {
             $arParams['CACHE_TIME'] = $arParams['PAGER_DESC_NUMBERING_CACHE_TIME'];
         }
     } else {
@@ -122,17 +125,16 @@ if (!is_array($arSearchParams)) $arSearchParams = [];
 
 ob_start();
 
-if ($this->startResultCache(false, [($arParams['CACHE_GROUPS'] === 'N' ? false : $USER->GetGroups()), $bUSER_HAVE_ACCESS, $arNavigation, $arSearchParams, $pagerParameters])) {
+if ($this->startResultCache(false, [$arParams['CACHE_GROUPS'] === 'N' ? false : $USER->GetGroups(), $bUSER_HAVE_ACCESS, $arNavigation, $arSearchParams, $pagerParameters])) {
     if (!Loader::includeModule('iblock')) {
         $this->abortResultCache();
         ShowError(GetMessage('IBLOCK_MODULE_NOT_INSTALLED'));
         return;
     }
     $arResult = [
-        'CURRENT_PAGE' => (empty($arNavigation['PAGEN']) ? 1 : $arNavigation['PAGEN']),
+        'CURRENT_PAGE' => empty($arNavigation['PAGEN']) ? 1 : $arNavigation['PAGEN'],
     ];
 
-    //$this -> prepareGroupData();
     $this->prepareCartData();
     CHelper::preparePriceData(CHelper::getIblockIdByCode('offers-garden'), $arResult);
 
@@ -143,38 +145,38 @@ if ($this->startResultCache(false, [($arParams['CACHE_GROUPS'] === 'N' ? false :
                 'ACTIVE' => 'Y',
                 'ID' => $arParams['VARIABLES']['SECTION_ID'],
                 'IBLOCK_ID' => CHelper::getIblockIdByCode('catalog-garden'),
-            ], false);
+            ]);
         $arSec = $rsSec->GetNext();
 
         if (empty($arSec['ID'])) {
             $this->abortResultCache();
             Iblock\Component\Tools::process404(
-                trim($arParams['MESSAGE_404']) ?: GetMessage('T_NEWS_NEWS_NA')
-                , true
-                , true
-                , true
+                trim($arParams['MESSAGE_404']) ?: GetMessage('T_NEWS_NEWS_NA'),
+                true,
+                true,
+                true
             );
             return;
-        } else {
-            $arResult['SECTION'] = $arSec;
-            $arResult['SECTION']['PATH'] = [];
-            $rsPath = CIBlockSection::GetNavChain($arResult['SECTION']['IBLOCK_ID'], $arResult['SECTION']['IBLOCK_SECTION_ID']);
-
-            $rsPath->SetUrlTemplates('', $arParams['SECTION_URL'], $arParams['IBLOCK_URL']);
-            while ($arPath = $rsPath->GetNext()) {
-                $ipropValues = new \Bitrix\Iblock\InheritedProperty\SectionValues($arPath['IBLOCK_ID'], $arPath['ID']);
-                $arPath['IPROPERTY_VALUES'] = $ipropValues->getValues();
-                $arResult['SECTION']['PATH'][] = $arPath;
-            }
-
-            $ipropValues = new \Bitrix\Iblock\InheritedProperty\SectionValues($arSec['IBLOCK_ID'], $arSec['ID']);
-            $arResult['IPROPERTY_VALUES'] = $ipropValues->getValues();
-
-            $arResult['NAME'] = $arSec['NAME'];
-            $arResult['DESCRIPTION'] = $arSec['DESCRIPTION'];
         }
 
-        if ($arSec['DEPTH_LEVEL'] == 1) {
+        $arResult['SECTION'] = $arSec;
+        $arResult['SECTION']['PATH'] = [];
+        $rsPath = CIBlockSection::GetNavChain($arResult['SECTION']['IBLOCK_ID'], $arResult['SECTION']['IBLOCK_SECTION_ID']);
+
+        $rsPath->SetUrlTemplates('', $arParams['SECTION_URL'], $arParams['IBLOCK_URL']);
+        while ($arPath = $rsPath->GetNext()) {
+            $ipropValues = new SectionValues($arPath['IBLOCK_ID'], $arPath['ID']);
+            $arPath['IPROPERTY_VALUES'] = $ipropValues->getValues();
+            $arResult['SECTION']['PATH'][] = $arPath;
+        }
+
+        $ipropValues = new SectionValues($arSec['IBLOCK_ID'], $arSec['ID']);
+        $arResult['IPROPERTY_VALUES'] = $ipropValues->getValues();
+
+        $arResult['NAME'] = $arSec['NAME'];
+        $arResult['DESCRIPTION'] = $arSec['DESCRIPTION'];
+
+        if ((int)$arSec['DEPTH_LEVEL'] === 1) {
             $arSearchParams['CAT_SECTION_1'] = $arParams['VARIABLES']['SECTION_ID'];
         } else {
             $arSearchParams['CAT_SECTION_2'] = $arParams['VARIABLES']['SECTION_ID'];
@@ -244,7 +246,9 @@ if ($this->startResultCache(false, [($arParams['CACHE_GROUPS'] === 'N' ? false :
             $arFilterExt['ID'][] = $arItem['cat_id'];
         }
 
-        if (empty($arFilterExt['ID'])) $arFilterExt['ID'] = [-1];
+        if (empty($arFilterExt['ID'])) {
+            $arFilterExt['ID'] = [-1];
+        }
     }
     $arOffersSelect = [
         '*',
@@ -343,7 +347,7 @@ if ($this->startResultCache(false, [($arParams['CACHE_GROUPS'] === 'N' ? false :
                     $arI['OFFERS_AVAILABLE_CNT'];
                 }
 
-                if ($intCnt == 0) {
+                if ($intCnt === 0) {
                     $arI['OFFER'] = $arO;
                 }
             }
@@ -378,7 +382,7 @@ if ($this->startResultCache(false, [($arParams['CACHE_GROUPS'] === 'N' ? false :
     }
 
     if (!empty($arResult['IBLOCK_SECTIONS'])) {
-        $rsSecTmp = \CIBlockSection::GetList([], ['IBLOCK_ID' => CHelper::getIblockIdByCode('catalog'), 'ID' => array_keys($arResult['IBLOCK_SECTIONS'])], false, ['NAME', 'SECTION_PAGE_URL', 'UF_NAME_LAT']);
+        $rsSecTmp = CIBlockSection::GetList([], ['IBLOCK_ID' => CHelper::getIblockIdByCode('catalog'), 'ID' => array_keys($arResult['IBLOCK_SECTIONS'])], false, ['NAME', 'SECTION_PAGE_URL', 'UF_NAME_LAT']);
         while ($arSecTmp = $rsSecTmp->GetNext()) {
             $arResult['IBLOCK_SECTIONS'][$arSecTmp['ID']] = $arSecTmp;
         }
@@ -386,7 +390,6 @@ if ($this->startResultCache(false, [($arParams['CACHE_GROUPS'] === 'N' ? false :
 
     $arResult['NAV_CACHED_DATA'] = null;
     $arResult['NAV_RESULT'] = $rsI;
-    $arResult['NAV_PARAM'] = $navComponentParameters;
 
     if (empty($arParams['PRODUCT_ID'])) {
         $this->includeComponentTemplate();
@@ -404,8 +407,7 @@ if ($this->startResultCache(false, [($arParams['CACHE_GROUPS'] === 'N' ? false :
     }
 }
 
-$strContents = ob_get_contents();
-ob_end_clean();
+$strContents = ob_get_clean();
 
 if (strpos($strContents, '<!--ARTICLES_INCUT-->') !== false) {
     // aticles
@@ -465,8 +467,7 @@ if (strpos($strContents, '<!--ARTICLES_INCUT-->') !== false) {
         'STRICT_SECTION_CHECK' => 'N',
     ]);
 
-    $strArticlesHtml = ob_get_contents();
-    ob_end_clean();
+    $strArticlesHtml = ob_get_clean();
 
 
     $strContents = str_replace('<!--ARTICLES_INCUT-->', $strArticlesHtml, $strContents);
@@ -474,7 +475,7 @@ if (strpos($strContents, '<!--ARTICLES_INCUT-->') !== false) {
 
 if (is_array($arResult['SECTION'])) {
     foreach ($arResult['SECTION']['PATH'] as $arPath) {
-        if ($arPath['IPROPERTY_VALUES']['SECTION_PAGE_TITLE'] != '') {
+        if ((string)$arPath['IPROPERTY_VALUES']['SECTION_PAGE_TITLE'] !== '') {
             $APPLICATION->AddChainItem($arPath['IPROPERTY_VALUES']['SECTION_PAGE_TITLE'], $arPath['~SECTION_PAGE_URL']);
         } else {
             $APPLICATION->AddChainItem($arPath['NAME'], $arPath['~SECTION_PAGE_URL']);
@@ -493,7 +494,7 @@ if ($arParams['IS_AJAX']) {
     if ($arParams['PAGE_NUM'] > 0 || $arParams['PRODUCT_ID'] > 0) {
         $APPLICATION->RestartBuffer();
         echo $strContents;
-        require($_SERVER['DOCUMENT_ROOT'] . '/bitrix/modules/main/include/epilog_after.php');
+        require $_SERVER['DOCUMENT_ROOT'] . '/bitrix/modules/main/include/epilog_after.php';
     } else {
         $strNavChain = $APPLICATION->GetNavChain(false, 2, SITE_TEMPLATE_PATH . '/components/bitrix/breadcrumb/.default/template.php', true, false);
 
@@ -527,32 +528,12 @@ if ($arParams['IS_AJAX']) {
         $APPLICATION->RestartBuffer();
         echo json_encode($arResponse);
 
-        require_once($_SERVER['DOCUMENT_ROOT'] . '/bitrix/modules/main/include/epilog_after.php');
+        require_once $_SERVER['DOCUMENT_ROOT'] . '/bitrix/modules/main/include/epilog_after.php';
     }
 
     die();
-} else {
-    echo $strContents;
-
-    $arTitleOptions = null;
-
-    $this->setTemplateCachedData($arResult['NAV_CACHED_DATA']);
-
-    if (!empty($arResult['NAME'])) {
-        $APPLICATION->SetTitle($strPageTitle, $arTitleOptions);
-
-        if ($arResult['IPROPERTY_VALUES']) {
-            if ($arResult['IPROPERTY_VALUES']['SECTION_META_TITLE'] != '') {
-                $APPLICATION->SetPageProperty('title', $arResult['IPROPERTY_VALUES']['SECTION_META_TITLE'], $arTitleOptions);
-            }
-
-            if ($arResult['IPROPERTY_VALUES']['SECTION_META_KEYWORDS'] != '') {
-                $APPLICATION->SetPageProperty('keywords', $arResult['IPROPERTY_VALUES']['SECTION_META_KEYWORDS'], $arTitleOptions);
-            }
-
-            if ($arResult['IPROPERTY_VALUES']['SECTION_META_DESCRIPTION'] != '') {
-                $APPLICATION->SetPageProperty('description', $arResult['IPROPERTY_VALUES']['SECTION_META_DESCRIPTION'], $arTitleOptions);
-            }
-        }
-    }
 }
+
+echo $strContents;
+
+$this->setTemplateCachedData($arResult['NAV_CACHED_DATA']);
