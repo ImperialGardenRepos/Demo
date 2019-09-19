@@ -1,7 +1,7 @@
-<?
+<?php
+
 $APPLICATION->IncludeComponent(
-	"ig:catalog.filter",
-	"",
-	Array()
+	'ig:catalog.filter',
+	'',
+	[]
 );
-?>

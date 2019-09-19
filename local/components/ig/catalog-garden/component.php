@@ -2,7 +2,7 @@
 
 use Bitrix\Iblock\Component\Tools;
 use Bitrix\Main\Loader;
-use ig\CRouter;
+use ig\Base\Router;
 
 if (!defined('B_PROLOG_INCLUDED') || B_PROLOG_INCLUDED !== true) {
     die();
@@ -40,7 +40,7 @@ if ($arParams['SEF_MODE'] === 'Y') {
     $arUrlTemplates = CComponentEngine::makeComponentUrlTemplates($arDefaultUrlTemplates404, $arParams['SEF_URL_TEMPLATES']);
     $arVariableAliases = CComponentEngine::makeComponentVariableAliases($arDefaultVariableAliases404, $arParams['VARIABLE_ALIASES']);
 
-    $componentPage = CRouter::guessCatalogGardenPath($arParams['SEF_FOLDER'], $arUrlTemplates, $arVariables);
+    $componentPage = Router::guessCatalogPath($arParams['SEF_FOLDER'], $arVariables, CATALOG_GARDEN_IBLOCK_ID);
 
     if ((int)$arVariables['SECTION_ID'] === -1 || (int)$arVariables['ELEMENT_ID'] === -1) {
         $this->abortResultCache();

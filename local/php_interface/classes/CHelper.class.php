@@ -6,6 +6,7 @@ use Bitrix\Main\Loader;
 use Bitrix\Main\LoaderException;
 use CCatalogSKU;
 use CIBlockProperty;
+use ig\Base\Router;
 use ig\Highload\Base;
 
 class CHelper
@@ -302,7 +303,7 @@ class CHelper
                 "ID" => $arGroup["ID"],
                 "NAME" => $arGroup["UF_NAME"],
                 "UF_CODE" => $arGroup["UF_CODE"],
-                "URL" => \ig\CRouter::getCatalogGroupPageUrl($arGroup),
+                "URL" => Router::getCatalogGroupPageUrl($arGroup),
                 "VALUE" => $arGroup["UF_XML_ID"],
                 "SPHINX_VALUE" => \ig\sphinx\CatalogOffers::convertValueToSphinx("PROPERTY_GROUP", $arGroup["UF_XML_ID"]),
                 "COUNT" => 0,

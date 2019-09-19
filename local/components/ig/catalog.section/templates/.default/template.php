@@ -1,6 +1,8 @@
 <?php
 
+use Bitrix\Main\Application;
 use ig\CFormat;
+use ig\Helpers\Url;
 
 if (!defined('B_PROLOG_INCLUDED') || B_PROLOG_INCLUDED !== true) {
     die();
@@ -20,6 +22,15 @@ $this->setFrameMode(true);
 
 $isLastPage = $arResult['NAV_RESULT']->NavPageCount <= $arResult['NAV_RESULT']->NavPageNomer;
 $isFirstPage = (int)$arResult['NAV_RESULT']->NavPageNomer === 1;
+
+
+$scrollLoadUrl = Url::getUrlWithoutParams();
+$requestArray = Application::getInstance()->getContext()->getRequest()->toArray();
+if (array_key_exists('filterAlias', $requestArray) && (string)$requestArray['filterAlias'] !== '') {
+    $scrollLoadUrl .= '?filterAlias=' . $requestArray['filterAlias'];
+}
+
+$scrollLoadPage = isset($arResult['CURRENT_PAGE']) ? $arResult['CURRENT_PAGE'] + 1 : 2;
 
 /**
  * Generating section cards output without wrapper, pagination etc.
@@ -62,7 +73,7 @@ ob_start(); ?>
     ); ?>
 
     <div class="icard<?= $isLastPage ? ' scroll-load-last-one' : '' ?> js-icard" data-offer-index="0"
-         data-offers-url="<?= $APPLICATION->GetCurPageParam('sortID=' . $arSort['ID'], array('sortID')) ?>">
+         data-offers-url="<?=Url::getUrlWithoutParams()?>?sortID=<?=$arSort['ID']?>">
         <div class="icard__inner">
             <div class="icard__content">
                 <div class="icard__header">
@@ -193,13 +204,13 @@ $bufferedSectionContent = ob_get_clean();
  * Generating page params for ajax call
  */
 ?>
-
 <?php if (empty($arParams['PAGE_NUM'])) : ?>
     <?php ob_start(); ?>
+
     <div class="icards icards">
         <div class="icards__inner"
-             data-scroll-load-url="<?= $APPLICATION->GetCurPageParam('', array('PAGEN_1', 'PAGEN_2', 'PAGEN_3')) ?>"
-             data-scroll-load-page="<?= ($arResult['CURRENT_PAGE'] + 1) ?>" data-hide-on-last-load="#action-more"
+             data-scroll-load-url="<?= $scrollLoadUrl ?>"
+             data-scroll-load-page="<?= $scrollLoadPage ?>" data-hide-on-last-load="#action-more"
              data-scroll-load-inactive-class="hidden">
             <?= $bufferedSectionContent ?>
         </div>

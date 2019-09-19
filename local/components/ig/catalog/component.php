@@ -2,7 +2,7 @@
 
 use Bitrix\Iblock\Component\Tools;
 use Bitrix\Main\Loader;
-use ig\CRouter;
+use ig\Base\Router;
 
 if (!defined('B_PROLOG_INCLUDED') || B_PROLOG_INCLUDED !== true) {
     die();
@@ -42,7 +42,7 @@ if ($arParams['SEF_MODE'] === 'Y') {
     $arUrlTemplates = CComponentEngine::makeComponentUrlTemplates($arDefaultUrlTemplates404, $arParams['SEF_URL_TEMPLATES']);
     $arVariableAliases = CComponentEngine::makeComponentVariableAliases($arDefaultVariableAliases404, $arParams['VARIABLE_ALIASES']);
 
-    $componentPage = CRouter::guessCatalogPath($arParams['SEF_FOLDER'], $arUrlTemplates, $arVariables);
+    $componentPage = Router::guessCatalogPath($arParams['SEF_FOLDER'], $arVariables);
 
     if (empty($componentPage) || $arVariables['SECTION_ID'] === -1 || $arVariables['ELEMENT_ID'] === -1) {
         $this->abortResultCache();
@@ -81,6 +81,7 @@ if ($arParams['SEF_MODE'] === 'Y') {
             $b404 |= !isset($arVariables['SECTION_CODE']);
         }
     }
+
     if ($b404 && CModule::IncludeModule('iblock')) {
         $folder404 = str_replace('\\', '/', $arParams['SEF_FOLDER']);
         if ($folder404 !== '/') {
@@ -94,6 +95,7 @@ if ($arParams['SEF_MODE'] === 'Y') {
             Tools::process404('', $arParams['SET_STATUS_404'] === 'Y', $arParams['SET_STATUS_404'] === 'Y', $arParams['SHOW_404'] === 'Y', $arParams['FILE_404']);
         }
     }
+
     CComponentEngine::initComponentVariables($componentPage, $arComponentVariables, $arVariableAliases, $arVariables);
 
     $arResult = array(
@@ -149,6 +151,5 @@ if ($arParams['SEF_MODE'] === 'Y') {
         'ALIASES' => $arVariableAliases
     );
 }
-
 
 $this->IncludeComponentTemplate($componentPage);
