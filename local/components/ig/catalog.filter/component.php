@@ -40,20 +40,19 @@ CModule::IncludeModule("iblock");
 $requestArray = Application::getInstance()->getContext()->getRequest()->toArray();
 unset($requestArray['?filterAlias']);
 // virtual page
-$arVirtualPage = CRegistry::get("VIRT_PAGE");
-if (!empty($arVirtualPage)) {
-    if (!empty($arVirtualPage["UF_PARAMS"])) {
-        parse_str($arVirtualPage["UF_PARAMS"], $requestArray);
-    }
+$virtualPage = CRegistry::get('VIRT_PAGE');
+if (!empty($virtualPage) && !empty($virtualPage['UF_PARAMS'])) {
+    parse_str($virtualPage['UF_PARAMS'], $requestArray);
 }
 
 // get lists
-$obCache = Cache::createInstance();
-$strCacheID = md5(serialize($arParams, $requestArray["F"]["PROPERTY_GROUP"]));
+$cacheInstance = Cache::createInstance();
+$cacheId = md5(serialize(array_merge($arParams, $requestArray['F']['PROPERTY_GROUP'])));
+
 
 if (strpos($APPLICATION->GetCurDir(), '/katalog/rasteniya/novinki/') === 0) {
-    $arResult["IS_NEW"] = true;
-    $arResult["FILTER_PAGE_URL"] = '/katalog/rasteniya/novinki/';
+    $arResult['IS_NEW'] = true;
+    $arResult['FILTER_PAGE_URL'] = '/katalog/rasteniya/novinki/';
 } elseif (strpos($APPLICATION->GetCurDir(), '/katalog/rasteniya/akcii/') === 0) {
     $arResult["IS_ACTION"] = true;
     $arResult["FILTER_PAGE_URL"] = '/katalog/rasteniya/akcii/';
@@ -61,9 +60,9 @@ if (strpos($APPLICATION->GetCurDir(), '/katalog/rasteniya/novinki/') === 0) {
     $arResult["FILTER_PAGE_URL"] = '/katalog/rasteniya/';
 }
 
-if ($obCache->initCache($arParams["CACHE_TIME"], $strCacheID)) {
-    $arResult = $obCache->getVars();
-} elseif ($obCache->startDataCache()) {
+if ($cacheInstance->initCache($arParams["CACHE_TIME"], $cacheId)) {
+    $arResult = $cacheInstance->getVars();
+} elseif ($cacheInstance->startDataCache()) {
     $arResult["OFFER_PARAMS"]["GROUP"] = array();
     $rsGroup = Base::getList(Base::getHighloadBlockIDByName("Group"), array("UF_ACTIVE" => 1), array(
         "UF_NAME",
@@ -174,7 +173,7 @@ if ($obCache->initCache($arParams["CACHE_TIME"], $strCacheID)) {
         );
     }
 
-    $obCache->endDataCache($arResult);
+    $cacheInstance->endDataCache($arResult);
 }
 
 if ($requestArray["search"] == 'Y') {
@@ -252,8 +251,7 @@ if ($requestArray["search"] == 'Y') {
 
     ob_start();
     $this->includeComponentTemplate("search");
-    $strSearchHtml = ob_get_contents();
-    ob_end_clean();
+    $strSearchHtml = ob_get_clean();
 
 } else {
 
@@ -338,10 +336,8 @@ if ($requestArray["search"] == 'Y') {
                 if (!empty($obValue)) {
                     CatalogFilter::$arRequestFilter[$strCode] = $obValue;
                 }
-            } else {
-                if (!empty(trim($obValue))) {
-                    CatalogFilter::$arRequestFilter[$strCode] = trim($obValue);
-                }
+            } else if (!empty(trim($obValue))) {
+                CatalogFilter::$arRequestFilter[$strCode] = trim($obValue);
             }
 
             if (!empty(CatalogFilter::$arRequestFilter[$strCode])) {
@@ -525,12 +521,10 @@ if ($requestArray["search"] == 'Y') {
 
     ob_start();
     $this->includeComponentTemplate();
-
     $strFilterHtml = ob_get_clean();
-
 }
 
-if ($arParams['IS_AJAX'] === 'Y') {
+if ($arParams['IS_AJAX'] === true) {
     $arResponse = [];
     try {
         if (strlen($strFilterHtml) > 0) {

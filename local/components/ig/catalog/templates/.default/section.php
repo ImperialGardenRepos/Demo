@@ -1,4 +1,7 @@
 <?php
+
+use Bitrix\Main\Application;
+
 if (!defined('B_PROLOG_INCLUDED') || B_PROLOG_INCLUDED !== true) {
     die();
 }
@@ -16,6 +19,7 @@ if (!defined('B_PROLOG_INCLUDED') || B_PROLOG_INCLUDED !== true) {
 
 $this->setFrameMode(true);
 
+$requestArray = Application::getInstance()->getContext()->getRequest()->toArray();
 $this->SetViewTarget('before_breadcrumb');
 $APPLICATION->IncludeComponent(
     'bitrix:main.include',
@@ -33,6 +37,7 @@ $APPLICATION->IncludeComponent(
     'ig:catalog.section',
     '',
     Array(
+        'IS_AJAX' => $requestArray['IS_AJAX'] === 'Y' ? 'Y' : 'N',
         'AJAX_MODE' => 'N',
         'AJAX_OPTION_ADDITIONAL' => '',
         'AJAX_OPTION_HISTORY' => 'N',

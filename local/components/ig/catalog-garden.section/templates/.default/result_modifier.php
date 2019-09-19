@@ -20,5 +20,13 @@ if ((int)$arResult['SECTION']['DEPTH_LEVEL'] > 2) {
     Meta::getInstance()->setBaseTitle($arResult['NAME']);
 }
 
-$minPrice = Section::getMinPrice((int)$arResult['SECTION']['IBLOCK_ID'], (int)$arResult['SECTION']['ID']);
-Meta::getInstance()->setMinPrice($minPrice);
+if($arResult['SECTION'] === null) {
+    Meta::getInstance()->setBaseTitle('Растения');
+    $iBlockId = (int)current($arResult['SECTIONS'])['IBLOCK_ID'];
+    $sectionId = 0;
+} else {
+    $iBlockId = (int)$arResult['SECTION']['IBLOCK_ID'];
+    $sectionId = 0;
+}
+
+Meta::getInstance()->setMinPrice(Section::getMinPrice($iBlockId, $sectionId));

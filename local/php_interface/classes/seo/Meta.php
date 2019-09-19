@@ -38,12 +38,29 @@ class Meta
     /**
      * @var string
      */
+    private $baseDescription;
+
+    /**
+     * @var string
+     */
     private $title;
 
     /**
      * @var float
      */
     private $minPrice;
+
+
+    /**
+     * @var string
+     */
+    private $height;
+
+    /**
+     * @var string
+     */
+    private $month;
+
 
     /**
      * Meta constructor.
@@ -54,6 +71,22 @@ class Meta
         /** Property is actually used in masks */
         /** @noinspection UnusedConstructorDependenciesInspection */
         $this->title = $APPLICATION->GetTitle();
+    }
+
+    /**
+     * @param string $height
+     */
+    public function setHeight(string $height): void
+    {
+        $this->height = $height;
+    }
+
+    /**
+     * @param string $month
+     */
+    public function setMonth(string $month): void
+    {
+        $this->month = $month;
     }
 
     /**
@@ -78,6 +111,14 @@ class Meta
     public function setTotalPage(int $totalPage): void
     {
         $this->totalPage = $totalPage;
+    }
+
+    /**
+     * @param string $baseDescription
+     */
+    public function setBaseDescription(string $baseDescription): void
+    {
+        $this->baseDescription = $baseDescription;
     }
 
     /**
@@ -184,7 +225,7 @@ class Meta
             $APPLICATION->SetTitle($this->processMasks($meta['UF_TITLE']));
         }
         if ($meta['UF_H1'] !== '') {
-            $APPLICATION->SetPageProperty('title', $this->processMasks($meta['UF_H1']));
+            $APPLICATION->SetPageProperty('title', $this->processMasks($meta['UF_H1'], false));
         }
     }
 
@@ -194,10 +235,11 @@ class Meta
      * If no masks found, trimmed value is returned.
      *
      * @param string $maskedString
+     * @param bool $dropQuotes
      * @return string
      */
 
-    private function processMasks(string $maskedString): string
+    private function processMasks(string $maskedString, bool $dropQuotes = true): string
     {
         $matches = [];
         preg_match_all('/{(.*)}/mU', $maskedString, $matches);
@@ -205,7 +247,11 @@ class Meta
             $replaceArray = array_unique($matches[1]);
             foreach ($replaceArray as $replaceField) {
                 if (property_exists($this, $replaceField) && isset($this->$replaceField)) {
-                    $maskedString = str_replace("{{$replaceField}}", $this->$replaceField, $maskedString);
+                    $field = $this->$replaceField;
+                    if ($dropQuotes === true) {
+                        $field = str_replace(["'", '"'], '', $field);
+                    }
+                    $maskedString = str_replace("{{$replaceField}}", $field, $maskedString);
                 }
             }
         }
@@ -222,6 +268,10 @@ class Meta
         if ((string)$APPLICATION->GetTitle() === '') {
             $APPLICATION->SetTitle($APPLICATION->GetPageProperty('title'));
         }
+
+        if ($this->baseTitle === '') {
+            $this->baseTitle = $APPLICATION->GetTitle();
+        }
     }
 
     /**
@@ -235,6 +285,4 @@ class Meta
         $instance->setEmptyMeta();
         $instance->setPaginationMeta();
     }
-
-
 }

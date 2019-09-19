@@ -436,10 +436,9 @@ if ($this->startResultCache(false, array(($arParams["CACHE_GROUPS"] === "N" ? fa
     }
 }
 
-$strContents = ob_get_contents();
-ob_end_clean();
+$contents = ob_get_clean();
 
-if (strpos($strContents, '<!--ARTICLES_INCUT-->') !== false) {
+if (strpos($contents, '<!--ARTICLES_INCUT-->') !== false) {
     // aticles
     ob_start();
 
@@ -501,7 +500,7 @@ if (strpos($strContents, '<!--ARTICLES_INCUT-->') !== false) {
     ob_end_clean();
 
 
-    $strContents = str_replace('<!--ARTICLES_INCUT-->', $strArticlesHtml, $strContents);
+    $contents = str_replace('<!--ARTICLES_INCUT-->', $strArticlesHtml, $contents);
 }
 
 if ($arParams["IS_NEW"]) {
@@ -521,74 +520,54 @@ if (is_array($arResult["SECTION"])) {
 }
 
 $strPageTitle = (empty($arResult["IPROPERTY_VALUES"]["SECTION_PAGE_TITLE"]) ? $arResult["NAME"] : $arResult["IPROPERTY_VALUES"]["SECTION_PAGE_TITLE"]);
-if (!empty($arResult["SECTION"])) {
+if (!empty($arResult['SECTION'])) {
     $APPLICATION->AddChainItem($strPageTitle);
 }
 
-if ($arParams["IS_AJAX"]) {
-    if ($arParams["PAGE_NUM"] > 0 || $arParams["SORT_ID"] > 0) {
-        $APPLICATION->RestartBuffer();
-        echo $strContents;
-        require($_SERVER["DOCUMENT_ROOT"] . "/bitrix/modules/main/include/epilog_after.php");
-    } else {
-        $strNavChain = $APPLICATION->GetNavChain(false, 2, SITE_TEMPLATE_PATH . '/components/bitrix/breadcrumb/.default/template.php', true, false);
+if ($arParams['IS_AJAX']) {
+    $APPLICATION->RestartBuffer();
+    if ($arParams['PAGE_NUM'] > 0 || $arParams['SORT_ID'] > 0) {
+        echo $contents;
+        require $_SERVER['DOCUMENT_ROOT'] . '/bitrix/modules/main/include/epilog_after.php';
+        exit();
+    }
 
-        $strContents = $strNavChain . $strContents;
+    $navChain = $APPLICATION->GetNavChain(false, 2, SITE_TEMPLATE_PATH . '/components/bitrix/breadcrumb/.default/template.php', true, false);
+    $contents = $navChain . $contents;
 
-        CRegistry::add('catalog-results_html', $strContents);
+    try {
+        CRegistry::add('catalog-results_html', $contents);
 
         $arResponse = array();
 
-        if (empty($arParams["SORTS_ID"]) && empty($arParams["VIDS_ID"])) {
-            $strFilterHtml = CRegistry::get('catalog-filter_html');
-            if (!empty($strFilterHtml)) {
-                $arResponse["filter_html"] = $strFilterHtml;
+        if (empty($arParams['SORTS_ID']) && empty($arParams['VIDS_ID'])) {
+            $filterHtml = CRegistry::get('catalog-filter_html');
+            if (!empty($filterHtml)) {
+                $arResponse['filter_html'] = $filterHtml;
             }
-            $strResultLink = CRegistry::get('catalog-page_url');
-            if (!empty($strResultLink)) {
-                $arResponse["page_url"] = $strResultLink;
+            $resultLink = CRegistry::get('catalog-page_url');
+            if (!empty($resultLink)) {
+                $arResponse['page_url'] = $resultLink;
             }
         }
 
-        $strSearchHtml = CRegistry::get('catalog-html');
-        if (!empty($strSearchHtml)) {
-            $arResponse["html"] = $strSearchHtml;
+        $searchHtml = CRegistry::get('catalog-html');
+        if (!empty($searchHtml)) {
+            $arResponse['html'] = $searchHtml;
         }
 
-        $strResultsHtml = CRegistry::get('catalog-results_html');
-        if (!empty($strResultsHtml)) {
-            $arResponse["results_html"] = $strResultsHtml;
+        $catalogResultsHtml = CRegistry::get('catalog-results_html');
+        if (!empty($catalogResultsHtml)) {
+            $arResponse['results_html'] = $catalogResultsHtml;
         }
-
-        $APPLICATION->RestartBuffer();
-        echo json_encode($arResponse);
-
-        require_once($_SERVER["DOCUMENT_ROOT"] . "/bitrix/modules/main/include/epilog_after.php");
+    } catch (Exception $e) {
+        //ToDo::500
     }
+    echo json_encode($arResponse);
 
-    die();
-} else {
-    echo $strContents;
+    require_once $_SERVER['DOCUMENT_ROOT'] . '/bitrix/modules/main/include/epilog_after.php';
 
-    $arTitleOptions = null;
-
-    $this->setTemplateCachedData($arResult["NAV_CACHED_DATA"]);
-
-    if (empty($arVirtualPage)) {
-        if (!empty($arResult["META_TAGS"])) {
-            if ($arResult["META_TAGS"]["BROWSER_TITLE"]) {
-                $APPLICATION->SetTitle($arResult["META_TAGS"]["BROWSER_TITLE"], $arTitleOptions);
-
-                $APPLICATION->SetPageProperty("title", $arResult["META_TAGS"]["BROWSER_TITLE"], $arTitleOptions);
-            }
-
-            if ($arResult["META_TAGS"]["KEYWORDS"]) {
-                $APPLICATION->SetPageProperty("keywords", $arResult["META_TAGS"]["KEYWORDS"], $arTitleOptions);
-            }
-
-            if ($arResult["META_TAGS"]["DESCRIPTION"]) {
-                $APPLICATION->SetPageProperty("description", $arResult["META_TAGS"]["DESCRIPTION"], $arTitleOptions);
-            }
-        }
-    }
+    exit();
 }
+echo $contents;
+$this->setTemplateCachedData($arResult['NAV_CACHED_DATA']);

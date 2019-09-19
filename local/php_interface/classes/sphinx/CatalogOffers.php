@@ -209,12 +209,6 @@ class CatalogOffers extends Engine
             $arWhere = array_merge($arWhere, $this->prepareFilter($arParams["WHERE_FILTER"], false));
         }
 
-        if (isset($arParams["MAX_MATCHES"])) {
-            $intMaxMatches = intval($arParams["MAX_MATCHES"]);
-        } else {
-            $intMaxMatches = 500;
-        }
-
         if ($arParams["GET_COUNT"] == 'Y') {
             $strCountField = (strlen($arParams["COUNT_FIELD"]) > 0 ? $arParams["COUNT_FIELD"] : '*');
 
@@ -261,13 +255,9 @@ class CatalogOffers extends Engine
             $sql .= $this->__PrepareSort($arParams["ORDER"]);
 
             $sql .= "
-					limit " . intval($intOffset) . ", " . $intLimit . " option max_matches = " . $intMaxMatches;
+					limit " . intval($intOffset) . ", " . $intLimit . " option max_matches = 50000";
         }
 
-//		echo __FILE__.': '.__LINE__.'<pre>'.print_r($arParams, true).'</pre>';
-//		echo $sql.'<br><br><br>';
-
-//		if($bWeightOrder) $sql .= ', field_weights=(title=10,title_1c=5,article=15)';
         return $sql;
 
         return false;

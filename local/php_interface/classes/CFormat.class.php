@@ -85,16 +85,6 @@ class CFormat {
 					$strTmp = '<span class="inline-list">'.$strTmp.'</span>';
 				}
 			} else {
-			
-//				<div class="ptgb__title">
-//                                <span class="icon-circle icon-circle--medium" style="background-color: #1fda28;"></span> Зеленый
-//                            </div>
-//
-//				<div class="ptgb__title">
-//                                <span class="icon-circle icon-circle--medium" style="background-color: #1fda28;"></span>
-//                                <span class="icon-circle icon-circle--medium" style="background-color: #e80;"></span>
-//                            </div>
-				
 				foreach($varValue as $strColorCode) {
 					$strColorName = \ig\CHelper::getGroupPropertiesValues($strColorCode)["UF_NAME"];
 					
