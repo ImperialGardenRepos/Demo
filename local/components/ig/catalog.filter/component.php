@@ -503,10 +503,17 @@ if ($requestArray["search"] == 'Y') {
     try {
         $url = Url::getUrlWithoutParams(false);
         $host = Url::getHost();
-        $link = $host.$url;
-        if((string)$arResult['FILTER_ALIAS'] !== '') {
+        $link = $host . $url;
+        $isResultFilterAlias = false;
+        if (isset($arResult['FILTER_ALIAS']) && (string)$arResult['FILTER_ALIAS'] !== '') {
             $link .= '?filterAlias=' . $arResult['FILTER_ALIAS'];
+            $isResultFilterAlias = true;
         }
+
+        if ($isResultFilterAlias === false && array_key_exists('filterAlias', $requestArray)) {
+            $link .= '?filterAlias=' . $requestArray['filterAlias'];
+        }
+
         $arResult['RESULT_LINK'] = $link;
     } catch (SystemException $e) {
         /**
@@ -519,27 +526,30 @@ if ($requestArray["search"] == 'Y') {
     ob_start();
     $this->includeComponentTemplate();
 
-    $strFilterHrml = ob_get_contents();
-    ob_end_clean();
+    $strFilterHtml = ob_get_clean();
 
 }
 
-if ($arParams["IS_AJAX"] == 'Y') {
-    $arResponse = array();
+if ($arParams['IS_AJAX'] === 'Y') {
+    $arResponse = [];
+    try {
+        if (strlen($strFilterHtml) > 0) {
+            CRegistry::add('catalog-filter_html', $strFilterHtml);
+        }
 
-    if (strlen($strFilterHrml) > 0) {
-        CRegistry::add('catalog-filter_html', $strFilterHrml);
-    }
+        if (strlen($arResult['RESULT_LINK']) > 0) {
+            CRegistry::add('catalog-page_url', $arResult['RESULT_LINK']);
+        }
 
-    if (strlen($arResult["RESULT_LINK"]) > 0) {
-        CRegistry::add('catalog-page_url', $arResult["RESULT_LINK"]);
-    }
-
-    if (strlen($strSearchHtml) > 0) {
-        //$arResponse["html"] = $strSearchHtml;
-        CRegistry::add('catalog-html', $strSearchHtml);
+        if (strlen($strSearchHtml) > 0) {
+            CRegistry::add('catalog-html', $strSearchHtml);
+        }
+    } catch (Exception $e) {
+        /**
+         * ToDo:: 500
+         */
     }
 } else {
-    echo $strFilterHrml;
+    echo $strFilterHtml;
 }
 
