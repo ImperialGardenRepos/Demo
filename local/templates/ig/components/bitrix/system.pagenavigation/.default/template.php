@@ -47,7 +47,7 @@ if ($requestArrayClean !== []) {
 }
 
 ?>
-<div class="pager">
+<div class="pager js-pagination" data-current-page="<?=$arResult['NavPageNomer']?>" data-total-page="<?=$arResult['NavPageCount']?>">
     <?php
     $bFirst = true;
 

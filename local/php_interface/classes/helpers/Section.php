@@ -8,6 +8,10 @@ use CIBlockSection;
 
 class Section
 {
+    /**
+     * @param int $sectionId
+     * @return string|null
+     */
     public static function getSectionName(int $sectionId): ?string
     {
         $model = CIBlockSection::GetList(
@@ -23,15 +27,29 @@ class Section
         return $section['NAME'];
     }
 
+    /**
+     * @param int $iBlockId
+     * @param int $sectionId
+     * @return float
+     */
     public static function getMinPrice(int $iBlockId, int $sectionId): float
     {
+        $productFilter = [];
+        if ($sectionId > 0) {
+            $productFilter = [
+                'SECTION_ID' => $sectionId,
+                'INCLUDE_SUBSECTIONS' => 'Y',
+            ];
+        }
+
+        $productFilter += [
+            'IBLOCK_ID' => $iBlockId,
+            'ACTIVE' => 'Y'
+        ];
+
         $productModel = CIBlockElement::GetList(
             [],
-            [
-                'IBLOCK_ID' => $iBlockId,
-                'SECTION_ID' => $sectionId,
-                'INCLUDE_SUBSECTIONS' => 'Y'
-            ],
+            $productFilter,
             false,
             false,
             ['ID']
@@ -55,20 +73,39 @@ class Section
             ['CATALOG_PRICE_2' => 'ASC'],
             [
                 'IBLOCK_ID' => $skuIBlockId,
-                'PROPERTY_' . $skuPropId => $productIDs
+                'PROPERTY_' . $skuPropId => $productIDs,
+                '>CATALOG_PRICE_2' => 0,
+                'ACTIVE' => 'Y',
             ],
             false,
             ['nTopCount' => 1],
             [
-                'CATALOG_PRICE_2',
+                'CATALOG_PRICE_2'
             ]
         );
-
-        if($skuModel->SelectedRowsCount() !== 1) {
+        $skuModelDiscount = CIBlockElement::GetList(
+            ['CATALOG_PRICE_3' => 'ASC'],
+            [
+                'IBLOCK_ID' => $skuIBlockId,
+                'PROPERTY_' . $skuPropId => $productIDs,
+                '>CATALOG_PRICE_3' => 0,
+                'ACTIVE' => 'Y',
+            ],
+            false,
+            ['nTopCount' => 1],
+            [
+                'CATALOG_PRICE_3'
+            ]
+        );
+        if ($skuModel->SelectedRowsCount() !== 1 || $skuModelDiscount->SelectedRowsCount() !== 1) {
             return 0;
         }
         $sku = $skuModel->Fetch();
-        return (float)$sku['CATALOG_PRICE_2'];
+        $skuPriceMin = (float)$sku['CATALOG_PRICE_2'];
+        $skuDiscount = $skuModelDiscount->Fetch();
+        $skuDiscountPriceMin = (float)$skuDiscount['CATALOG_PRICE_3'];
+
+        return $skuPriceMin > $skuDiscountPriceMin ? $skuDiscountPriceMin : $skuPriceMin;
     }
 
 }

@@ -2,9 +2,11 @@
 
 use ig\CHelper;
 use ig\CImageResize;
+use ig\Helpers\Text;
 use ig\Seo\Meta;
 
 Meta::getInstance()->setBaseTitle($arResult['NAME']);
+Meta::getInstance()->setBaseDescription(Text::truncateByStatement($arResult['DETAIL_TEXT']));
 
 if (!empty($arResult['PROPERTIES']['SLIDER_IMAGES']['VALUE'])) {
     foreach ($arResult['PROPERTIES']['SLIDER_IMAGES']['VALUE'] as $intID) {

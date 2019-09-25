@@ -221,7 +221,7 @@ $bufferedSectionContent = ob_get_clean();
 <?php endif; ?>
 
 <?php if (!$arParams['IS_AJAX']): ?>
-    <div class="section section--results section--grey">
+    <div class="section section--results section--grey js-section" data-remove-pages="true">
         <div class="container">
 
             <?php if ($arParams['PAGE_NUM'] < 2): ?>
@@ -259,7 +259,7 @@ $bufferedSectionContent = ob_get_clean();
              */
             ?>
             <?php if ($arResult['NAV_RESULT']->NavPageCount > $arResult['NAV_RESULT']->NavPageNomer): ?>
-                <div class="action-more" id="action-more">
+                <div class="action-more js-more" id="action-more">
                     <button class="btn btn--more btn--fullwidth js-scroll-load-trigger"
                             data-load-container=".filter-results .icards__inner">
                         <svg class="icon icon--eye">
@@ -277,4 +277,23 @@ $bufferedSectionContent = ob_get_clean();
     </div>
 <?php else: ?>
     <?= $bufferedSectionContent ?>
+    <?php
+    /**
+     * Navigation and Show more buttons output
+     */
+    ?>
+    <?php if ($arResult['NAV_RESULT']->NavPageCount > $arResult['NAV_RESULT']->NavPageNomer): ?>
+        <div class="action-more js-more" id="action-more">
+            <button class="btn btn--more btn--fullwidth js-scroll-load-trigger"
+                    data-load-container=".filter-results .icards__inner">
+                <svg class="icon icon--eye">
+                    <use xlink:href="<?= SITE_TEMPLATE_PATH ?>/build/svg/symbol/svg/sprite.symbol.svg#icon-eye"></use>
+                </svg>
+                <span class="link link--ib link--dotted">Показать ещё</span>
+            </button>
+        </div>
+    <?php endif; ?>
+    <?php if ($arResult['NAV_RESULT']->NavPageCount > 1): ?>
+        <?= $arResult['NAV_STRING'] ?>
+    <?php endif; ?>
 <?php endif; ?>
