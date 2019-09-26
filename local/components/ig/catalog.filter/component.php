@@ -42,7 +42,7 @@ if (!isset($arParams['CACHE_TIME'])) {
 $arResult = array();
 
 
-CModule::IncludeModule("iblock");
+CModule::IncludeModule('iblock');
 
 $requestArray = $request->toArray();
 unset($requestArray['?filterAlias']);
