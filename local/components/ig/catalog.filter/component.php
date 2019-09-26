@@ -21,6 +21,7 @@ use ig\CHelper;
 use ig\CRegistry;
 use ig\Helpers\Url;
 use ig\Highload\Base;
+use ig\Highload\VirtualPage;
 use ig\sphinx\CatalogOffers;
 
 $cCatalogOffers = new CatalogOffers();
@@ -28,6 +29,12 @@ $request = Application::getInstance()->getContext()->getRequest();
 $arParams['IS_AJAX'] = $request->isAjaxRequest();
 $arParams['EXPAND_FILTER'] = (int)$_COOKIE['filter_active'] > 0 ? 'Y' : 'N';
 
+$virtualPage = VirtualPage::getByUrl(Url::getUrlWithoutParams());
+if(count($virtualPage) === 1) {
+    $virtualPage = array_shift($virtualPage);
+} else {
+    $virtualPage = null;
+}
 if (!isset($arParams['CACHE_TIME'])) {
     $arParams['CACHE_TIME'] = 3600;
 }
@@ -37,11 +44,10 @@ $arResult = array();
 
 CModule::IncludeModule("iblock");
 
-$requestArray = Application::getInstance()->getContext()->getRequest()->toArray();
+$requestArray = $request->toArray();
 unset($requestArray['?filterAlias']);
 // virtual page
-$virtualPage = CRegistry::get('VIRT_PAGE');
-if (!empty($virtualPage) && !empty($virtualPage['UF_PARAMS'])) {
+if ($virtualPage !== null && $virtualPage['UF_PARAMS']) {
     parse_str($virtualPage['UF_PARAMS'], $requestArray);
 }
 

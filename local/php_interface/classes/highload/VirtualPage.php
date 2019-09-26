@@ -28,7 +28,7 @@ class VirtualPage extends Base
      * @throws ObjectPropertyException
      * @throws SystemException
      */
-    public static function getMetaByUrl($url): array
+    public static function getByUrl($url): array
     {
         if (is_scalar($url)) {
             $url = [$url];
@@ -42,7 +42,8 @@ class VirtualPage extends Base
                 'UF_DESCRIPTION',
                 'UF_TITLE',
                 'UF_H1',
-                'UF_URL'
+                'UF_URL',
+                'UF_PARAMS'
             ])
             ->exec();
         $result = [];
