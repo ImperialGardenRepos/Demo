@@ -3,6 +3,7 @@
 namespace ig\Events;
 
 use ig\CHelper;
+use ig\Highload\Base;
 
 class Admin
 {
@@ -166,11 +167,11 @@ class Admin
             if ($filterData["FILTER_APPLIED"] == 1 && is_array($filterData[$strGroupPropertyCode]) && count($filterData[$strGroupPropertyCode]) > 0) {
                 $arGroupID = array();
                 foreach ($filterData[$strGroupPropertyCode] as $strValue) {
-                    $arGroupID[] = CHighload::getIDByXmlID($strValue, CHelper::getHLGroupID());
+                    $arGroupID[] = Base::getIDByXmlID($strValue, CHelper::getHLGroupID());
                 }
 
                 if (!empty($arGroupID)) {
-                    $arPropGroups = CHighload::getList(CHelper::getHLPropertyGroupID(), array("UF_ACTIVE" => 1));
+                    $arPropGroups = Base::getList(CHelper::getHLPropertyGroupID(), array("UF_ACTIVE" => 1));
                     foreach ($arPropGroups as $arPropGroup) {
                         $bFound = false;
                         foreach ($arGroupID as $intGroupID) {

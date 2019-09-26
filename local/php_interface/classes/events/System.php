@@ -5,6 +5,7 @@ use Bitrix\Main\Context;
 use CIBlockElement;
 use CIBlockSection;
 use CModule;
+use ig\CHelper;
 use ig\Highload\Redirect;
 
 class System {
