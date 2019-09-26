@@ -174,7 +174,7 @@ class Meta
 
         $currentUrlMasked = '/' . implode('/', $request) . '/';
 
-        $meta = VirtualPage::getMetaByUrl([$currentUrlEqual, $currentUrlMasked]);
+        $meta = VirtualPage::getByUrl([$currentUrlEqual, $currentUrlMasked]);
         if ($meta !== []) {
             $metaArray = array_column($meta, null, 'UF_URL');
             if (isset($metaArray[$currentUrlEqual])) {
