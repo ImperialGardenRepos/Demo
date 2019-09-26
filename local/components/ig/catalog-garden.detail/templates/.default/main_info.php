@@ -109,10 +109,6 @@
 								<div class="tcard__col tcard__col--tags">
 									<div class="mobile-show">
 										<div class="tags"><?
-											if(!empty($arOfferProp["ACTION"]["VALUE"])) {
-												echo '<div class="tag">Скидка</div>';
-											}
-											
 											if(!empty($arOfferProp["NEW"]["VALUE"])) {
 												echo '<div class="tag">Новинка</div>';
 											}
@@ -131,14 +127,6 @@
 													<use xlink:href="<?=SITE_TEMPLATE_PATH?>/build/svg/symbol/svg/sprite.symbol.svg#icon-star-outline"></use>
 												</svg>
 												</div><?
-											}
-											
-											if(!empty($arOfferProp["ACTION"]["VALUE"])) { ?>
-											<div class="tag-icon tooltip tooltipstered tooltip-inited tooltip-active" data-title="Акция">
-												<svg class="icon">
-													<use xlink:href="<?=SITE_TEMPLATE_PATH?>/build/svg/symbol/svg/sprite.symbol.svg#icon-percent"></use>
-												</svg>
-											</div><?
 											}?>
 										</div>
 									</div>

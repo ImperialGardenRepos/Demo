@@ -146,9 +146,6 @@ class CatalogGardenSection extends \CBitrixComponent
 			<div class="tags">
 				<div class="tag mobile-show-inline-block">Хит сезона</div>';
 
-        if (!empty($arOfferProp["ACTION"]["VALUE"])) {
-            $strResult .= '<div class="tag">Скидка</div>';
-        }
 
         if (!empty($arOfferProp["NEW"]["VALUE"])) {
             $strResult .= '<div class="tag">Новинка</div>';
