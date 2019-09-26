@@ -1,6 +1,6 @@
 <?
 require($_SERVER["DOCUMENT_ROOT"]."/bitrix/header.php");
-$APPLICATION->SetTitle("");
+$APPLICATION->SetTitle("Садовый центр и питомник растений Imperial Garden");
 
 $APPLICATION->SetPageProperty("description", "Садовый центр Imperial Garden - питомник и магазин, где можно купить садовые декоративные растения. Наш садовый центр удобно расположен в Московской области на Новорижском шоссе, вблизи Москвы.");
 $APPLICATION->SetPageProperty("keywords", "садовый центр, Imperial Garden, сц на Новой Риге");

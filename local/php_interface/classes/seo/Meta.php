@@ -157,35 +157,70 @@ class Meta
      * @throws ObjectPropertyException
      * @throws SystemException
      */
-    private function getCustomMeta(&$request = null, int $currentIteration = 0): ?array
+    private function getCustomMeta(): array
     {
-        if ($request === null) {
-            $request = explode('/', trim(Url::getUrlWithoutParams(), '/'));
-        }
-        $requestCount = count($request);
-        if ($currentIteration === $requestCount - 1) {
-            return null;
-        }
+        $request = explode('/', trim(Url::getUrlWithoutParams(), '/'));
 
         $currentUrlEqual = '/' . implode('/', $request) . '/';
 
+        $customMetaByExactUrl = $this->getMetaByExactUrl($currentUrlEqual);
+
+        $customMetaByMask = $this->getMetaByUrlMask($request);
+
+        $meta = [];
+        if($customMetaByExactUrl !== null) {
+            $meta['exact'] = $customMetaByExactUrl;
+        }
+
+        if($customMetaByMask !== null) {
+            $meta['mask'] = $customMetaByMask;
+        }
+
+        return $meta;
+    }
+
+    /**
+     * @param string $url
+     * @return array|null
+     * @throws ArgumentException
+     * @throws LoaderException
+     * @throws ObjectPropertyException
+     * @throws SystemException
+     */
+    private function getMetaByExactUrl(string $url): ?array
+    {
+        $meta = VirtualPage::getByUrl($url);
+        if (count($meta) === 1) {
+            return array_shift($meta);
+        }
+        return null;
+    }
+
+    /**
+     * @param array $request
+     * @param int $currentIteration
+     * @return mixed|null
+     * @throws ArgumentException
+     * @throws LoaderException
+     * @throws ObjectPropertyException
+     * @throws SystemException
+     */
+    private function getMetaByUrlMask(array $request = [], int $currentIteration = 0)
+    {
+        $requestCount = count($request);
         $key = $requestCount - 1 - $currentIteration;
+        if ($key < 0) {
+            return null;
+        }
         $request[$key] = '#';
 
         $currentUrlMasked = '/' . implode('/', $request) . '/';
 
-        $meta = VirtualPage::getByUrl([$currentUrlEqual, $currentUrlMasked]);
-        if ($meta !== []) {
-            $metaArray = array_column($meta, null, 'UF_URL');
-            if (isset($metaArray[$currentUrlEqual])) {
-                return $metaArray[$currentUrlEqual];
-            }
-            if (isset($metaArray[$currentUrlMasked])) {
-                return $metaArray[$currentUrlMasked];
-            }
-            throw new ObjectPropertyException('No url found in set');
+        $meta = VirtualPage::getByUrl($currentUrlMasked);
+        if (count($meta) === 1) {
+            return array_shift($meta);
         }
-        return $this->getCustomMeta($request, ++$currentIteration);
+        return $this->getMetaByUrlMask($request, ++$currentIteration);
     }
 
     /**
@@ -215,17 +250,46 @@ class Meta
     {
         global $APPLICATION;
         $meta = $this->getCustomMeta();
-        if ($meta === null) {
+        if ($meta === []) {
             return;
         }
-        if ($meta['UF_DESCRIPTION'] !== '') {
-            $APPLICATION->SetPageProperty('description', $this->processMasks($meta['UF_DESCRIPTION']));
+
+        /**
+         * First set meta from mask, then override it with meta from exact url, if exist.
+         * ToDo:: refactor
+         */
+
+        /**
+         * Description
+         */
+        if (isset($meta['mask']) && $meta['mask']['UF_DESCRIPTION'] !== '') {
+            $APPLICATION->SetPageProperty('description', $this->processMasks($meta['mask']['UF_DESCRIPTION']));
         }
-        if ($meta['UF_TITLE'] !== '') {
-            $APPLICATION->SetTitle($this->processMasks($meta['UF_TITLE']));
+
+        if (isset($meta['exact']) && $meta['exact']['UF_DESCRIPTION'] !== '') {
+            $APPLICATION->SetPageProperty('description', $this->processMasks($meta['exact']['UF_DESCRIPTION']));
         }
-        if ($meta['UF_H1'] !== '') {
-            $APPLICATION->SetPageProperty('title', $this->processMasks($meta['UF_H1'], false));
+
+        /**
+         * Title
+         */
+        if (isset($meta['mask']) && $meta['mask']['UF_TITLE'] !== '') {
+            $APPLICATION->SetTitle($this->processMasks($meta['mask']['UF_TITLE']));
+        }
+
+        if (isset($meta['exact']) && $meta['exact']['UF_TITLE'] !== '') {
+            $APPLICATION->SetTitle($this->processMasks($meta['exact']['UF_TITLE']));
+        }
+
+        /**
+         * Browser title
+         */
+        if (isset($meta['mask']) && $meta['mask']['UF_H1'] !== '') {
+            $APPLICATION->SetPageProperty('title', $this->processMasks($meta['mask']['UF_H1'], false));
+        }
+
+        if (isset($meta['exact']) && $meta['exact']['UF_H1'] !== '') {
+            $APPLICATION->SetPageProperty('title', $this->processMasks($meta['exact']['UF_H1'], false));
         }
     }
 
@@ -276,13 +340,19 @@ class Meta
 
     /**
      * Wrapper over internal methods used for event
+     * @throws ArgumentException
+     * @throws LoaderException
+     * @throws ObjectPropertyException
+     * @throws SystemException
      */
     public static function setFinalMeta(): void
     {
         /** @var static $instance */
-        $instance = static::getInstance();
-        $instance->setCustomMeta();
-        $instance->setEmptyMeta();
-        $instance->setPaginationMeta();
+        if (!defined(DISABLE_CUSTOM_META) || DISABLE_CUSTOM_META !== true) {
+            $instance = static::getInstance();
+            $instance->setCustomMeta();
+            $instance->setEmptyMeta();
+            $instance->setPaginationMeta();
+        }
     }
 }

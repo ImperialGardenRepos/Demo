@@ -11,6 +11,7 @@ use Bitrix\Main\LoaderException;
 use Bitrix\Main\ObjectPropertyException;
 use Bitrix\Main\SystemException;
 use CHTTP;
+use ig\Helpers\DBG;
 use ig\Highload\FilterAlias;
 use ig\Highload\VirtualPage;
 
@@ -110,9 +111,9 @@ class Router
             [
                 'UF_URL' => $filterUrl,
             ],
-            ['ID']
+            ['UF_PARAMS']
         );
-        if ($filterModel !== null) {
+        if ($filterModel !== null && $filterModel['UF_PARAMS'] !== '') {
             return 'smart_filter';
         }
 
