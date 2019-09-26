@@ -2,6 +2,7 @@
 
 namespace ig\Events;
 
+use ig\CHelper;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Reader\Exception;
 use PhpOffice\PhpSpreadsheet\Writer\Html;
