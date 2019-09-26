@@ -348,7 +348,7 @@ class Meta
     public static function setFinalMeta(): void
     {
         /** @var static $instance */
-        if (!defined(DISABLE_CUSTOM_META) || DISABLE_CUSTOM_META !== true) {
+        if (!defined('DISABLE_CUSTOM_META') || DISABLE_CUSTOM_META !== true) {
             $instance = static::getInstance();
             $instance->setCustomMeta();
             $instance->setEmptyMeta();
