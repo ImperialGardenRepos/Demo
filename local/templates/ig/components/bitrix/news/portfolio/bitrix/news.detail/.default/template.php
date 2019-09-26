@@ -98,7 +98,7 @@ $this->AddDeleteAction($item['ID'], $arResult['DELETE_LINK']);
             <?php endif; ?>
         </div>
 
-        <h2>Подробнее о проекте</h2>
+        <h2>Заказать подобный проект</h2>
         <?php
         /**
          * ToDo:: FORM Move forms to component
