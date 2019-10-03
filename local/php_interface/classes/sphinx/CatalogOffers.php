@@ -255,7 +255,7 @@ class CatalogOffers extends Engine
             $sql .= $this->__PrepareSort($arParams["ORDER"]);
 
             $sql .= "
-					limit " . intval($intOffset) . ", " . $intLimit . " option max_matches = 50000";
+					limit " . intval($intOffset) . ", " . $intLimit . " option max_matches = 500";
         }
 
         return $sql;
