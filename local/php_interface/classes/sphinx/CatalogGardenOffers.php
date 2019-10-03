@@ -239,7 +239,7 @@ class CatalogGardenOffers extends Engine
                 }
             }
 
-            $sql .= $this->__PrepareSort($arParams["ORDER"]) . " limit " . intval($intOffset) . ", " . $intLimit . " option max_matches = 50000";
+            $sql .= $this->__PrepareSort($arParams["ORDER"]) . " limit " . intval($intOffset) . ", " . $intLimit . " option max_matches = 500";
         }
 //		if($bWeightOrder) $sql .= ', field_weights=(title=10,title_1c=5,article=15)';
         return $sql;
