@@ -1,0 +1,18 @@
+.html-map {
+  display: block;
+  padding-top: 20px;
+  padding-bottom: 20px; }
+  .html-map__heading {
+    padding-bottom: 20px; }
+  .html-map__level {
+    font-size: 16px; }
+    .html-map__level--root {
+      margin: 10px 0; }
+    .html-map__level--child {
+      padding-left: 40px; }
+    .html-map__level--last {
+      columns: 2; }
+    .html-map__level p {
+      margin: 4px 0; }
+
+/*# sourceMappingURL=style.css.map */
