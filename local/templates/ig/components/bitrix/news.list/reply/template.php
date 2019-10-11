@@ -20,7 +20,7 @@ $this->setFrameMode(true);
         <div class="cols-wrapper cols-wrapper--h1-stabs">
             <div class="cols">
                 <div class="col col--heading">
-                    <h1><?= $arResult['NAME'] ?></h1>
+                    <h1><?$APPLICATION->ShowTitle()?></h1>
                 </div>
                 <div class="col col--stabs">
                     <div class="nav stabs">

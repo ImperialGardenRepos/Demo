@@ -13,7 +13,7 @@
 $this->setFrameMode(true); ?>
 <div class="section section--grey section--article text">
 	<div class="container">
-		<h1><?=$arResult["NAME"]?></h1>
+		<h1><?$APPLICATION->ShowTitle()?></h1>
 		<div class="fcard fcard--project<?=(empty($arResult["PROPERTIES"]["VIDEO_URL"]["VALUE"])?' fcard--project-w-wrapping':'')?>">
 			<div class="fcard__grid"><?
 				if($arResult["DETAIL_PICTURE"]["ID"]>0 || !empty($arResult["SLIDER_IMAGES"])) { ?>

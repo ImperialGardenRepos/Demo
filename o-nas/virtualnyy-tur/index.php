@@ -26,6 +26,7 @@ require_once ($_SERVER["DOCUMENT_ROOT"]."/bitrix/modules/main/include/prolog_aft
                     </div>
                 </div>
                 <div class="tour-map__legend-content expand-it-container">
+                    <h1 class="h1--virtual">Виртуальный тур</h1>
                     <ol class="tour-map__legend-list expand-it-inner">
                         <li><a href="#tour-tooltip-1-marker" class="link--dotted js-tour-map-tooltip-open">Бонсаи и стриженые формы</a></li>
                         <li><a href="#tour-tooltip-2-marker" class="link--dotted js-tour-map-tooltip-open">Водные растения</a></li>
