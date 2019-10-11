@@ -187,14 +187,6 @@ class CatalogSection extends CBitrixComponent
 				</div>';
         }
 
-        if (!empty($arOfferProp["ACTION"]["VALUE"])) {
-            $strResult .= '<div class="tag">Акция</div>';
-        }
-
-        if (!empty($arOfferProp["NEW"]["VALUE"])) {
-            $strResult .= '<div class="tag">Новинка</div>';
-        }
-
         $strResult .= '
 		
 		</div>

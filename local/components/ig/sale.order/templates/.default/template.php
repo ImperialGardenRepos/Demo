@@ -71,10 +71,6 @@ $this->setFrameMode(true);
                             $strTag .= '<div class="tag">Рекомендация ig</div>';
                         }
 
-                        if (!empty($arSortProp["ACTION"]["VALUE"])) {
-                            $strTag .= '<div class="tag">Скидка</div>';
-                        }
-
                         if (!empty($arSortProp["NEW"]["VALUE"])) {
                             $strTag .= '<div class="tag">Новинка</div>';
                         }
