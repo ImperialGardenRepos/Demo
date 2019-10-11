@@ -110,11 +110,7 @@ class CFormatGarden extends CFormat {
 					'.$arOffer["PROPERTIES"]["AVAILABLE"]["VALUE"].'
 				</div>
 				<div class="tag mobile-show-inline-block">Хит сезона</div>';
-		
-		if(!empty($arOfferProp["ACTION"]["VALUE"])) {
-			$strResult .= '<div class="tag">Скидка</div>';
-		}
-		
+
 		if(!empty($arOfferProp["NEW"]["VALUE"])) {
 			$strResult .= '<div class="tag">Новинка</div>';
 		}

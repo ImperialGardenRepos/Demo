@@ -88,7 +88,6 @@ ob_start();
 
         <div class="tags">
             <div class="tag mobile-show-inline-block">Хит сезона</div>
-            <div class="tag">Акция</div>
             <div class="tag tag--circled mobile-hide">Под заказ</div>
         </div>
     </div>
