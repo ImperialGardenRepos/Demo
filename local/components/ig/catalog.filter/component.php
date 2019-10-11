@@ -498,7 +498,6 @@ if ($requestArray["search"] == 'Y') {
 
     $arResult["FILTER_EMPTY"] = (empty($arFilterTmp) ? 'Y' : 'N');
 
-
     /**
      * Set result link
      */
@@ -552,4 +551,5 @@ if ($arParams['IS_AJAX'] === true) {
 } else {
     echo $strFilterHtml;
 }
+
 

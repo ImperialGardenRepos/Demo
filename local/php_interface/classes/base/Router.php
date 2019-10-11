@@ -113,6 +113,7 @@ class Router
             ],
             ['UF_PARAMS']
         );
+
         if ($filterModel !== null && $filterModel['UF_PARAMS'] !== '') {
             return 'smart_filter';
         }
