@@ -18,7 +18,7 @@ $this->setFrameMode(true);
 		<div class="cols-wrapper cols-wrapper--h1-stabs">
 			<div class="cols">
 				<div class="col col--heading">
-					<h1><?=(empty($arResult["IPROPERTY_VALUES"]["SECTION_PAGE_TITLE"])? $arResult["NAME"]:$arResult["IPROPERTY_VALUES"]["SECTION_PAGE_TITLE"])?></h1>
+                    <h1><?php $APPLICATION->ShowTitle()?></h1>
 				</div>
 				<div class="col col--stabs">
 					<div class="nav stabs">
