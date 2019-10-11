@@ -49,7 +49,7 @@ $asset->addCss('/local/css/template_styles.css');
         $APPLICATION->ShowCSS(true, false);
         $APPLICATION->ShowHeadStrings()
         ?>
-
+	<link rel="preload" href="/local/templates/ig/font/roboto-v18-latin_cyrillic-500.woff2" as="font" crossorigin="anonymous">
         <meta charset="<?= LANG_CHARSET ?>"/>
 
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"/>

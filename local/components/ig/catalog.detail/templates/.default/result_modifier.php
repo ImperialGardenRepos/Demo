@@ -23,6 +23,8 @@ $nameFull = CFormat::formatPlantTitle(
     $arResult['SECTION']['PATH'][1]['NAME']
 );
 
+$arResult['NAME_FULL'] = $nameFull;
+
 $basePrice = ArrayTools::getMinValue(array_column($arResult['OFFERS'], 'CATALOG_PRICE_2'));
 $discountPrice = ArrayTools::getMinValue(array_column($arResult['OFFERS'], 'CATALOG_PRICE_3'));
 

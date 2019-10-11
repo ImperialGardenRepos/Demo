@@ -1,5 +1,5 @@
 <?php
-defined('SITE_BASE_DIR') or define('SITE_BASE_DIR', '/var/www/stage.imperialgarden.ru/');
+defined('SITE_BASE_DIR') or define('SITE_BASE_DIR', '/var/www/imperialgarden.ru/');
 defined('SITE_TEMPLATE_PATH') or define('SITE_TEMPLATE_PATH', '/local/templates/ig');
 
 defined('SERVICE_IBLOCK_TYPE') or define('SERVICE_IBLOCK_TYPE', 'services');

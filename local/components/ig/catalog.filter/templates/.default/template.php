@@ -36,7 +36,7 @@ if($arParams["IS_AJAX"] != 'Y') {
 									</a>
 								</div>
 								<div class="stabs__item mobile-show-inline-block">
-									<a href="/upload/1c_files/Price.xls" class="nounderline-important">
+									<a href="/price-lists/Price.XLS" class="nounderline-important">
 										<svg class="icon">
 											<use xlink:href="<?=SITE_TEMPLATE_PATH?>/build/svg/symbol/svg/sprite.symbol.svg#icon-download-cloud"></use>
 										</svg>
@@ -51,7 +51,7 @@ if($arParams["IS_AJAX"] != 'Y') {
 						<div class="nav stabs mobile-hide">
 							<div class="stabs__list">
 								<div class="stabs__item">
-									<a href="/upload/1c_files/Price.xls" class="nounderline-important">
+									<a href="/price-lists/Price.XLS" class="nounderline-important">
 										<svg class="icon">
 											<use xlink:href="<?=SITE_TEMPLATE_PATH?>/build/svg/symbol/svg/sprite.symbol.svg#icon-download-cloud"></use>
 										</svg>
@@ -81,7 +81,7 @@ if($arParams["IS_AJAX"] != 'Y') {
 						<div class="nav stabs mobile-hide">
 							<div class="stabs__list">
 								<div class="stabs__item">
-									<a href="/upload/1c_files/Price_Sad.xls" class="nounderline-important">
+									<a href="/price-lists/PRICE_SAD.XLS" class="nounderline-important">
 										<svg class="icon">
 											<use xlink:href="<?=SITE_TEMPLATE_PATH?>/build/svg/symbol/svg/sprite.symbol.svg#icon-download-cloud"></use>
 										</svg>

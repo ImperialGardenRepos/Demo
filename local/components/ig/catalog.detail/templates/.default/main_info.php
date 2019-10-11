@@ -10,7 +10,7 @@
             <h1 class="fcard__title">
                 <?php if ($arParams['IS_AJAX']): ?>
                     <a href="<?= $arResult['DETAIL_PAGE_URL'] ?>" class="link--bordered-pseudo">
-                        <?php $APPLICATION->ShowTitle() ?>
+                        <?=$arResult['NAME_FULL'] ?>
                     </a>
                 <?php else: ?>
                     <?php $APPLICATION->ShowTitle() ?>

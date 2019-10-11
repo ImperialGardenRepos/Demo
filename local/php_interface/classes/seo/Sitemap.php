@@ -30,7 +30,7 @@ class Sitemap
 {
     private const SITEMAP_FILE = SITE_BASE_DIR . 'sitemap.xml';
 
-    private const HOST = '';
+    private const HOST = 'https://imperialgarden.ru';
 
     private const IBLOCK_ELEMENTS = [
         CATALOG_IBLOCK_ID,
@@ -70,6 +70,7 @@ class Sitemap
 
     private const CUSTOM_PAGES = [
         '/',
+	'/sitemap/',
         '/o-nas/kontakty/',
         '/o-nas/virtualnyy-tur/',
         '/partneram/event-ploshchadka/',
@@ -103,7 +104,7 @@ class Sitemap
         $sitemap = new static();
         $sitemap->setFile();
         $sitemap->addHeader();
-        $sitemap->addLinks(self::CUSTOM_PAGES);
+        $sitemap->addLinks($sitemap->getCustomPagesLinks());
         $sitemap->addLinks($sitemap->getVirtualPageLinks());
         $sitemap->addLinks($sitemap->getIBlockLinks());
         $sitemap->addLinks($sitemap->getIBlockSectionLinks());
@@ -250,6 +251,23 @@ class Sitemap
     /**
      * @return array
      */
+    private function getCustomPagesLinks(): array
+    {
+        $customLinks = [];
+        foreach (self::CUSTOM_PAGES as $link) {
+            $customLinks[] = [
+                $link,
+                false,
+                false
+            ];
+        }
+        return $customLinks;
+    }
+
+
+    /**
+     * @return array
+     */
     private function getIBlockElementLinks(): array
     {
         $elementModel = CIBlockElement::GetList(
@@ -313,8 +331,7 @@ class Sitemap
      */
     private function getPriorityByDepthLevel(int $depthLevel): string
     {
-        $base = $depthLevel - 1;
-        $priority = 1 - $base * .2;
+        $priority = 1 - $depthLevel * .2;
         if ($priority < .2) {
             $priority = .2;
         }
@@ -328,6 +345,9 @@ class Sitemap
     private function getPriorityByLink(string $link): string
     {
         $link = trim($link, '/');
+	if($link === '') {
+            return '1';
+        }
         $linkArray = explode('/', $link);
         return $this->getPriorityByDepthLevel(count($linkArray));
     }
