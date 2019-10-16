@@ -18,15 +18,22 @@ $allowedHosts = [
     'imperialgarden.loc',
     'www.imperialgarden.loc'
 ];
-
 if (!in_array($_SERVER['HTTP_HOST'], $allowedHosts, true)) {
     $host = 'imperialgarden.ru';
 } else {
     /** @noinspection HostnameSubstitutionInspection */
     $host = $_SERVER['HTTP_HOST'];
 }
+$scheme = 'http://';
 
-$scheme = $_SERVER['REQUEST_SCHEME'] === 'https' ? 'https://' : 'http://';
+if(isset($_SERVER['SERVER_PORT']) && $_SERVER['SERVER_PORT'] === '443') {
+    $scheme = 'https://';
+}
+
+if(isset($_SERVER['REQUEST_SCHEME']) && $_SERVER['REQUEST_SCHEME'] === 'https') {
+    $scheme = 'https://';
+}
+
 $request = explode('?', $_SERVER['REQUEST_URI']);
 $url = $request[0];
 $params = isset($request[1]) ? '?' . $request[1] : '';
