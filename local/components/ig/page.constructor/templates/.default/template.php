@@ -289,8 +289,8 @@ $isGridStarted = false;
                         'ID' => $productPlants,
                     ];
                     $APPLICATION->IncludeComponent(
+                        'ig:catalog.section',
                         $componentName,
-                        '',
                         [
                             'IBLOCK_TYPE' => CATALOG_IBLOCK_TYPE,
                             'IBLOCK_ID' => CATALOG_IBLOCK_ID,
@@ -329,6 +329,7 @@ $isGridStarted = false;
                         'ID' => $productGarden,
                     ];
                     $APPLICATION->IncludeComponent(
+                        'ig:catalog.section',
                         $componentName,
                         '',
                         [

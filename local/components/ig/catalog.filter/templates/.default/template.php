@@ -1,5 +1,5 @@
 <?php
-if(!defined('B_PROLOG_INCLUDED') || B_PROLOG_INCLUDED !== true) {
+if (!defined('B_PROLOG_INCLUDED') || B_PROLOG_INCLUDED !== true) {
     die();
 }
 /** @var array $arParams */
@@ -14,99 +14,46 @@ if(!defined('B_PROLOG_INCLUDED') || B_PROLOG_INCLUDED !== true) {
 /** @var string $componentPath */
 /** @var CBitrixComponent $component */
 $this->setFrameMode(true);
-
-if($arParams["IS_AJAX"] != 'Y') {
 ?>
-
-
+<?php if ($arResult['ITEMS'] !== []): ?>
     <div class="section section--filter bg-pattern bg-pattern--grey-leaves">
-	<div class="container">
-		<div class="ltabs">
-			<div class="ltabs__list">
-				<div class="ltabs__item active">
-					<div class="flex flex-align-baseline">
-						<a class="ltabs__link" href="#">
-							Растения
-						</a>
-						<div class="nav stabs" data-place='{"0": ".js-filter-stabs-mobile-place", "640": ".js-filter-stabs-place"}'>
-							<div class="stabs__list">
-								<div class="stabs__item<?=((!$arResult["IS_NEW"] && !$arResult["IS_ACTION"])?' active':'')?> hidden">
-									<a class="stabs__link" href="/katalog/rasteniya/">
-										Все
-									</a>
-								</div>
-								<div class="stabs__item mobile-show-inline-block">
-									<a href="/price-lists/Price.XLS" class="nounderline-important">
-										<svg class="icon">
-											<use xlink:href="<?=SITE_TEMPLATE_PATH?>/build/svg/symbol/svg/sprite.symbol.svg#icon-download-cloud"></use>
-										</svg>
-										<span class="stabs__link stabs__link--link no-text-transform">
-                                            Прайс
-                                        </span>
-									</a>
-								</div>
-							</div>
-						</div>
-						<div class="js-filter-stabs-place"></div>
-						<div class="nav stabs mobile-hide">
-							<div class="stabs__list">
-								<div class="stabs__item">
-									<a href="/price-lists/Price.XLS" class="nounderline-important">
-										<svg class="icon">
-											<use xlink:href="<?=SITE_TEMPLATE_PATH?>/build/svg/symbol/svg/sprite.symbol.svg#icon-download-cloud"></use>
-										</svg>
-										<span class="stabs__link stabs__link--link no-text-transform">
-                                            Прайс
-                                        </span>
-									</a>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="ltabs__item">
-					<div class="flex flex-align-baseline">
-						<a class="ltabs__link" href="/katalog/tovary-dlya-sada/">
-							Товары для сада
-						</a>
-						<div class="nav stabs mobile-hide">
-							<div class="stabs__list">
-								<div class="stabs__item">
-									<a class="stabs__link hidden" href="/katalog/tovary-dlya-sada/">
-										Все
-									</a>
-								</div>
-							</div>
-						</div>
-						<div class="nav stabs mobile-hide">
-							<div class="stabs__list">
-								<div class="stabs__item">
-									<a href="/price-lists/PRICE_SAD.XLS" class="nounderline-important">
-										<svg class="icon">
-											<use xlink:href="<?=SITE_TEMPLATE_PATH?>/build/svg/symbol/svg/sprite.symbol.svg#icon-download-cloud"></use>
-										</svg>
-										<span class="stabs__link stabs__link--link no-text-transform">
-                                            Прайс
-                                        </span>
-									</a>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			
-			</div>
-		</div>
-		<div class="tab-panes">
-			<div class="filter-top">
-				<div class="js-filter-stabs-mobile-place"></div>
-			</div><?
-}
-
-include("form.php");
-
-if($arParams["IS_AJAX"] != 'Y') { ?>
-		</div>
-	</div>
-</div><?
-}?>
+        <div class="container">
+            <div class="ltabs">
+                <div class="ltabs__list">
+                    <?php include '_tabs.php' ?>
+                </div>
+            </div>
+            <div class="tab-panes">
+                <div class="filter-top">
+                    <div class="js-filter-stabs-mobile-place">
+                        <form class="tab-pane filter js-filter" action="<?= $arResult['BASE_URL'] ?>"
+                              method="get">
+                            <?php /** ToDo:: at least rename, code style differs too significantly */ ?>
+                            <input type="hidden" name="frmCatalogFilterSent" value="Y">
+                            <input type="hidden" name="IS_AJAX" value="Y">
+                            <div class="js-filter-inner">
+                                <div class="filter__main">
+                                    <div class="filter__section filter__popup js-filter-section-wrapper expand-it-wrapper">
+                                        <div class="filter__content">
+                                            <?php include '_header.php' ?>
+                                        </div>
+                                        <div class="filter__section-header">
+                                            <?php include '_controls.php' ?>
+                                        </div>
+                                        <div class="filter__section-content expand-it-container js-filter-section<?= ($arParams['EXPAND_FILTER'] === 'Y' ? ' overflow-visible active' : '') ?>"
+                                             id="filter-main-list">
+                                            <?php include '_content.php' ?>
+                                        </div>
+                                        <div class="filter__footer">
+                                            <?php include '_footer.php' ?>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+<?php endif; ?>

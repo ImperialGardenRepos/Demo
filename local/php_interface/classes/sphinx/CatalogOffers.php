@@ -85,6 +85,8 @@ class CatalogOffers extends Engine
             "ID",
             "IBLOCK_ID",
             "ACTIVE",
+            "SORT",
+            "DETAIL_PAGE_URL",
             "IBLOCK_SECTION_ID",
             "PROPERTY_NAME_LAT",
             "PROPERTY_GROUP",
@@ -106,7 +108,7 @@ class CatalogOffers extends Engine
             "PROPERTY_ADDITIONAL",
             "PROPERTY_HEIGHT_10",
             "PROPERTY_RECOMMENDED",
-            "PROPERTY_PRIORITY",
+            "PROPERTY_FULL_NAME",
         ];
 
         return $arResult;
@@ -258,6 +260,7 @@ class CatalogOffers extends Engine
 					limit " . intval($intOffset) . ", " . $intLimit . " option max_matches = 500";
         }
 
+//        d($sql);
         return $sql;
 
         return false;
@@ -289,6 +292,7 @@ class CatalogOffers extends Engine
                 }
             }
 
+//            d($strQuery, $bReturnFacetOnly);
             $arTmp = $this->queryFacet($strQuery, $bReturnFacetOnly);
 
             $arResult = [];
@@ -552,7 +556,7 @@ class CatalogOffers extends Engine
                     "IBLOCK_ID" => \ig\CHelper::getIblockIdByCode("catalog"),
                     "ID" => $arOffer["PROPERTY_CML2_LINK_VALUE"],
                 ], false, $arParams["NAV"], self::getCatalogFields());
-                if ($arCatalog = $rsCatalog->Fetch()) {
+                if ($arCatalog = $rsCatalog->GetNext()) {
                     return $this->indexItemArray($arOffer, $arCatalog, $arParams);
                 }
             }
@@ -625,7 +629,11 @@ class CatalogOffers extends Engine
             if (!empty($arOffer["PROPERTY_NEW_DATE_END_VALUE"])) {
                 $intNewDateEnd = MakeTimeStamp($arOffer["PROPERTY_NEW_DATE_END_VALUE"], "DD.MM.YYYY HH:MI:SS");
             }
-
+            $minPrice = (float)$arOffer["CATALOG_PRICE_" . CRegistry::get("CATALOG_BASE_PRICE_ID")];
+            $minActionPrice = (float)$arOffer["CATALOG_PRICE_" . CRegistry::get("CATALOG_ACTION_PRICE_ID")];
+            if($minActionPrice > 0 && $minActionPrice < $minPrice) {
+                $minPrice = $minActionPrice;
+            }
             $arTmpData = [
                 "id" => $arOffer["ID"],
                 "name" => $arOffer["NAME"],
@@ -661,6 +669,10 @@ class CatalogOffers extends Engine
                 "p_new" => intval($arOffer["PROPERTY_NEW_ENUM_ID"]),
                 "catalog_base_price" => floatval($arOffer["CATALOG_PRICE_" . CRegistry::get("CATALOG_BASE_PRICE_ID")]),
                 "catalog_action_price" => floatval($arOffer["CATALOG_PRICE_" . CRegistry::get("CATALOG_ACTION_PRICE_ID")]),
+                'p_min_price' => $minPrice,
+                'p_sort' => $arCatalog['SORT'],
+                'p_full_name' => $arCatalog['PROPERTY_FULL_NAME_VALUE'],
+                'p_link' => $arCatalog['DETAIL_PAGE_URL'],
             ];
 
             $arPreparedIndexData = self::prepareIndexData($arTmpData);
@@ -794,6 +806,10 @@ class CatalogOffers extends Engine
             "catalog_action_price" => [],
             "p_new_date_end" => [],
             "p_new" => [],
+            'p_min_price' => [],
+            'p_sort' => [],
+            'p_full_name' => [],
+            'p_link' => [],
         ];
 
         if (strlen($strCode) > 0) {

@@ -12,12 +12,12 @@ use Bitrix\Main\ObjectPropertyException;
 use Bitrix\Main\SystemException;
 use CHTTP;
 use ig\Helpers\DBG;
-use ig\Highload\FilterAlias;
-use ig\Highload\VirtualPage;
+use ig\Datasource\Highload\FilterAliasTable;
+use ig\Datasource\Highload\VirtualPageTable;
 
 class Router
 {
-    private const CATALOG_BASE_URL = '/katalog/rasteniya/';
+    public const CATALOG_BASE_URL = '/katalog/rasteniya/';
 
     /**
      * @param $folder404
@@ -52,7 +52,7 @@ class Router
         }
         $requestArray = $request->toArray();
         if (array_key_exists('filterAlias', $requestArray)) {
-            $isFilter = FilterAlias::isUniqueAliasExist($requestArray['filterAlias']);
+            $isFilter = FilterAliasTable::isUniqueAliasExist($requestArray['filterAlias']);
             if ($isFilter === true) {
                 $arVariables['SECTION_ID'] = 0;
                 return 'smart_filter';
@@ -107,14 +107,7 @@ class Router
         $filterUrl = '/' . trim($requestURL, '/') . '/';
         $filterUrl = preg_replace('/(.*\/)page-\d+\//', '$1', $filterUrl);
 
-        $filterModel = VirtualPage::getFirst(false,
-            [
-                'UF_URL' => $filterUrl,
-            ],
-            ['UF_PARAMS']
-        );
-
-        if ($filterModel !== null && $filterModel['UF_PARAMS'] !== '') {
+        if (VirtualPageTable::getIsVirtualFilter($filterUrl)) {
             return 'smart_filter';
         }
 

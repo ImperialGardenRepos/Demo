@@ -21664,11 +21664,13 @@ Common property classes
         background-position: 85%;
     }
 }
+
 @media print {
     .textfield {
-        -webkit-print-color-adjust:exact;
+        -webkit-print-color-adjust: exact;
         border-bottom: rgba(90, 70, 91, 0.4);
     }
+
     .footer .container .fsocial,
     .footer__col--faq,
     .footer__col--social,
@@ -21676,19 +21678,42 @@ Common property classes
     .print-hide {
         display: none;
     }
+
     .header-scrolled .header-replace {
         height: 0;
     }
+
     .header-scrolled .header {
         position: static;
     }
+
     a:link:after, a:visited:after {
         content: "";
     }
+
     * .header__inner:before {
-        background: initial!important;
+        background: initial !important;
     }
+
     .logo {
-        background-color: #c14444!important;
+        background-color: #c14444 !important;
     }
+}
+
+.sort-list {
+    font-size: 1rem;
+    margin: 32px 0 10px;
+}
+
+.sort-list__param {
+    cursor: pointer;
+}
+
+.sort-list__param--active {
+    font-weight: 500;
+}
+
+
+.sort-list__icon {
+    color: #c14444
 }

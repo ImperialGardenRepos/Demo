@@ -1,7 +1,7 @@
 <div class="fcard">
 	<div class="fcard__grid">
 		<div class="fcard__header"><?
-			if(!empty($arSortProp["RECOMMENDED"]["VALUE"])) {?>
+			if(!empty($itemProperties["RECOMMENDED"]["VALUE"])) {?>
 				<div class="tags">
 					<div class="tag">Хит сезона</div>
 				</div><?

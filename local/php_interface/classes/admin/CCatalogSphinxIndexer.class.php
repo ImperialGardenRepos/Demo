@@ -21,7 +21,7 @@ class CCatalogSphinxIndexer
         $NS["FULL_REINDEX"] = $NS["FULL_REINDEX"] == "Y" ? 'Y' : 'N';
 
         $NS["CNT"] = IntVal($NS["CNT"]);
-        if (strlen($NS["SESS_ID"]) != 32) $NS["SESS_ID"] = md5(uniqid(""));
+        if (strlen($NS["SESS_ID"]) != 32) $NS["SESS_ID"] = md5(uniqid("", true));
         $intMaxExecutionItems = intval($intMaxExecutionItems);
         if ($intMaxExecutionItems <= 0) $intMaxExecutionItems = 1000;
 
@@ -63,7 +63,6 @@ class CCatalogSphinxIndexer
             $mtime = explode(" ", $mtime);
             $mtime = $mtime[1] + $mtime[0];
 
-//			file_put_contents($_SERVER["DOCUMENT_ROOT"].'/skock_/sphinx_reindex.txt', date("d.m.Y H:i:s").' '.sprintf ("Список товаров получен за %f секунд", ($mtime - $tstart))."\r\n", FILE_APPEND);
 
             if ($rsI->SelectedRowsCount() > 0) {
                 while ($arI = $rsI->Fetch()) {

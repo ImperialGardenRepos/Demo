@@ -27,136 +27,150 @@ $asset->addCss(SITE_TEMPLATE_PATH . '/build/build.css');
 $asset->addCss('/local/css/template_styles.css');
 
 ?>
-    <!DOCTYPE html>
-    <!--[if lt IE 7]>
-    <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="ru"> <![endif]-->
-    <!--[if IE 7]>
-    <html class="no-js lt-ie9 lt-ie8" lang="ru"> <![endif]-->
-    <!--[if IE 8]>
-    <html class="no-js lt-ie9" lang="ru"> <![endif]-->
-    <!--[if IE 9]>
-    <html class="no-js lte-ie9" lang="ru"> <![endif]-->
-    <!--[if gt IE 9]><!-->
-    <html class="no-js" lang="ru"> <!--<![endif]-->
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=<?=LANG_CHARSET?>">
-        <title><?php $APPLICATION->ShowTitle(false) ?></title>
-        <?php
-        $APPLICATION->ShowMeta('robots', false, false);
-        $APPLICATION->ShowMeta('keywords', false, false);
-        $APPLICATION->ShowMeta('description', false, false);
-        $APPLICATION->ShowLink('canonical', null, false);
-        $APPLICATION->ShowCSS(true, false);
-        $APPLICATION->ShowHeadStrings()
-        ?>
-	<link rel="preload" href="/local/templates/ig/font/roboto-v18-latin_cyrillic-500.woff2" as="font" crossorigin="anonymous">
-        <meta charset="<?= LANG_CHARSET ?>"/>
+<!DOCTYPE html>
+<!--[if lt IE 7]>
+<html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="ru"> <![endif]-->
+<!--[if IE 7]>
+<html class="no-js lt-ie9 lt-ie8" lang="ru"> <![endif]-->
+<!--[if IE 8]>
+<html class="no-js lt-ie9" lang="ru"> <![endif]-->
+<!--[if IE 9]>
+<html class="no-js lte-ie9" lang="ru"> <![endif]-->
+<!--[if gt IE 9]><!-->
+<html class="no-js" lang="ru"> <!--<![endif]-->
+<head>
+    <style>
+        .kint-rich .kint-file ol > li,
+        .kint-rich .kint-file ul > li {
+            position: static!important;
+            text-indent: initial!important;
+        }
 
-        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
-        <meta name="format-detection" content="telephone=no">
+        .kint-rich .kint-file ol > li:after,
+        .kint-rich .kint-file ul > li:after {
+            display: none;
+        }
+    </style>
+    <meta http-equiv="Content-Type" content="text/html; charset=<?= LANG_CHARSET ?>">
+    <title><?php $APPLICATION->ShowTitle(false) ?></title>
+    <?php
+    $APPLICATION->ShowMeta('robots', false, false);
+    $APPLICATION->ShowMeta('keywords', false, false);
+    $APPLICATION->ShowMeta('description', false, false);
+    $APPLICATION->ShowLink('canonical', null, false);
+    $APPLICATION->ShowCSS(true, false);
+    $APPLICATION->ShowHeadStrings()
+    ?>
+    <link rel="preload" href="/local/templates/ig/font/roboto-v18-latin_cyrillic-500.woff2" as="font"
+          crossorigin="anonymous">
+    <meta charset="<?= LANG_CHARSET ?>"/>
 
-        <!-- Global site tag (gtag.js) - Google Analytics -->
-        <script data-skip-moving="true" async src="https://www.googletagmanager.com/gtag/js?id=UA-143791931-1"></script>
-        <script data-skip-moving="true">
-            window.dataLayer = window.dataLayer || [];
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no">
 
-            function gtag() {
-                dataLayer.push(arguments);
-            }
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script data-skip-moving="true" async src="https://www.googletagmanager.com/gtag/js?id=UA-143791931-1"></script>
+    <script data-skip-moving="true">
+        window.dataLayer = window.dataLayer || [];
 
-            gtag('js', new Date());
+        function gtag() {
+            dataLayer.push(arguments);
+        }
 
-            gtag('config', 'UA-143791931-1');
-        </script>
+        gtag('js', new Date());
 
-        <!-- Yandex.Metrika counter -->
-        <script data-skip-moving="true" type="text/javascript">
-            (function (m, e, t, r, i, k, a) {
-                m[i] = m[i] || function () {
-                    (m[i].a = m[i].a || []).push(arguments)
-                };
-                m[i].l = 1 * new Date();
-                k = e.createElement(t), a = e.getElementsByTagName(t)[0], k.async = 1, k.src = r, a.parentNode.insertBefore(k, a)
-            })
-            (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+        gtag('config', 'UA-143791931-1');
+    </script>
 
-            ym(54440035, "init", {
-                clickmap: true,
-                trackLinks: true,
-                accurateTrackBounce: true,
-                webvisor: true
-            });
-        </script>
-        <!-- /Yandex.Metrika counter -->
-    </head>
+    <!-- Yandex.Metrika counter -->
+    <script data-skip-moving="true" type="text/javascript">
+        (function (m, e, t, r, i, k, a) {
+            m[i] = m[i] || function () {
+                (m[i].a = m[i].a || []).push(arguments)
+            };
+            m[i].l = 1 * new Date();
+            k = e.createElement(t), a = e.getElementsByTagName(t)[0], k.async = 1, k.src = r, a.parentNode.insertBefore(k, a)
+        })
+        (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+
+        ym(54440035, "init", {
+            clickmap: true,
+            trackLinks: true,
+            accurateTrackBounce: true,
+            webvisor: true
+        });
+    </script>
+    <!-- /Yandex.Metrika counter -->
+</head>
 <body class="not-loaded " data-svg-sprite-url="<?= SITE_TEMPLATE_PATH ?>/build/svg/symbol/svg/sprite.symbol.svg"
       data-cart-url="/local/ajax/cart.php" data-favorites-url="/local/ajax/favorite.php">
-    <!-- Yandex.Metrika counter -->
-    <noscript>
-        <div><img src="https://mc.yandex.ru/watch/54440035" style="position:absolute; left:-9999px;" alt=""/></div>
-    </noscript>
-    <!-- /Yandex.Metrika counter -->
-    <div id="panel"><? $APPLICATION->ShowPanel() ?></div>
-    <div class="respon-meter"></div>
+<!-- Yandex.Metrika counter -->
+<noscript>
+    <div><img src="https://mc.yandex.ru/watch/54440035" style="position:absolute; left:-9999px;" alt=""/></div>
+</noscript>
+<!-- /Yandex.Metrika counter -->
+<div id="panel"><? $APPLICATION->ShowPanel() ?></div>
+<div class="respon-meter"></div>
 
-    <div class="wrap<?= ($isVirtualTourPage ? ' js-fix-100vh-min' : '') ?>" id="top"><?
-if ($APPLICATION->GetProperty('hideTopBar') !== 'Y') { ?>
-    <div class="topbar mobile-hide">
-    <div class="container">
+<div class="wrap<?= ($isVirtualTourPage ? ' js-fix-100vh-min' : '') ?>" id="top"><?
+    if ($APPLICATION->GetProperty('hideTopBar') !== 'Y') { ?>
+        <div class="topbar mobile-hide">
+        <div class="container">
 
-        <div class="cols-wrapper cols-wrapper--topbar">
-            <div class="cols cols--auto">
+            <div class="cols-wrapper cols-wrapper--topbar">
+                <div class="cols cols--auto">
 
-                <div class="col">
-                    <svg class="icon color-active">
-                        <use xlink:href="<?= SITE_TEMPLATE_PATH ?>/build/svg/symbol/svg/sprite.symbol.svg#icon-clock"></use>
-                    </svg>
-                    <span class="font-bold"><? $APPLICATION->IncludeComponent(
-                            "bitrix:main.include",
-                            "",
-                            Array(
-                                "AREA_FILE_SHOW" => "file",
-                                "AREA_FILE_SUFFIX" => "inc",
-                                "EDIT_TEMPLATE" => "",
-                                "PATH" => "/local/inc_area/worktime.php"
-                            )
-                        ); ?></span>
-                </div>
-
-                <div class="col">
-                    <svg class="icon color-active">
-                        <use xlink:href="<?= SITE_TEMPLATE_PATH ?>/build/svg/symbol/svg/sprite.symbol.svg#icon-marker"></use>
-                    </svg>
-                    <span class="font-bold"><? $APPLICATION->IncludeComponent(
-                            "bitrix:main.include",
-                            "",
-                            Array(
-                                "AREA_FILE_SHOW" => "file",
-                                "AREA_FILE_SUFFIX" => "inc",
-                                "EDIT_TEMPLATE" => "",
-                                "PATH" => "/local/inc_area/address.php"
-                            )
-                        ); ?></span>
-                    <a href="/o-nas/kontakty/" class="link-after-text link--ib link--bordered print-hide">Как проехать</a>
-                </div>
-
-                <div class="col">
-
-                    <a class="hphone" href="tel:<?= str_replace(' ', '', $strPhone) ?>">
+                    <div class="col">
                         <svg class="icon color-active">
-                            <use xlink:href="<?= SITE_TEMPLATE_PATH ?>/build/svg/symbol/svg/sprite.symbol.svg#icon-phone"></use>
+                            <use xlink:href="<?= SITE_TEMPLATE_PATH ?>/build/svg/symbol/svg/sprite.symbol.svg#icon-clock"></use>
                         </svg>
-                        <span><?= $strPhone ?></span>
-                    </a>
+                        <span class="font-bold"><? $APPLICATION->IncludeComponent(
+                                "bitrix:main.include",
+                                "",
+                                [
+                                    "AREA_FILE_SHOW" => "file",
+                                    "AREA_FILE_SUFFIX" => "inc",
+                                    "EDIT_TEMPLATE" => "",
+                                    "PATH" => "/local/inc_area/worktime.php",
+                                ]
+                            ); ?></span>
+                    </div>
+
+                    <div class="col">
+                        <svg class="icon color-active">
+                            <use xlink:href="<?= SITE_TEMPLATE_PATH ?>/build/svg/symbol/svg/sprite.symbol.svg#icon-marker"></use>
+                        </svg>
+                        <span class="font-bold"><? $APPLICATION->IncludeComponent(
+                                "bitrix:main.include",
+                                "",
+                                [
+                                    "AREA_FILE_SHOW" => "file",
+                                    "AREA_FILE_SUFFIX" => "inc",
+                                    "EDIT_TEMPLATE" => "",
+                                    "PATH" => "/local/inc_area/address.php",
+                                ]
+                            ); ?></span>
+                        <a href="/o-nas/kontakty/" class="link-after-text link--ib link--bordered print-hide">Как
+                            проехать</a>
+                    </div>
+
+                    <div class="col">
+
+                        <a class="hphone" href="tel:<?= str_replace(' ', '', $strPhone) ?>">
+                            <svg class="icon color-active">
+                                <use xlink:href="<?= SITE_TEMPLATE_PATH ?>/build/svg/symbol/svg/sprite.symbol.svg#icon-phone"></use>
+                            </svg>
+                            <span><?= $strPhone ?></span>
+                        </a>
+
+                    </div>
 
                 </div>
-
             </div>
-        </div>
 
-    </div>
-    </div><?
-} ?>
+        </div>
+        </div><?
+    } ?>
     <div class="header-replace"></div>
     <header class="header">
         <div class="header__inner compensate-for-scrollbar">
@@ -200,7 +214,7 @@ if ($APPLICATION->GetProperty('hideTopBar') !== 'Y') { ?>
                         <? $APPLICATION->IncludeComponent(
                             "bitrix:menu",
                             "horizontal_multilevel",
-                            Array(
+                            [
                                 "ROOT_MENU_TYPE" => "top",
                                 "MAX_LEVEL" => "2",
                                 "CHILD_MENU_TYPE" => "subtop",
@@ -209,8 +223,8 @@ if ($APPLICATION->GetProperty('hideTopBar') !== 'Y') { ?>
                                 "ALLOW_MULTI_SELECT" => "Y",
                                 "MENU_CACHE_TIME" => "360000",
                                 "MENU_CACHE_USE_GROUPS" => "N",
-                                "MENU_CACHE_GET_VARS" => Array()
-                            )
+                                "MENU_CACHE_GET_VARS" => [],
+                            ]
                         ); ?>
 
                         <div class="header__cell header__cell--icons print-hide">
@@ -255,14 +269,14 @@ if ($APPLICATION->GetProperty('hideTopBar') !== 'Y') { ?>
         </div>
     </div>
     <div class="menu-overlay-bg"></div>
-<? $APPLICATION->ShowViewContent('before_breadcrumb'); ?>
-<?
-if (!$arParams["IS_AJAX"]) {
-    $intNavStartFrom = intval($APPLICATION->GetProperty('intNavStartFrom'));
+    <? $APPLICATION->ShowViewContent('before_breadcrumb'); ?>
+    <?
+    if (!$arParams["IS_AJAX"]) {
+        $intNavStartFrom = intval($APPLICATION->GetProperty('intNavStartFrom'));
 
-    $APPLICATION->IncludeComponent("bitrix:breadcrumb", ".default", Array(
-        "START_FROM" => $intNavStartFrom,
-        "PATH" => "",
-        "SITE_ID" => ""
-    ));
-} ?>
+        $APPLICATION->IncludeComponent("bitrix:breadcrumb", ".default", [
+            "START_FROM" => $intNavStartFrom,
+            "PATH" => "",
+            "SITE_ID" => "",
+        ]);
+    } ?>

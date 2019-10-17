@@ -1,61 +1,24 @@
-<?
-require_once($_SERVER["DOCUMENT_ROOT"]."/bitrix/modules/main/include/prolog_before.php");
+<?php
 
-$APPLICATION->IncludeComponent(
-	"ig:catalog-garden.filter",
-	"",
-Array()
-);
+use Bitrix\Main\Application;
+use ig\Datasource\Sphinx\CatalogGardenOffer;
 
-//$APPLICATION->IncludeComponent(
-//	"ig:catalog-garden.section",
-//	"",
-//	Array(
-//		"AJAX_MODE" => "N",
-//		"AJAX_OPTION_ADDITIONAL" => "",
-//		"AJAX_OPTION_HISTORY" => "N",
-//		"AJAX_OPTION_JUMP" => "N",
-//		"AJAX_OPTION_STYLE" => "Y",
-//		"DISPLAY_BOTTOM_PAGER" => "Y",
-//		"DISPLAY_DATE" => "Y",
-//		"DISPLAY_NAME" => "Y",
-//		"DISPLAY_PICTURE" => "Y",
-//		"DISPLAY_PREVIEW_TEXT" => "Y",
-//		"DISPLAY_TOP_PAGER" => "N",
-//		"MESSAGE_404" => "",
-//		"PAGER_BASE_LINK_ENABLE" => "N",
-//		"PAGER_DESC_NUMBERING" => "N",
-//		"PAGER_DESC_NUMBERING_CACHE_TIME" => "36000",
-//		"PAGER_SHOW_ALL" => "N",
-//		"PAGER_SHOW_ALWAYS" => "N",
-//		"PAGER_TEMPLATE" => ".default",
-//		"PAGER_TITLE" => "Новости",
-//		"SET_STATUS_404" => "N",
-//		"SHOW_404" => "N"
-//	)
-//);
+require_once $_SERVER['DOCUMENT_ROOT'] . '/bitrix/modules/main/include/prolog_before.php';
 
-$arResponse = array();
+$searchQuery = Application::getInstance()->getContext()->getRequest()->getQuery('searchQuery');
+$offers = new CatalogGardenOffer();
 
-$strFilterHtml = \ig\CRegistry::get('catalog-filter_html');
-if(!empty($strFilterHtml)) {
-	$arResponse["filter_html"] = $strFilterHtml;
-}
-//$strResultLink = \ig\CRegistry::get('catalog-page_url');
-//if(!empty($strResultLink)) {
-//	$arResponse["page_url"] = $strResultLink;
-//}
-//
-//$strSearchHtml = \ig\CRegistry::get('catalog-html');
-//if(!empty($strFilterHtml)) {
-//	$arResponse["html"] = $strSearchHtml;
-//}
-
-$strResultsHtml = \ig\CRegistry::get('catalog-results_html');
-if(!empty($strResultsHtml)) {
-	$arResponse["results_html"] = $strResultsHtml;
-}
-
-echo json_encode($arResponse);
-
-require_once($_SERVER["DOCUMENT_ROOT"]."/bitrix/modules/main/include/epilog_after.php");
+$searchResult = $offers
+    ->select(['p_full_name', 'p_link'])
+    ->match('p_full_name', "{$searchQuery} | {$searchQuery}* | *{$searchQuery}*", true)
+    ->groupBy('p_full_name')
+    ->limit(0, 30)
+    ->orderBy('p_full_name', 'asc')
+    ->execute()
+    ->fetchAllAssoc();
+ob_start();
+include 'html/search_result.php';
+$result = ob_get_clean();
+echo json_encode([
+    'html' => $result,
+]);

@@ -20,7 +20,7 @@ use CIBlockElement;
 use CIBlockSection;
 use DateTime;
 use ig\Helpers\DBG;
-use ig\Highload\VirtualPage;
+use ig\Datasource\Highload\VirtualPageTable;
 
 /**
  * Class Sitemap
@@ -309,7 +309,7 @@ class Sitemap
         /**
          * @var Entity $virtualPageModel
          */
-        $virtualPageEntity = VirtualPage::getEntity();
+        $virtualPageEntity = VirtualPageTable::getEntity();
         $virtualPageModel = $virtualPageEntity::query()
             ->where('UF_ACTIVE', '=', '1')
             ->setSelect(['UF_URL'])

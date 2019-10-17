@@ -235,7 +235,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && $_REQUEST["Reindex"] == "Y") {
     <?endif ?>
 
     <?
-    //echo BeginNote(),'Заметки на полях',EndNote();
 
     require($_SERVER["DOCUMENT_ROOT"] . "/bitrix/modules/main/include/epilog_admin.php");
 }

@@ -1,92 +1,83 @@
 <?php
-require $_SERVER['DOCUMENT_ROOT'].'/bitrix/header.php';
-$APPLICATION->SetTitle('Каталог товаров для сада');
+
+use ig\Datasource\Highload\PeriodPriceTable;
+use ig\Datasource\Highload\PropertyValueTable;
+use ig\Datasource\Property\Enum;
+use ig\Datasource\Property\Scalar;
+use ig\Datasource\Sphinx\CatalogGardenOffer;
+
+require $_SERVER['DOCUMENT_ROOT'] . '/bitrix/header.php';
 $APPLICATION->IncludeComponent(
-	'ig:catalog-garden',
-	'',
-	[
-		'ADD_PICT_PROP' => '-',
-		'AJAX_MODE' => 'N',
-		'AJAX_OPTION_ADDITIONAL' => '',
-		'AJAX_OPTION_HISTORY' => 'N',
-		'AJAX_OPTION_JUMP' => 'N',
-		'AJAX_OPTION_STYLE' => 'Y',
-		'BIG_DATA_RCM_TYPE' => 'personal',
-		'CACHE_FILTER' => 'N',
-		'CACHE_TIME' => '36000000',
-		'CACHE_TYPE' => 'A',
-		'COMMON_ADD_TO_BASKET_ACTION' => 'ADD',
-		'COMMON_SHOW_CLOSE_POPUP' => 'N',
-		'DETAIL_ADD_DETAIL_TO_SLIDER' => 'N',
-		'DETAIL_ADD_TO_BASKET_ACTION' => ['BUY'],
-		'DETAIL_ADD_TO_BASKET_ACTION_PRIMARY' => ['BUY'],
-		'DETAIL_BRAND_USE' => 'N',
-		'DETAIL_DETAIL_PICTURE_MODE' => ['POPUP','MAGNIFIER'],
-		'DETAIL_DISPLAY_NAME' => 'Y',
-		'DETAIL_DISPLAY_PREVIEW_TEXT_MODE' => 'E',
-		'DETAIL_IMAGE_RESOLUTION' => '16by9',
-		'DETAIL_PRODUCT_INFO_BLOCK_ORDER' => 'sku,props',
-		'DETAIL_PRODUCT_PAY_BLOCK_ORDER' => 'rating,price,priceRanges,quantityLimit,quantity,buttons',
-		'DETAIL_SHOW_POPULAR' => 'Y',
-		'DETAIL_SHOW_SLIDER' => 'N',
-		'DETAIL_SHOW_VIEWED' => 'Y',
-		'DETAIL_USE_COMMENTS' => 'N',
-		'DETAIL_USE_VOTE_RATING' => 'N',
-		'FILTER_HIDE_ON_MOBILE' => 'N',
-		'FILTER_VIEW_MODE' => 'VERTICAL',
-		'HIDE_USE_ALSO_BUY' => '',
-		'IBLOCK_ID' => '17',
-		'IBLOCK_TYPE' => 'catalog',
-		'INSTANT_RELOAD' => 'N',
-		'LABEL_PROP' => [],
-		'LAZY_LOAD' => 'N',
-		'LIST_ENLARGE_PRODUCT' => 'STRICT',
-		'LIST_PRODUCT_BLOCKS_ORDER' => 'price,props,sku,quantityLimit,quantity,buttons',
-		'LIST_PRODUCT_ROW_VARIANTS' => "[{'VARIANT':'2','BIG_DATA':false},{'VARIANT':'2','BIG_DATA':false},{'VARIANT':'2','BIG_DATA':false},{'VARIANT':'2','BIG_DATA':false},{'VARIANT':'2','BIG_DATA':false},{'VARIANT':'2','BIG_DATA':false},{'VARIANT':'2','BIG_DATA':false},{'VARIANT':'2','BIG_DATA':false},{'VARIANT':'2','BIG_DATA':false},{'VARIANT':'2','BIG_DATA':false}]",
-		'LIST_SHOW_SLIDER' => 'Y',
-		'LIST_SLIDER_INTERVAL' => '3000',
-		'LIST_SLIDER_PROGRESS' => 'N',
-		'LOAD_ON_SCROLL' => 'N',
-		'MESSAGE_404' => '',
-		'MESS_BTN_ADD_TO_BASKET' => 'В корзину',
-		'MESS_BTN_BUY' => 'Купить',
-		'MESS_BTN_COMPARE' => 'Сравнение',
-		'MESS_BTN_DETAIL' => 'Подробнее',
-		'MESS_BTN_SUBSCRIBE' => 'Подписаться',
-		'MESS_COMMENTS_TAB' => 'Комментарии',
-		'MESS_DESCRIPTION_TAB' => 'Описание',
-		'MESS_NOT_AVAILABLE' => 'Нет в наличии',
-		'MESS_PRICE_RANGES_TITLE' => 'Цены',
-		'MESS_PROPERTIES_TAB' => 'Характеристики',
-		'OFFER_ADD_PICT_PROP' => '-',
-		'PRODUCT_DISPLAY_MODE' => 'N',
-		'PRODUCT_SUBSCRIPTION' => 'Y',
-		'SEARCH_CHECK_DATES' => 'Y',
-		'SEARCH_NO_WORD_LOGIC' => 'Y',
-		'SEARCH_PAGE_RESULT_COUNT' => '50',
-		'SEARCH_RESTART' => 'N',
-		'SEARCH_USE_LANGUAGE_GUESS' => 'Y',
-		'SECTIONS_SHOW_PARENT_NAME' => 'Y',
-		'SECTIONS_VIEW_MODE' => 'LIST',
-		'SECTION_ADD_TO_BASKET_ACTION' => 'ADD',
-		'SEF_FOLDER' => '/katalog/tovary-dlya-sada/',
-		'SEF_MODE' => 'Y',
-		'SEF_URL_TEMPLATES' => ['compare'=>'compare.php?action=#ACTION_CODE#','element'=>'#SECTION_CODE_PATH#/#ELEMENT_CODE#/','section'=>'#SECTION_CODE_PATH#/','sections'=>'','smart_filter'=>'#SECTION_ID#/filter/#SMART_FILTER_PATH#/apply/'],
-		'SET_STATUS_404' => 'N',
-		'SHOW_404' => 'N',
-		'SHOW_DISCOUNT_PERCENT' => 'N',
-		'SHOW_MAX_QUANTITY' => 'N',
-		'SHOW_OLD_PRICE' => 'N',
-		'SIDEBAR_DETAIL_SHOW' => 'N',
-		'SIDEBAR_PATH' => '',
-		'SIDEBAR_SECTION_SHOW' => 'Y',
-		'TEMPLATE_THEME' => 'blue',
-		'TOP_ADD_TO_BASKET_ACTION' => 'ADD',
-		'USE_BIG_DATA' => 'Y',
-		'USE_COMMON_SETTINGS_BASKET_POPUP' => 'N',
-		'USE_ENHANCED_ECOMMERCE' => 'N',
-		'USE_SALE_BESTSELLERS' => 'Y'
+    'ig:catalog',
+    'garden',
+    [
+        'PAGE_ELEMENT_COUNT' => 12,
+        'CACHE_FILTER' => 'Y',
+        'CACHE_TIME' => '36000000',
+        'CACHE_TYPE' => 'A',
+        'IBLOCK_ID' => CATALOG_GARDEN_IBLOCK_ID,
+        'IBLOCK_TYPE' => CATALOG_IBLOCK_TYPE,
+        'SEF_FOLDER' => '/katalog/tovary-dlya-sada/',
+        'SEF_URL_TEMPLATES' => [
+            'compare' => 'compare.php?action=#ACTION_CODE#',
+            'element' => '#SECTION_CODE_PATH#/#ELEMENT_CODE#/',
+            'section' => '#SECTION_CODE_PATH#/',
+            'sections' => '',
+            'smart_filter' => '#SECTION_ID#/filter/#SMART_FILTER_PATH#/apply/',
+        ],
+        'PRICE_CODE' => [
+            CATALOG_BASE_PRICE_CODE,
+            CATALOG_ACTION_PRICE_CODE,
+        ],
+        'SPHINX_INDEX' => CatalogGardenOffer::class,
+        'SPHINX_INDEX_EXCLUDE' => [
+            'GROUP',
+            'USAGE',
+        ],
+        'CUSTOM_DATA_CONVERTER' => '',
+        /** Structure is ClassName=>[...values]. */
+        'FILTER_SRC' => [
+            PeriodPriceTable::class => [
+                'CATALOG_PRICE_LIST',
+            ],
+            Enum::class => [
+                'AVAILABLE',
+                'RECOMMENDED',
+            ],
+            Scalar::class => [
+                'USAGE',
+            ],
+        ],
+        'FILTER_DISPLAY_PARAMS' => [
+
+            'COMMON' => [
+                'CATALOG_PRICE_LIST' => [
+                    'TEMPLATE' => 'dropdown',
+                    'NAME' => 'Цена',
+                    'ALL' => 'Любая',
+                    'CLASSES' => '',
+                ],
+                'AVAILABLE' => [
+                    'TEMPLATE' => 'dropdown',
+                    'NAME' => 'Наличие',
+                    'ALL' => 'Любое',
+                    'CLASSES' => '',
+                ],
+                'USAGE' => [
+                    'TEMPLATE' => 'dropdown',
+                    'NAME' => 'Использование',
+                    'ALL' => 'Любое',
+                    'RESETS' => '',
+                ],
+            ],
+            'FOOTER' => [
+                'RECOMMENDED' => [
+                    'TEMPLATE' => 'checkbox',
+                    'NAME' => 'Хиты сезона',
+                    'CLASSES' => ' checkboxes--recommend',
+                ],
+            ],
+        ],
     ]
 );
-
-require $_SERVER['DOCUMENT_ROOT'].'/bitrix/footer.php';
+require $_SERVER['DOCUMENT_ROOT'] . '/bitrix/footer.php';

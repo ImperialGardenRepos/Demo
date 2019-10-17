@@ -1,42 +1,46 @@
 <?php
 
-use ig\Helpers\Section;
-use ig\Helpers\Url;
-use ig\Highload\VirtualPage;
+use ig\Datasource\Highload\VirtualPageTable;
+use ig\Helpers\IBlockSectionHelper;
+use ig\Helpers\UrlHelper;
 use ig\Seo\Meta;
 
 if (!defined('B_PROLOG_INCLUDED') || B_PROLOG_INCLUDED !== true) {
     die();
 }
-
-if ((int)$arResult['SECTION']['DEPTH_LEVEL'] === 1) {
-    Meta::getInstance()->setBaseTitle($arResult['NAME']);
+//ToDo: set depending on params
+/** Base title */
+if (isset($arResult['SECTION'])) {
+    if ((int)$arResult['SECTION']['DEPTH_LEVEL'] === 1) {
+        Meta::getInstance()->setBaseTitle($arResult['SECTION']['NAME']);
+    }
+    if ((int)$arResult['SECTION']['DEPTH_LEVEL'] === 2) {
+        $parentTitle = IBlockSectionHelper::getSectionName((int)$arResult['SECTION']['IBLOCK_SECTION_ID']);
+        Meta::getInstance()->setBaseTitle($parentTitle . ' ' . $arResult['NAME']);
+    }
+    if ((int)$arResult['SECTION']['DEPTH_LEVEL'] > 2) {
+        Meta::getInstance()->setBaseTitle($arResult['NAME']);
+    }
+    $arResult['DESCRIPTION'] = $arResult['SECTION']['DESCRIPTION'];
 }
 
-if ((int)$arResult['SECTION']['DEPTH_LEVEL'] === 2) {
-    $parentTitle = Section::getSectionName((int)$arResult['SECTION']['IBLOCK_SECTION_ID']);
-    Meta::getInstance()->setBaseTitle($parentTitle . ' ' . $arResult['NAME']);
-}
-
-if ((int)$arResult['SECTION']['DEPTH_LEVEL'] > 2) {
-    Meta::getInstance()->setBaseTitle($arResult['NAME']);
-}
-
-if ($arResult['SECTION'] === null) {
+/** Minimal section price */
+if (!isset($arResult['SECTION'])) {
     Meta::getInstance()->setBaseTitle('Растения');
-    $iBlockId = (int)current($arResult['SECTIONS'])['IBLOCK_ID'];
+    $iBlockId = $arParams['IBLOCK_ID'];
     $sectionId = 0;
 } else {
     $iBlockId = (int)$arResult['SECTION']['IBLOCK_ID'];
-    $sectionId = 0;
+    $sectionId = (int)$arResult['SECTION']['ID'];
 }
-
-Meta::getInstance()->setMinPrice(Section::getMinPrice($iBlockId, $sectionId));
+Meta::getInstance()->setMinPrice(IBlockSectionHelper::getMinPrice($iBlockId, $sectionId));
 
 if ($arResult['DESCRIPTION'] === null) {
-    $virtualPage = VirtualPage::getByUrl(Url::getUrlWithoutParams());
+    $virtualPage = VirtualPageTable::getByUrl(UrlHelper::getUrlWithoutParams());
     if (count($virtualPage) === 1) {
         $virtualPage = array_shift($virtualPage);
-        $arResult['DESCRIPTION'] = $virtualPage['UF_TEXT'];
+        $arResult['DESCRIPTION'] = $virtualPage['TEXT'];
     }
 }
+
+Meta::setFinalMeta();
