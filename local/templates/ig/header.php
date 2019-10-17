@@ -247,6 +247,7 @@ if ($APPLICATION->GetProperty('hideTopBar') !== 'Y') { ?>
                     </div>
                 </div>
             </div>
+        </div>
     </header>
     <div class="menu-overlay">
         <div class="menu-overlay__content">
