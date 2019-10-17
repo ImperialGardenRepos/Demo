@@ -5,7 +5,9 @@
 				<div class="tags">
 					<div class="tag">Хит сезона</div>
 				</div><?
-			}?>
+			}
+
+            use ig\CFormat; ?>
 			<h1 class="fcard__title"><?
 				if($arParams["IS_AJAX"]) { ?>
 				<a href="<?=$arResult["DETAIL_PAGE_URL"]?>" class="link--bordered-pseudo">
@@ -169,7 +171,7 @@
                                                 <span class="input-spin touch-focused" data-trigger="spinner">
                                                     <span class="input-spin__btn" data-spin="down">&minus;</span>
                                                     <span data-spin-clone class="input-spin__value hidden">6</span>
-                                                    <input type="tel" class="input-spin__textfield textfield keyfilter-pint js-icard-spinner" data-spin="spinner" data-rule="quantity" data-min="0" data-max="9999" data-step="1" data-price="<?=$arOffer["MIN_PRICE_VALUE"]?>" value="0" maxlength="4" size="6">
+                                                    <input type="tel" class="input-spin__textfield textfield keyfilter-pint js-icard-spinner" data-spin="spinner" data-rule="quantity" data-min="0" data-max="9999" data-step="1" data-price="<?=$arOffer["MIN_PRICE_VALUE"]?>" value="1" maxlength="4" size="6">
                                                     <span class="input-spin__btn" data-spin="up">+</span>
                                                 </span>
 													</div>
@@ -185,7 +187,7 @@
 												<div class="ptgb__content">
 													<div class="ptgb__subtitle">Сумма</div>
 													<div class="ptgb__title ptgb__title--textfield">
-														<div class="tcard__price-total inactive"><strong class="js-icard-price-total">0</strong> <span class="font-light">₽</span></div>
+														<div class="tcard__price-total inactive"><strong class="js-icard-price-total"><?=CFormat::getFormattedPrice($arOffer["MIN_PRICE_VALUE"], "RUB", ["RUB_SIGN" => ''])?></strong> <span class="font-light">₽</span></div>
 													</div>
 												</div>
 											</div>
@@ -194,7 +196,7 @@
 								</div>
 								<div class="tcard__col tcard__col--actions">
 									<div class="tcard__actions-btns btns">
-										<button class="btn btn--cart js-cart-add js-cart-add_<?=$arOffer["ID"]?>" data-label='<span class="mobile-hide">В корзине</span>' data-label-empty='В<span class="mobile-hide"> корзину</span>' disabled>
+										<button class="btn btn--cart js-cart-add js-cart-add_<?=$arOffer["ID"]?>" data-label='<span class="mobile-hide">В корзине</span>' data-label-empty='В<span class="mobile-hide"> корзину</span>'>
 											<span class="btn__title"><span class="mobile-hide">В корзину</span></span>
 											<span class="icon icon--cart-tick">
                                             <svg class="icon icon--tick">
