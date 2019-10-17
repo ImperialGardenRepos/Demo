@@ -164,6 +164,7 @@ class CatalogGardenSection extends \CBitrixComponent
         $arOfferProp = $arOffer["PROPERTIES"];
 
         $intCartQuantity = $this->arResult["CART"][$arOffer["ID"]]["QUANTITY"];
+        $quantityInputValue = $intCartQuantity > 0?$intCartQuantity:1;
         if ($this->arResult["CART"][$arOffer["ID"]]["PRICE"] > 0) {
             $arOffer["MIN_PRICE_VALUE"] = $this->arResult["CART"][$arOffer["ID"]]["PRICE"];
         }
@@ -193,7 +194,11 @@ class CatalogGardenSection extends \CBitrixComponent
                                 <span class="input-spin touch-focused" data-trigger="spinner">
                                     <span class="input-spin__btn" data-spin="down">&minus;</span>
                                     <span data-spin-clone class="input-spin__value hidden">6</span>
-                                    <input type="tel" class="input-spin__textfield textfield keyfilter-pint js-icard-spinner" data-spin="spinner" data-rule="quantity" data-min="0" data-max="9999" data-step="1" data-price="' . $arOffer["MIN_PRICE_VALUE"] . '" value="' . (int)$this->arResult["CART"][$arOffer["ID"]]["QUANTITY"] > 0 ? $this->arResult["CART"][$arOffer["ID"]]["QUANTITY"] : 1 . '" maxlength="4" size="6">
+                                    <input type="tel" class="input-spin__textfield textfield keyfilter-pint js-icard-spinner" data-spin="spinner" 
+                                           data-rule="quantity" data-min="0" data-max="9999" data-step="1" 
+                                           data-price="' . $arOffer["MIN_PRICE_VALUE"] . '" 
+                                           value="' . $quantityInputValue . '" 
+                                           maxlength="4" size="6">
                                     <span class="input-spin__btn" data-spin="up">+</span>
                                 </span>
 							</div>

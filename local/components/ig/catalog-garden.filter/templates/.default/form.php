@@ -117,7 +117,7 @@ $this->setFrameMode(true);
 									$arPropertyParams = array(
 										"BLOCK_TITLE" => "Цена",
 										"DISABLED" => $arResult["OFFER_PARAMS"]["CATALOG_PRICE_LIST"]["DISABLED"],
-										"BLOCK_PARAMS" => ' class="ddbox ddbox--wide js-ddbox" id="ddbox-price" data-place=\'{"0": ".js-filter-ddbox-price-mobile-place", "640": ".js-filter-ddbox-price-place"}\'" id="ddbox-price"',
+										"BLOCK_PARAMS" => ' class="ddbox ddbox--wide js-ddbox" id="ddbox-price" data-place=\'{"0": ".js-filter-ddbox-price-mobile-place", "640": ".js-filter-ddbox-price-place"}\'',
 										"DEFAULT" => array(
 											"NAME" => "Любая",
 											"COUNT" => $arResult["COUNT_DATA"]["CATALOG_PRICE_LIST"]["TOTAL"]

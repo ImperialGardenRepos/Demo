@@ -4,7 +4,7 @@ $aMenuLinks = Array(
 		"Вопросы и ответы", 
 		"/info/voprosy-i-otvety/", 
 		Array(), 
-		Array("LINK_PARAMS"=>"rel=\"nofollow\" target=\"\"_blank\"", "NOINDEX"=>"Y"), 
+		Array("LINK_PARAMS"=>"rel=\"nofollow\" target=\"_blank\"", "NOINDEX"=>"Y"),
 		"" 
 	),
 	Array(

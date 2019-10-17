@@ -64,7 +64,7 @@ ob_start(); ?>
     <div class="icards__item">
         <div class="icard icard--goods js-icard<?= $isLastPage ? ' scroll-load-last-one' : '' ?>"
              data-offer-index="0"
-             data-offers-url="<?= Url::getUrlWithoutParams()?>?productID=<?=$arProduct['ID']?>">
+             data-offers-url="<?= Url::getUrlWithoutParams() ?>?productID=<?= $arProduct['ID'] ?>">
             <div class="icard__inner">
                 <div class="icard__content">
                     <div class="icard__header">
@@ -115,9 +115,9 @@ ob_start(); ?>
                                                 <svg class="icon icon--zoom">
                                                     <use xlink:href="<?= SITE_TEMPLATE_PATH ?>/build/svg/symbol/svg/sprite.symbol.svg#icon-zoom"></use>
                                                 </svg>
-                                                Быстрый просмотр </a>
+                                                Быстрый просмотр
+                                            </a>
                                         </div>
-
                                     </div>
                                     <?php if ($arProduct['OFFERS_CNT'] > 1): ?>
                                         <div class="icard__nav ">
@@ -139,7 +139,7 @@ ob_start(); ?>
                                     <div class="icard__actions">
                                         <div class="icard__offers-actions-wrapper">
                                             <div class="icard__offers-actions js-icard-offer-actions">
-                                                <?= $this->__component->getActionsBlockHtml($arProduct, $arOffer); ?>
+                                                <?= $this->__component->getActionsBlockHtml($arProduct, $arOffer) ?>
                                             </div>
                                         </div>
                                     </div>
