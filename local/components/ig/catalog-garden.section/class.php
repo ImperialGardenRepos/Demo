@@ -193,7 +193,7 @@ class CatalogGardenSection extends \CBitrixComponent
                                 <span class="input-spin touch-focused" data-trigger="spinner">
                                     <span class="input-spin__btn" data-spin="down">&minus;</span>
                                     <span data-spin-clone class="input-spin__value hidden">6</span>
-                                    <input type="tel" class="input-spin__textfield textfield keyfilter-pint js-icard-spinner" data-spin="spinner" data-rule="quantity" data-min="0" data-max="9999" data-step="1" data-price="' . $arOffer["MIN_PRICE_VALUE"] . '" value="' . $this->arResult["CART"][$arOffer["ID"]]["QUANTITY"] . '" maxlength="4" size="6">
+                                    <input type="tel" class="input-spin__textfield textfield keyfilter-pint js-icard-spinner" data-spin="spinner" data-rule="quantity" data-min="0" data-max="9999" data-step="1" data-price="' . $arOffer["MIN_PRICE_VALUE"] . '" value="' . (int)$this->arResult["CART"][$arOffer["ID"]]["QUANTITY"] > 0 ? $this->arResult["CART"][$arOffer["ID"]]["QUANTITY"] : 1 . '" maxlength="4" size="6">
                                     <span class="input-spin__btn" data-spin="up">+</span>
                                 </span>
 							</div>
@@ -207,7 +207,7 @@ class CatalogGardenSection extends \CBitrixComponent
 							<div class="ptgb__subtitle">Сумма</div>
 							<div class="ptgb__title ptgb__title--textfield">
 								<div class="icard__price-total inactive">
-									<strong class="js-icard-price-total">0</strong>
+									<strong class="js-icard-price-total">'. CFormat::getFormattedPrice($arOffer["MIN_PRICE_VALUE"], "RUB", ["RUB_SIGN" => '']) .'</strong>
 									<span class="font-light">₽</span>
 								</div>
 							</div>
@@ -216,7 +216,7 @@ class CatalogGardenSection extends \CBitrixComponent
 				</div>
 			</div>
 			<div class="icard__actions-btns btns">
-				<button class="btn btn--cart js-cart-add" data-label=\'<span class="tablet-hide">В корзине</span>\' data-label-empty=\'В<span class="tablet-hide"> корзину</span>\' disabled>
+				<button class="btn btn--cart js-cart-add" data-label=\'<span class="tablet-hide">В корзине</span>\' data-label-empty=\'В<span class="tablet-hide"> корзину</span>\'>
 					<span class="btn__title">В<span class="tablet-hide"> корзину</span></span>
 					<span class="icon icon--cart-tick">
                     <svg class="icon icon--tick">

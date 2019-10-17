@@ -1,6 +1,6 @@
 <?php
 require_once($_SERVER["DOCUMENT_ROOT"]."/bitrix/modules/main/include/prolog_before.php");
-
+#ToDo::MY-Remove file
 ob_start();
 ?>
 
@@ -183,7 +183,7 @@ ob_start();
                             <span class="input-spin touch-focused" data-trigger="spinner">
                                 <a href="#" class="input-spin__btn" data-spin="down">&minus;</a>
                                 <span data-spin-clone class="input-spin__value hidden">0</span>
-                                <input type="text" class="input-spin__textfield textfield js-icard-spinner" data-spin="spinner" data-rule="quantity" data-min="0" data-max="9999" data-step="1" data-price="300" value="0" maxlength="4" size="6">
+                                <input type="text" class="input-spin__textfield textfield js-icard-spinner" data-spin="spinner" data-rule="quantity" data-min="0" data-max="9999" data-step="1" data-price="300" value="1" maxlength="4" size="6">
                                 <a href="#" class="input-spin__btn" data-spin="up">+</a>
                             </span>
                         </div>
@@ -206,7 +206,7 @@ ob_start();
 
         <div class="icard__actions-btns btns">
 
-            <button class="btn btn--cart js-cart-add" data-label='<span class="mobile-hide">В корзине</span>' data-label-empty='В<span class="mobile-hide"> корзину</span>' disabled>
+            <button class="btn btn--cart js-cart-add" data-label='<span class="mobile-hide">В корзине</span>' data-label-empty='В<span class="mobile-hide"> корзину</span>'>
                 <span class="btn__title">В<span class="mobile-hide"> корзину</span></span>
                 <span class="icon icon--cart-tick">
                     <svg class="icon icon--tick">

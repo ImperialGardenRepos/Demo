@@ -24862,19 +24862,12 @@ var icard = {
                 var $actions = $this.closest('[data-cart-data]');
                 var $actions_all = $('[data-cart-data]').find('[data-id="' + $actions.attr('data-id') + '"]');
                 var $spinner = $actions.find('.js-icard-spinner');
-                // $this.addClass('hidden');
-                // var $cbtn = $this.prevAll('.js-cart-add').first();
-                // var label = $cbtn.attr('data-label');
-                // var label_empty = $cbtn.attr('data-label-empty');
-                // $cbtn.removeClass('success').prop('disabled', true);
-                // $cbtn_title = $cbtn.find('.btn__title').html(label_empty);
                 if (!dont_change) {
                     $this.data('ignore_remove_click', true);
                     var value = 0;
                     $spinner.val(value).trigger('change');
                     icard.actions.value_change($icard, $spinner);
                 }
-                //icard.actions.update($actions);
                 $actions_all.each(function () {
                     icard.actions.update($(this));
                 });
@@ -24894,7 +24887,6 @@ var icard = {
                 offer_index = 0;
             }
             var $actions = $icard.find('.js-icard-offer-actions').children().eq(offer_index);
-            //var $cbtn = $actions.find('.js-cart-add');
             var $remove_action = $actions.find('.js-cart-remove');
             var $input = $actions.find('.js-icard-spinner');
             var value = $input.val();
@@ -24906,17 +24898,7 @@ var icard = {
                     $(this).remove();
                 });
             }
-            // if (!selected && !no_ajax) {
-            //     if (!$remove_action.data('ignore_remove_click')) {
-            //         if (!$remove_action.hasClass('hidden')) {
-            //             icard.actions.cart_remove($remove_action, true);
-            //         }
-            //     }
-            //     else {
-            //         $remove_action.removeData('ignore_remove_click');
-            //     }
-            // }
-            if (in_cart && no_ajax !== true) {// && !$actions.closest('.js-cart-popover').length
+            if (in_cart && no_ajax !== true) {
                 icard.actions.value_change_delay(function () {
                     cart_item_apply({
                         data: $.extend($actions.data('cart-data'), {

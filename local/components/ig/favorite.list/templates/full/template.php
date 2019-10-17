@@ -231,7 +231,7 @@ $this->setFrameMode(true);
 						                                            <span class="input-spin touch-focused" data-trigger="spinner">
 						                                                <span class="input-spin__btn" data-spin="down">&minus;</span>
 						                                                <span data-spin-clone class="input-spin__value hidden"><?=$arBasketItem["QUANTITY"]?></span>
-						                                                <input type="tel" class="input-spin__textfield textfield keyfilter-pint js-icard-spinner" data-spin="spinner" name="QUANTITY[<?=$arOffer["ID"]?>]" data-rule="quantity" data-min="0" data-max="9999" data-step="1" value="6" maxlength="4" size="6">
+						                                                <input type="tel" class="input-spin__textfield textfield keyfilter-pint js-icard-spinner" data-spin="spinner" name="QUANTITY[<?=$arOffer["ID"]?>]" data-rule="quantity" data-min="0" data-max="9999" data-step="1" value="1" maxlength="4" size="6">
 						                                                <span class="input-spin__btn" data-spin="up">+</span>
 						                                            </span>
 																</div>
@@ -244,15 +244,18 @@ $this->setFrameMode(true);
 															<div class="ptgb__content">
 																<div class="ptgb__subtitle">Сумма</div>
 																<div class="ptgb__title ptgb__title--textfield">
-																	<div class="ccard__price-total"><strong class="js-icard-price-total"><?=\ig\CFormat::getFormattedPrice($arBasketItem["SUM_NUM"], "RUB", array("RUB_SIGN"=>''))?></strong> <span class="font-light">₽</span></div>
+                                                                    <?php
+                                                                    $totalPrice = $arBasketItem['QUANTITY'] > 0? $arBasketItem['SUM_NUM'] : $floatMinPrice;
+                                                                    ?>
+																	<div class="ccard__price-total"><strong class="js-icard-price-total"><?=\ig\CFormat::getFormattedPrice($totalPrice, "RUB", array("RUB_SIGN"=>''))?></strong> <span class="font-light">₽</span></div>
 																</div>
 															</div>
 														</div>
 													</div>
 												</div>
 												<div class="ccard__actions-btns btns">
-													<button class="btn btn--cart js-cart-add success" data-label='<span class="mobile-hide">В корзине</span>' data-label-empty='В<span class="mobile-hide"> корзину</span>'>
-														<span class="btn__title"><span class="mobile-hide">В корзине</span></span>
+													<button class="btn btn--cart js-cart-add" data-label='<span class="mobile-hide">В корзине</span>' data-label-empty='В<span class="mobile-hide"> корзину</span>'>
+														<span class="btn__title"><span class="mobile-hide">В корзину</span></span>
 														<span class="icon icon--cart-tick">
 				                                            <svg class="icon icon--tick">
 				                                                <use xlink:href="<?=SITE_TEMPLATE_PATH?>/build/svg/symbol/svg/sprite.symbol.svg#icon-tick"></use>
@@ -262,7 +265,7 @@ $this->setFrameMode(true);
 				                                            </svg>
 				                                        </span>
 													</button>
-													<button class="btn btn--icon js-cart-remove ">
+													<button class="btn btn--icon hidden js-cart-remove ">
 														<svg class="icon icon--trash btn-toggle-state-default icon--nomargin">
 															<use xlink:href="<?=SITE_TEMPLATE_PATH?>/build/svg/symbol/svg/sprite.symbol.svg#icon-trash"></use>
 														</svg>
