@@ -137,7 +137,7 @@ if ($APPLICATION->GetProperty('hideTopBar') !== 'Y') { ?>
                                 "PATH" => "/local/inc_area/address.php"
                             )
                         ); ?></span>
-                    <a href="/o-nas/kontakty/" class="link-after-text link--ib link--bordered">Как проехать</a>
+                    <a href="/o-nas/kontakty/" class="link-after-text link--ib link--bordered print-hide">Как проехать</a>
                 </div>
 
                 <div class="col">
@@ -213,7 +213,7 @@ if ($APPLICATION->GetProperty('hideTopBar') !== 'Y') { ?>
                             )
                         ); ?>
 
-                        <div class="header__cell header__cell--icons">
+                        <div class="header__cell header__cell--icons print-hide">
                             <div class="btns btns--h"><?
                                 if (false) { ?>
                                     <a href="/personal/" class="btn btn--icon btn--hicon">
