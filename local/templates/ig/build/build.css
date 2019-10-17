@@ -21659,6 +21659,11 @@ Common property classes
     font-weight: 400;
 }
 
+@media screen and (min-width: 641px) and (max-width: 1450px) {
+    .section__bg.mobile-hide.section__bg--trees {
+        background-position: 85%;
+    }
+}
 @media print {
     .textfield {
         -webkit-print-color-adjust:exact;
