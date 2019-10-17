@@ -4,7 +4,7 @@
 
 if (!empty($arResult)) {
 	$previousLevel = 0;?>
-	<div class="header__cell header__cell--hmenu mobile-hide">
+	<div class="header__cell header__cell--hmenu mobile-hide print-hide">
 		<div class="hmenu" data-place='{"0": ".js-hmenu-mobile-place", "640": ".js-hmenu-place"}'>
 			<div class="hmenu__inner"><?
 				foreach ($arResult as $arItem) {

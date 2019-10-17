@@ -263,7 +263,7 @@ $this->setFrameMode(true);
                                                                                name="QUANTITY[<?= $arOffer["ID"] ?>]"
                                                                                data-rule="quantity" data-min="0"
                                                                                data-max="9999" data-step="1"
-                                                                               value="<?= $arBasketItem["QUANTITY"] ?>"
+                                                                               value="<?= $arBasketItem["QUANTITY"] > 0 ? $arBasketItem["QUANTITY"] : 1?>"
                                                                                maxlength="4" size="6">
 						                                                <span class="input-spin__btn"
                                                                               data-spin="up">+</span>

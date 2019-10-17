@@ -58,7 +58,7 @@ class CartList extends CatalogSection
     <span class="input-spin touch-focused" data-trigger="spinner">
         <span class="input-spin__btn" data-spin="down">&minus;</span>
         <span data-spin-clone class="input-spin__value hidden">0</span>
-        <input type="tel" class="input-spin__textfield textfield keyfilter-pint js-icard-spinner" data-spin="spinner" data-rule="quantity" data-min="0" data-max="9999" data-step="1" data-price="' . $arOffer["MIN_PRICE_VALUE"] . '" value="0" maxlength="4" size="6">
+        <input type="tel" class="input-spin__textfield textfield keyfilter-pint js-icard-spinner" data-spin="spinner" data-rule="quantity" data-min="0" data-max="9999" data-step="1" data-price="' . $arOffer["MIN_PRICE_VALUE"] . '" value="1" maxlength="4" size="6">
         <span class="input-spin__btn" data-spin="up">+</span>
     </span>
 						</div>
@@ -73,7 +73,7 @@ class CartList extends CatalogSection
 						</div>
 						<div class="ptgb__title ptgb__title--textfield">
 							<div class="icard__price-total">
-								<strong class="js-icard-price-total">0</strong> <span class="font-light">₽</span>
+								<strong class="js-icard-price-total">' . CFormat::getFormattedPrice($arOffer["MIN_PRICE_VALUE"], "RUB", ["RUB_SIGN" => '']) . '</strong> <span class="font-light">₽</span>
 							</div>
 						</div>
 					</div>
@@ -83,7 +83,7 @@ class CartList extends CatalogSection
 		</div>
 		
 		<div class="icard__actions-btns btns">
-			<button disabled class="btn btn--cart js-cart-add js-cart-add_' . $arOffer["ID"] . '" data-label=\'<span class="mobile-hide">В корзине</span>\' data-label-empty=\'В<span class="mobile-hide"> корзину</span>\'>
+			<button class="btn btn--cart js-cart-add js-cart-add_' . $arOffer["ID"] . '" data-label=\'<span class="mobile-hide">В корзине</span>\' data-label-empty=\'В<span class="mobile-hide"> корзину</span>\'>
 				<span class="btn__title"><span class="mobile-hide">В корзину</span></span>
 				<span class="icon icon--cart-tick">
     <svg class="icon icon--tick">
