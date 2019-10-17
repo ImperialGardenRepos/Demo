@@ -26,10 +26,10 @@ if(empty($strImagePath)) {
 }
 ?>
 <div class="section section--bring-to-front section--hero">
-	<div class="section__bg img-to-bg mobile-hide">
+	<div class="section__bg section__bg--trees img-to-bg mobile-hide">
 		<img data-lazy-src="<?=$strImagePath?>" src="<?=SITE_TEMPLATE_PATH?>/img/blank.png" alt="">
 	</div>
-	<div class="section__bg img-to-bg mobile-show">
+	<div class="section__bg section__bg--trees img-to-bg mobile-show">
 		<img data-lazy-src="<?=$strImagePathMobile?>" src="<?=SITE_TEMPLATE_PATH?>/img/blank.png" alt="">
 	</div>
 	<div class="container">
