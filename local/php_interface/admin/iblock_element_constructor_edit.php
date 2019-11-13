@@ -95,17 +95,19 @@ foreach ($PROP as $propertyArray) {
 }
 $actualBlockType = $typeField['VALUE'];
 $actualBlockType = array_shift($actualBlockType);
+if($actualBlockType === null) {
+    $actualBlockType = '181';
+}
 
 $actualTypeFieldValue = CIBlockPropertyEnum::GetList([], ['ID' => $actualBlockType])->Fetch();
 $actualTypeFieldValue = $actualTypeFieldValue['XML_ID'];
-
 foreach ($PROP as $key => $property) {
-    if (!in_array($property['CODE'], $fieldsByBlock[$actualTypeFieldValue], true) && !in_array($property['CODE'], $fieldsCommon, true)) {
-        unset($PROP[$key]);
+    if (in_array($property['CODE'], $fieldsByBlock[$actualTypeFieldValue], true) || in_array($property['CODE'], $fieldsCommon, true)) {
+        continue;
     }
+    unset($PROP[$key]);
 }
 $PROP = array_values($PROP);
-
 Loader::includeModule('iblock');
 
 //////////////////////////
@@ -755,7 +757,6 @@ if (COption::GetOptionString("iblock", "show_xml_id", "N") == "Y") {
 }
 
 $tabControl->AddEditField("SORT", GetMessage("IBLOCK_FIELD_SORT") . ":", $arIBlock["FIELDS"]["SORT"]["IS_REQUIRED"] === "Y", array("size" => 7, "maxlength" => 10), $str_SORT);
-
 if (!empty($PROP)):
     if ($arIBlock["SECTION_PROPERTY"] === "Y" || defined("CATALOG_PRODUCT")) {
         $arPropLinks = array("IBLOCK_ELEMENT_PROP_VALUE");

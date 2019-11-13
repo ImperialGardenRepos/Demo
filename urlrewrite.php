@@ -160,6 +160,14 @@ $arUrlRewrite=array (
     'PATH' => '/news/index.php',
     'SORT' => 100,
   ),
+  22 => 
+  array (
+    'CONDITION' => '#^/promo#',
+    'RULE' => '',
+    'ID' => 'bitrix:form.result.new',
+    'PATH' => '/local/components/ig/page.constructor/templates/.default/template.php',
+    'SORT' => 100,
+  ),
   2 => 
   array (
     'CONDITION' => '#^/katalog/tovary-dlya-sada/#',

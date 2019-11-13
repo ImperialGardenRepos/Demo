@@ -596,9 +596,11 @@ $isGridStarted = false;
             $this->AddEditAction($item['ID'], $addLink, $addLinkText);
             $this->AddEditAction($item['ID'], $editLink, $editLinkText);
             $this->AddDeleteAction($item['ID'], $deleteLink, $deleteLinkText);
+
+            $hasSubLinks = (bool)$props['SUBLINKS']['VALUE'] !== false && (bool)$props['SUBLINKS_TEXTS']['VALUE'] !== false;
             ?>
             <div class="column-4">
-                <div class="grid-item js-grid-item">
+                <div class="grid-item<?= $hasSubLinks ? ' js-grid-item' : '' ?>" id="<?= $item['ID'] ?>">
                     <?php if ($props['IMAGE']['VALUE']): ?>
                         <img class="grid-item__img" alt="<?= $props['LINK_TEXT']['VALUE'] ?>"
                              src="<?= CFile::GetPath($props['IMAGE']['VALUE']) ?>">
@@ -608,8 +610,8 @@ $isGridStarted = false;
                             <span class="grid-item__link-inner"><?= $props['LINK_TEXT']['VALUE'] ?></span>
                         </a>
                     <?php endif; ?>
-                    <div class="grid-item__overlay js-grid-item-overlay">
-                        <?php if (count($props['SUBLINKS']['VALUE']) > 0 && count($props['SUBLINKS_TEXTS']['VALUE']) > 0): ?>
+                    <?php if ($hasSubLinks): ?>
+                        <div class="grid-item__overlay<?= $hasSubLinks ? ' js-grid-item-overlay' : '' ?>">
                             <div class="link-grid">
                                 <?php foreach ($props['SUBLINKS']['VALUE'] as $subLinkKey => $subLink): ?>
                                     <a class="link-grid__item" href="<?= $subLink ?>">
@@ -617,8 +619,8 @@ $isGridStarted = false;
                                     </a>
                                 <?php endforeach; ?>
                             </div>
-                        <?php endif; ?>
-                    </div>
+                        </div>
+                    <?php endif; ?>
                 </div>
             </div>
         <?php endif; ?>
@@ -644,3 +646,7 @@ $isGridStarted = false;
     <div class="text landing-section landing-section--dummy"
          id="<?= $this->GetEditAreaId($arResult['SECTION']['ID']) ?>"></div>
 <?php endif; ?>
+
+<?php if ($isGridStarted) {
+    echo '</div>';
+}?>
