@@ -4,6 +4,7 @@ if (!defined('B_PROLOG_INCLUDED') || B_PROLOG_INCLUDED !== true) {
     die();
 }
 
+use Bitrix\Main\Page\Asset;
 use ig\CHelper;
 
 /** @var array $arParams */
@@ -86,7 +87,7 @@ $isGridStarted = false;
             <?php if ($props['LINK']['VALUE'] !== '' && $props['LINK_TEXT']['VALUE'] === ''): ?>
                 <a class="landing-section banner <?= $bannerWideClass ?> banner--<?= $textVerticalAlignment ?> banner--<?= $textHorizontalAlignment ?>"
                    href="<?= $props['LINK']['VALUE'] ?>"
-                   style="background: url(<?= CFile::GetPath($props['IMAGE']['VALUE']) ?>)">
+                   style="background: url(<?= CFile::GetPath(end($props['IMAGE']['VALUE'])) ?>)">
                     <div class="banner__content" id="<?= $this->GetEditAreaId($item['ID']) ?>">
                         <?php
                         if ($props['BLOCK_HEADING']['VALUE']['TEXT'] !== '') {
@@ -108,7 +109,7 @@ $isGridStarted = false;
             <?php else: ?>
                 <section
                         class="landing-section banner <?= $bannerWideClass ?> banner--<?= $textVerticalAlignment ?> banner--<?= $textHorizontalAlignment ?>"
-                        style="background: url(<?= CFile::GetPath($props['IMAGE']['VALUE']) ?>)">
+                        style="background: url(<?= CFile::GetPath(end($props['IMAGE']['VALUE'])) ?>)">
                     <div class="banner__content" id="<?= $this->GetEditAreaId($item['ID']) ?>">
                         <?php
                         if ($props['BLOCK_HEADING']['VALUE']['TEXT'] !== '') {
@@ -179,10 +180,29 @@ $isGridStarted = false;
                             <?php CHelper::renderText($props['BLOCK_TEXT']['VALUE']['TEXT'], $props['BLOCK_TEXT']['VALUE']['TYPE']) ?>
                         </div>
                     <?php endif; ?>
-                    <?php if ($props['IMAGE']['VALUE'] !== ''): ?>
+                    <?php if ((bool)$props['IMAGE']['VALUE'] !== false): ?>
                         <div class="text__img text__img--<?= $imgVerticalAlignment ?> text__img--<?= $imgHorizontalAlignment ?>">
-                            <img src="<?= CFile::GetPath($props['IMAGE']['VALUE']) ?>"
-                                 alt="<?= $item['NAME'] ?>">
+                            <?php if (count($props['IMAGE']['VALUE']) > 1): ?>
+                                <?php /** Slider if image is multiple*/ ?>
+                                <?php Asset::getInstance()->addJs("{$templateFolder}/js/vendor/tiny-slider.js"); ?>
+                                <div class="slider">
+                                    <div class="slider__inner js-slider">
+                                        <?php foreach ($props['IMAGE']['VALUE'] as $imageId): ?>
+                                            <div class="slider__item">
+                                                <img src="<?=CFile::GetPath($imageId)?>" alt="<?=$item['NAME']?>" class="slider__img">
+                                            </div>
+                                        <?php endforeach; ?>
+                                    </div>
+                                    <div class="slider__controls js-slider-controls">
+                                        <?php foreach ($props['IMAGE']['VALUE'] as $imageId): ?>
+                                            <div class="slider__control"></div>
+                                        <?php endforeach; ?>
+                                    </div>
+                                </div>
+                            <?php else: ?>
+                                <img src="<?= CFile::GetPath(end($props['IMAGE']['VALUE'])) ?>"
+                                     alt="<?= $item['NAME'] ?>">
+                            <?php endif; ?>
                         </div>
                     <?php endif; ?>
                 </div>
@@ -601,9 +621,9 @@ $isGridStarted = false;
             ?>
             <div class="column-4">
                 <div class="grid-item<?= $hasSubLinks ? ' js-grid-item' : '' ?>" id="<?= $item['ID'] ?>">
-                    <?php if ($props['IMAGE']['VALUE']): ?>
+                    <?php if ((bool)$props['IMAGE']['VALUE'] !== false): ?>
                         <img class="grid-item__img" alt="<?= $props['LINK_TEXT']['VALUE'] ?>"
-                             src="<?= CFile::GetPath($props['IMAGE']['VALUE']) ?>">
+                             src="<?= CFile::GetPath(end($props['IMAGE']['VALUE'])) ?>">
                     <?php endif; ?>
                     <?php if ($props['LINK']['VALUE'] !== '' && $props['LINK_TEXT']['VALUE'] !== ''): ?>
                         <a class="grid-item__link" href="<?= $props['LINK']['VALUE'] ?>">
@@ -623,6 +643,18 @@ $isGridStarted = false;
                     <?php endif; ?>
                 </div>
             </div>
+        <?php endif; ?>
+
+
+        <?php if ($type === 'slider'): ?>
+            <?php
+            /**
+             * Have to duplicate these, otherwise they simply don't work
+             */
+            $this->AddEditAction($item['ID'], $addLink, $addLinkText);
+            $this->AddEditAction($item['ID'], $editLink, $editLinkText);
+            $this->AddDeleteAction($item['ID'], $deleteLink, $deleteLinkText);
+            ?>
         <?php endif; ?>
     <?php endforeach; ?>
 <?php else: ?>
@@ -649,4 +681,4 @@ $isGridStarted = false;
 
 <?php if ($isGridStarted) {
     echo '</div>';
-}?>
+} ?>
