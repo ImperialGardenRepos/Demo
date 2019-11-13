@@ -29,11 +29,12 @@ class CPageConstructor extends CBitrixComponent
         }
 
         $requestArray = Application::getInstance()->getContext()->getRequest()->toArray();
-
         if (!array_key_exists('CODE', $requestArray) || (bool)$requestArray['CODE'] === false) {
             Tools::process404();
         }
-        $arParams['CODE'] = $requestArray['CODE'];
+        $code = explode('?',$requestArray['CODE']);
+
+        $arParams['CODE'] = reset($code);
 
         return $arParams;
     }
