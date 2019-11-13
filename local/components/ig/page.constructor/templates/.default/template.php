@@ -17,7 +17,6 @@ use ig\CHelper;
 /** @var string $templateFolder */
 /** @var string $componentPath */
 /** @var CBitrixComponent $componentName */
-$isGridStarted = false;
 ?>
 <?php if ($arResult['ITEMS'] !== []): ?>
     <?php
@@ -49,7 +48,7 @@ $isGridStarted = false;
             $arResult['SECTION']['ID'],
             [
                 'SECTION_BUTTONS' => false,
-                'SESSID' => false,
+                'SESSID' => false
 
             ]
         );
@@ -265,7 +264,7 @@ $isGridStarted = false;
                 if ($productPlants !== false) {
                     global $arCatalogPlantFilter;
                     $arCatalogPlantFilter = [
-                        'ID' => $productPlants,
+                        'ID' => $productPlants
                     ];
                     $APPLICATION->IncludeComponent(
                         $componentName,
@@ -290,7 +289,7 @@ $isGridStarted = false;
                                 'element' => '#SECTION_CODE_PATH#/#ELEMENT_CODE#/',
                                 'section' => '#SECTION_CODE_PATH#/',
                                 'sections' => '',
-                                'smart_filter' => '#SECTION_ID#/filter/#SMART_FILTER_PATH#/apply/',
+                                'smart_filter' => '#SECTION_ID#/filter/#SMART_FILTER_PATH#/apply/'
                             ],
                             'SET_TITLE' => 'N',
                             'SET_BROWSER_TITLE' => 'N',
@@ -305,7 +304,7 @@ $isGridStarted = false;
                 if ($productGarden !== false) {
                     global $arCatalogGardenFilter;
                     $arCatalogGardenFilter = [
-                        'ID' => $productGarden,
+                        'ID' => $productGarden
                     ];
                     $APPLICATION->IncludeComponent(
                         $componentName,
@@ -330,7 +329,7 @@ $isGridStarted = false;
                                 'element' => '#SECTION_CODE_PATH#/#ELEMENT_CODE#/',
                                 'section' => '#SECTION_CODE_PATH#/',
                                 'sections' => '',
-                                'smart_filter' => '#SECTION_ID#/filter/#SMART_FILTER_PATH#/apply/',
+                                'smart_filter' => '#SECTION_ID#/filter/#SMART_FILTER_PATH#/apply/'
                             ],
                             'SET_TITLE' => 'N',
                             'SET_BROWSER_TITLE' => 'N',
@@ -475,7 +474,7 @@ $isGridStarted = false;
                                         $arResult['SECTION']['ID'],
                                         [
                                             'SECTION_BUTTONS' => false,
-                                            'SESSID' => false,
+                                            'SESSID' => false
 
                                         ]
                                     );
@@ -574,56 +573,6 @@ $isGridStarted = false;
                 <?php endif; ?>
             </div>
         <?php endif; ?>
-        <?php
-        /**
-         * Grid block
-         */
-        ?>
-        <?php if ($type !== 'grid' && $isGridStarted === true) {
-            echo '</div>';
-            $isGridStarted = false;
-        } ?>
-
-        <?php if ($type === 'grid'): ?>
-            <?php
-            if ($isGridStarted === false) {
-                $isGridStarted = true;
-                echo '<div class="row">';
-            }
-            /**
-             * Have to duplicate these, otherwise they simply don't work
-             */
-            $this->AddEditAction($item['ID'], $addLink, $addLinkText);
-            $this->AddEditAction($item['ID'], $editLink, $editLinkText);
-            $this->AddDeleteAction($item['ID'], $deleteLink, $deleteLinkText);
-
-            $hasSubLinks = (bool)$props['SUBLINKS']['VALUE'] !== false && (bool)$props['SUBLINKS_TEXTS']['VALUE'] !== false;
-            ?>
-            <div class="column-4">
-                <div class="grid-item<?= $hasSubLinks ? ' js-grid-item' : '' ?>" id="<?= $item['ID'] ?>">
-                    <?php if ($props['IMAGE']['VALUE']): ?>
-                        <img class="grid-item__img" alt="<?= $props['LINK_TEXT']['VALUE'] ?>"
-                             src="<?= CFile::GetPath($props['IMAGE']['VALUE']) ?>">
-                    <?php endif; ?>
-                    <?php if ($props['LINK']['VALUE'] !== '' && $props['LINK_TEXT']['VALUE'] !== ''): ?>
-                        <a class="grid-item__link" href="<?= $props['LINK']['VALUE'] ?>">
-                            <span class="grid-item__link-inner"><?= $props['LINK_TEXT']['VALUE'] ?></span>
-                        </a>
-                    <?php endif; ?>
-                    <?php if ($hasSubLinks): ?>
-                        <div class="grid-item__overlay<?= $hasSubLinks ? ' js-grid-item-overlay' : '' ?>">
-                            <div class="link-grid">
-                                <?php foreach ($props['SUBLINKS']['VALUE'] as $subLinkKey => $subLink): ?>
-                                    <a class="link-grid__item" href="<?= $subLink ?>">
-                                        <?= $props['SUBLINKS_TEXTS']['VALUE'][$subLinkKey] ?? $subLink ?>
-                                    </a>
-                                <?php endforeach; ?>
-                            </div>
-                        </div>
-                    <?php endif; ?>
-                </div>
-            </div>
-        <?php endif; ?>
     <?php endforeach; ?>
 <?php else: ?>
 
@@ -634,7 +583,7 @@ $isGridStarted = false;
         $arResult['SECTION']['ID'],
         [
             'SECTION_BUTTONS' => false,
-            'SESSID' => false,
+            'SESSID' => false
 
         ]
     );
@@ -646,7 +595,3 @@ $isGridStarted = false;
     <div class="text landing-section landing-section--dummy"
          id="<?= $this->GetEditAreaId($arResult['SECTION']['ID']) ?>"></div>
 <?php endif; ?>
-
-<?php if ($isGridStarted) {
-    echo '</div>';
-}?>
