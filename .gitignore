@@ -53,3 +53,4 @@ robots.txt
 /local/vendor/*
 /local/templates/ig/pic
 .section.php
+/price-lists
