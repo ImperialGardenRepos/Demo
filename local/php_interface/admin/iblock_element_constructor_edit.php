@@ -11,13 +11,13 @@ require_once($_SERVER['DOCUMENT_ROOT'] . '/bitrix/modules/main/include/prolog_ad
 require_once($_SERVER['DOCUMENT_ROOT'] . '/bitrix/modules/iblock/prolog.php');
 
 $fieldsCommon = [
+    'BLOCK_HEADING',
+    'BLOCK_TEXT',
+    'HEADING_TYPE',
 ];
 
 $fieldsByBlock = [
     'banner' => [
-        'BLOCK_HEADING',
-        'BLOCK_TEXT',
-        'HEADING_TYPE',
         'IMAGE',
         'LINK',
         'LINK_TEXT',
@@ -26,9 +26,6 @@ $fieldsByBlock = [
         'STRETCH_TO_FULL_WIDTH'
     ],
     'text' => [
-        'BLOCK_HEADING',
-        'BLOCK_TEXT',
-        'HEADING_TYPE',
         'IMAGE',
         'TEXT_VERTICAL_ALIGN',
         'TEXT_HORIZONTAL_ALIGN',
@@ -38,15 +35,9 @@ $fieldsByBlock = [
         'IMAGE_HORIZONTAL_ALIGN'
     ],
     'table' => [
-        'BLOCK_HEADING',
-        'BLOCK_TEXT',
-        'HEADING_TYPE',
         'EXCEL_FILE'
     ],
     'product' => [
-        'BLOCK_HEADING',
-        'BLOCK_TEXT',
-        'HEADING_TYPE',
         'PRODUCT_PLANT',
         'PRODUCT_GARDEN',
         'SORT_FIELD',
@@ -54,34 +45,18 @@ $fieldsByBlock = [
         'PRODUCT_TEMPLATE',
     ],
     'form' => [
-        'BLOCK_HEADING',
-        'BLOCK_TEXT',
-        'HEADING_TYPE',
         'FORM_ID',
         'FORM_TEMPLATE',
     ],
     'map' => [
-        'BLOCK_HEADING',
-        'BLOCK_TEXT',
-        'HEADING_TYPE',
         'MAP_POINT',
         'MAP_CENTER',
         'MAP_ZOOM',
         'LINKED_MAPS',
     ],
     'file' => [
-        'BLOCK_HEADING',
-        'BLOCK_TEXT',
-        'HEADING_TYPE',
         'ICON',
         'FILE',
-    ],
-    'grid' => [
-        'IMAGE',
-        'LINK',
-        'LINK_TEXT',
-        'SUBLINKS',
-        'SUBLINKS_TEXTS'
     ],
 ];
 
@@ -95,19 +70,17 @@ foreach ($PROP as $propertyArray) {
 }
 $actualBlockType = $typeField['VALUE'];
 $actualBlockType = array_shift($actualBlockType);
-if($actualBlockType === null) {
-    $actualBlockType = '181';
-}
 
 $actualTypeFieldValue = CIBlockPropertyEnum::GetList([], ['ID' => $actualBlockType])->Fetch();
 $actualTypeFieldValue = $actualTypeFieldValue['XML_ID'];
+
 foreach ($PROP as $key => $property) {
-    if (in_array($property['CODE'], $fieldsByBlock[$actualTypeFieldValue], true) || in_array($property['CODE'], $fieldsCommon, true)) {
-        continue;
+    if (!in_array($property['CODE'], $fieldsByBlock[$actualTypeFieldValue], true) && !in_array($property['CODE'], $fieldsCommon, true)) {
+        unset($PROP[$key]);
     }
-    unset($PROP[$key]);
 }
 $PROP = array_values($PROP);
+
 Loader::includeModule('iblock');
 
 //////////////////////////
@@ -757,6 +730,7 @@ if (COption::GetOptionString("iblock", "show_xml_id", "N") == "Y") {
 }
 
 $tabControl->AddEditField("SORT", GetMessage("IBLOCK_FIELD_SORT") . ":", $arIBlock["FIELDS"]["SORT"]["IS_REQUIRED"] === "Y", array("size" => 7, "maxlength" => 10), $str_SORT);
+
 if (!empty($PROP)):
     if ($arIBlock["SECTION_PROPERTY"] === "Y" || defined("CATALOG_PRODUCT")) {
         $arPropLinks = array("IBLOCK_ELEMENT_PROP_VALUE");
