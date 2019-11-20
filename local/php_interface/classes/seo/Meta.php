@@ -84,7 +84,7 @@ class Meta
     /**
      * @param string $month
      */
-    public function setMonth(string $month): void
+    public function setMonth(?string $month): void
     {
         $this->month = $month;
     }

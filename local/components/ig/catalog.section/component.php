@@ -297,8 +297,8 @@ if ($this->startResultCache(false, array(($arParams["CACHE_GROUPS"] === "N" ? fa
     }
     if ($sortArray === []) {
         $sortArray = [
-            'CATALOG_PRICE_' . CRegistry::get('CATALOG_BASE_PRICE_ID') => 'ASC',
-            'NAME' => 'ASC'
+            #'CATALOG_PRICE_' . CRegistry::get('CATALOG_BASE_PRICE_ID') => 'ASC',
+            'PROPERTY_FULL_NAME' => 'ASC'
         ];
     }
 
