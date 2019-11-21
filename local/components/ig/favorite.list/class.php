@@ -8,11 +8,11 @@ if (!defined('B_PROLOG_INCLUDED') || B_PROLOG_INCLUDED !== true) {
     die();
 }
 
-CBitrixComponent::includeComponentClass('ig:catalog.section');
+CBitrixComponent::includeComponentClass('ig:catalog-old.section');
 
 /** @noinspection AutoloadingIssuesInspection */
 
-class FavoriteList extends CatalogSection
+class FavoriteList extends CatalogOldSection
 {
     /**
      * @param $arSort

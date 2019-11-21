@@ -1,7 +1,7 @@
 <?php
 
 use ig\CFormat;
-use ig\Helpers\ArrayTools;
+use ig\Helpers\ArrayHelper;
 use ig\Seo\Meta;
 
 if (!defined('B_PROLOG_INCLUDED') || B_PROLOG_INCLUDED !== true) {
@@ -18,15 +18,15 @@ if (!empty($arResult['PROPERTIES']['IS_RUSSIAN']['VALUE'])) {
 $name = $name ?? $nameAlt;
 
 $nameFull = CFormat::formatPlantTitle(
-    !empty($arSortProp['IS_VIEW']['VALUE']) ? '' : $name,
+    !empty($itemProperties['IS_VIEW']['VALUE']) ? '' : $name,
     $arResult['SECTION']['PATH'][0]['NAME'],
     $arResult['SECTION']['PATH'][1]['NAME']
 );
 
 $arResult['NAME_FULL'] = $nameFull;
 
-$basePrice = ArrayTools::getMinValue(array_column($arResult['OFFERS'], 'CATALOG_PRICE_2'));
-$discountPrice = ArrayTools::getMinValue(array_column($arResult['OFFERS'], 'CATALOG_PRICE_3'));
+$basePrice = ArrayHelper::getMinValue(array_column($arResult['OFFERS'], 'CATALOG_PRICE_2'));
+$discountPrice = ArrayHelper::getMinValue(array_column($arResult['OFFERS'], 'CATALOG_PRICE_3'));
 
 $minPrice = $discountPrice !== null && $discountPrice < $basePrice ? $discountPrice : $basePrice;
 $height = CFormat::formatPropertyValue('HEIGHT_10', $arResult['PROPERTIES']['HEIGHT_10']['VALUE'], $arResult['PROPERTIES']['HEIGHT_10']);

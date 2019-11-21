@@ -6,8 +6,8 @@ use Bitrix\Main\ArgumentException;
 use Bitrix\Main\LoaderException;
 use Bitrix\Main\ObjectPropertyException;
 use Bitrix\Main\SystemException;
-use ig\Helpers\Url;
-use ig\Highload\VirtualPage;
+use ig\Helpers\UrlHelper;
+use ig\Datasource\Highload\VirtualPageTable;
 
 /**
  * Class Meta
@@ -159,7 +159,7 @@ class Meta
      */
     private function getCustomMeta(): array
     {
-        $request = explode('/', trim(Url::getUrlWithoutParams(), '/'));
+        $request = explode('/', trim(UrlHelper::getUrlWithoutParams(), '/'));
 
         $currentUrlEqual = '/' . implode('/', $request) . '/';
 
@@ -189,7 +189,7 @@ class Meta
      */
     private function getMetaByExactUrl(string $url): ?array
     {
-        $meta = VirtualPage::getByUrl($url);
+        $meta = VirtualPageTable::getByUrl($url);
         if (count($meta) === 1) {
             return array_shift($meta);
         }
@@ -216,7 +216,7 @@ class Meta
 
         $currentUrlMasked = '/' . implode('/', $request) . '/';
 
-        $meta = VirtualPage::getByUrl($currentUrlMasked);
+        $meta = VirtualPageTable::getByUrl($currentUrlMasked);
         if (count($meta) === 1) {
             return array_shift($meta);
         }
@@ -234,7 +234,7 @@ class Meta
             $browserTitle = $APPLICATION->GetTitle();
             $browserTitle .= " – Страница {$this->currentPage} из {$this->totalPage}";
             $APPLICATION->SetTitle($browserTitle);
-            $APPLICATION->SetPageProperty('canonical', Url::getUrlWithoutParams());
+            $APPLICATION->SetPageProperty('canonical', UrlHelper::getUrlWithoutParams());
         }
     }
 
@@ -262,34 +262,34 @@ class Meta
         /**
          * Description
          */
-        if (isset($meta['mask']) && $meta['mask']['UF_DESCRIPTION'] !== '') {
-            $APPLICATION->SetPageProperty('description', $this->processMasks($meta['mask']['UF_DESCRIPTION']));
+        if (isset($meta['mask']) && $meta['mask']['DESCRIPTION'] !== '') {
+            $APPLICATION->SetPageProperty('description', $this->processMasks($meta['mask']['DESCRIPTION']));
         }
 
-        if (isset($meta['exact']) && $meta['exact']['UF_DESCRIPTION'] !== '') {
-            $APPLICATION->SetPageProperty('description', $this->processMasks($meta['exact']['UF_DESCRIPTION']));
+        if (isset($meta['exact']) && $meta['exact']['DESCRIPTION'] !== '') {
+            $APPLICATION->SetPageProperty('description', $this->processMasks($meta['exact']['DESCRIPTION']));
         }
 
         /**
          * Title
          */
-        if (isset($meta['mask']) && $meta['mask']['UF_TITLE'] !== '') {
-            $APPLICATION->SetTitle($this->processMasks($meta['mask']['UF_TITLE']));
+        if (isset($meta['mask']) && $meta['mask']['TITLE'] !== '') {
+            $APPLICATION->SetTitle($this->processMasks($meta['mask']['TITLE']));
         }
 
-        if (isset($meta['exact']) && $meta['exact']['UF_TITLE'] !== '') {
-            $APPLICATION->SetTitle($this->processMasks($meta['exact']['UF_TITLE']));
+        if (isset($meta['exact']) && $meta['exact']['TITLE'] !== '') {
+            $APPLICATION->SetTitle($this->processMasks($meta['exact']['TITLE']));
         }
 
         /**
          * Browser title
          */
-        if (isset($meta['mask']) && $meta['mask']['UF_H1'] !== '') {
-            $APPLICATION->SetPageProperty('title', $this->processMasks($meta['mask']['UF_H1'], false));
+        if (isset($meta['mask']) && $meta['mask']['H1'] !== '') {
+            $APPLICATION->SetPageProperty('title', $this->processMasks($meta['mask']['H1'], false));
         }
 
-        if (isset($meta['exact']) && $meta['exact']['UF_H1'] !== '') {
-            $APPLICATION->SetPageProperty('title', $this->processMasks($meta['exact']['UF_H1'], false));
+        if (isset($meta['exact']) && $meta['exact']['H1'] !== '') {
+            $APPLICATION->SetPageProperty('title', $this->processMasks($meta['exact']['H1'], false));
         }
     }
 

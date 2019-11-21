@@ -6,6 +6,7 @@ use Bitrix\Highloadblock\HighloadBlockTable;
 use Bitrix\Main\Entity\DataManager;
 use Bitrix\Main\Loader;
 use Bitrix\Main\LoaderException;
+use Bitrix\Main\ORM\Query\Result;
 use Bitrix\Main\SystemException;
 
 //ToDo:: make singletone
@@ -213,4 +214,5 @@ class Base
             }
         }
     }
+
 }

@@ -1,7 +1,7 @@
 <div class="fcard">
     <div class="fcard__grid">
         <div class="fcard__header"><?
-            if (!empty($arSortProp["RECOMMENDED"]["VALUE"])) { ?>
+            if (!empty($itemProperties["RECOMMENDED"]["VALUE"])) { ?>
                 <div class="tags">
                     <div class="tag">Хит сезона</div>
                 </div><?
@@ -80,7 +80,7 @@
     }
 
 
-    $bHeightNowExtEnabled = \ig\CHelper::isPropertyEnabledForGroup("HEIGHT_NOW_EXT", $arSortProp["GROUP"]["VALUE"]);
+    $bHeightNowExtEnabled = \ig\CHelper::isPropertyEnabledForGroup("HEIGHT_NOW_EXT", $itemProperties["GROUP"]["VALUE"]);
     ?>
     <div id="offers" class="fcard__offers" data-goto-offset-element=".header, .fcard__tabs">
         <div class="thead mobile-hide">

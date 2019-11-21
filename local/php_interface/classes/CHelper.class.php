@@ -6,7 +6,6 @@ use Bitrix\Main\Loader;
 use Bitrix\Main\LoaderException;
 use CCatalogSKU;
 use CIBlockProperty;
-use ig\Base\Router;
 use ig\Highload\Base;
 
 class CHelper
@@ -14,10 +13,10 @@ class CHelper
     private static
         $arHeightNowConverter,
         $arHeight10Converter,
-        $arGroupData = array(),
-        $arGroupProperties = array(),
-        $arGroupPropertyValues = array(),
-        $arIblockPrices = array();
+        $arGroupData = [],
+        $arGroupProperties = [],
+        $arGroupPropertyValues = [],
+        $arIblockPrices = [];
 
     public static function addRecaptcha()
     {
@@ -31,11 +30,11 @@ class CHelper
 			<input type="text" readonly class="google-recaptcha-validator" name="recaptcha_validator" data-rule-recaptcha="true" data-msg-recaptcha="Пройдите тест на робота">';
     }
 
-    public static function getSliderImageData($intID, $arParams = array())
+    public static function getSliderImageData($intID, $arParams = [])
     {
         $intID = intval($intID);
 
-        $arResult = array();
+        $arResult = [];
         if ($intID > 0) {
             $arImg = \CFile::GetFileArray($intID);
 
@@ -53,28 +52,28 @@ class CHelper
         return $arResult;
     }
 
-    public static function getSlider($strFullSliderID, $arParams = array())
+    public static function getSlider($strFullSliderID, $arParams = [])
     {
         if (empty($arParams["IMAGES"])) {
-            $strSliderID = str_replace(array("#", "SLIDER_"), '', $strFullSliderID);
+            $strSliderID = str_replace(["#", "SLIDER_"], '', $strFullSliderID);
             $intSliderID = intval($strSliderID);
 
             $strResult = '';
 
             if ($intSliderID > 0) {
                 if (\Bitrix\Main\Loader::includeModule("iblock")) {
-                    $arImages = array();
+                    $arImages = [];
 
-                    $arFilter = array(
+                    $arFilter = [
                         "ACTIVE" => "Y",
                         "IBLOCK_ID" => \ig\CHelper::getIblockIdByCode("slider"),
-                        "IBLOCK_SECTION_ID" => $intSliderID
-                    );
-                    $rsImages = \Bitrix\Iblock\ElementTable::getList(array(
+                        "IBLOCK_SECTION_ID" => $intSliderID,
+                    ];
+                    $rsImages = \Bitrix\Iblock\ElementTable::getList([
                         'filter' => $arFilter,
-                        "order" => array("SORT" => "ASC", "ID" => "ASC"),
-                        "select" => array("DETAIL_PICTURE")
-                    ));
+                        "order" => ["SORT" => "ASC", "ID" => "ASC"],
+                        "select" => ["DETAIL_PICTURE"],
+                    ]);
                     while ($arImage = $rsImages->Fetch()) {
                         $arImages[] = \ig\CHelper::getSliderImageData($arImage["DETAIL_PICTURE"]);
                     }
@@ -91,9 +90,9 @@ class CHelper
         return $strResult;
     }
 
-    public static function getDynamicData($arParams = array())
+    public static function getDynamicData($arParams = [])
     {
-        $arResult = array();
+        $arResult = [];
 
         if ($arParams["FILEDS"]) {
             $arKeys = $arParams["FILEDS"];
@@ -103,19 +102,19 @@ class CHelper
             $arParams["DISCOUNT"] = 'Y';
         }
 
-        $arPossibleKeys = array("FAVORITE", "CART");
+        $arPossibleKeys = ["FAVORITE", "CART"];
         if (empty($arKeys)) {
             $arKeys = $arPossibleKeys;
         }
 
         if (!is_array($arKeys)) {
-            $arKeys = array($arKeys);
+            $arKeys = [$arKeys];
         }
 
         foreach ($arKeys as $strCode) {
             if ($strCode == 'FAVORITE') {
                 $arResult['FAVORITE'] = \ig\CFavorite::getInstance()->getFavorite();
-            } elseif ($strCode == 'CART') {
+            } else if ($strCode == 'CART') {
                 $arResult['CART'] = \ig\CHelper::getCartProductData($arParams);
             }
         }
@@ -125,17 +124,17 @@ class CHelper
 
     public static function getCurrencyConvertParams()
     {
-        return array("CURRENCY_ID" => "RUB");
+        return ["CURRENCY_ID" => "RUB"];
     }
 
     public static function getPriceTypes()
     {
-        return array("BASE", "ACTION");
+        return [CATALOG_BASE_PRICE_CODE, CATALOG_ACTION_PRICE_CODE];
     }
 
     public static function getPriceTypesID()
     {
-        return array(CATALOG_BASE_PRICE_ID, CATALOG_ACTION_PRICE_ID);
+        return [CATALOG_BASE_PRICE_ID, CATALOG_ACTION_PRICE_ID];
     }
 
     public static function getPriceData($intIblockID, $strParam)
@@ -185,16 +184,16 @@ class CHelper
         return $arItem["PRICES"]["BASE"]["VALUE"];
     }
 
-    public static function getImagesArray($arOffer, $arSort, $arParams = array())
+    public static function getImagesArray($arOffer, $arSort, $arParams = [])
     {
         $arSortProp = $arSort["PROPERTIES"];
 
 
-        $arImages = array();
+        $arImages = [];
 
         if ($arOffer["DETAIL_PICTURE"] > 0) {
             $arImages[$arOffer["DETAIL_PICTURE"]] = $arParams["TITLE"]["OFFER_DETAIL_PICTURE"];
-        } elseif ($arSort["DETAIL_PICTURE"] > 0) {
+        } else if ($arSort["DETAIL_PICTURE"] > 0) {
             $arImages[$arSort["DETAIL_PICTURE"]] = $arParams["TITLE"]["SORT_DETAIL_PICTURE"];
         }
 
@@ -222,7 +221,7 @@ class CHelper
             $arImages[$arSortProp["PHOTO_SUMMER"]["VALUE"]] = 'Осень';
         }
 
-        $arResult = array();
+        $arResult = [];
         foreach ($arImages as $intImageID => $strTitle) {
             $arImage = \CFile::GetFileArray($intImageID);
 
@@ -238,18 +237,6 @@ class CHelper
 
                 if (isset($arParams["RESIZE"])) {
                     $arImage["RESIZE"]["src"] = $obImageProcessor->getResizedImgOrPlaceholder($arImage["ID"], $arParams["RESIZE"]["WIDTH"], $arParams["RESIZE"]["HEIGHT"]);
-
-//				$arFilters[] = [
-//					"name"     => "watermark",
-//					"position" => "center",
-//					"size"     => "real",
-//					"file"     => $watermarkResized = $_SERVER['DOCUMENT_ROOT']."/upload/watermark/watermark_original.png"
-//				];
-//
-//				$arImage["RESIZE"] = \CFile::ResizeImageGet($arImage["ID"], array(
-//					"width"  => $arParams["WIDTH"],
-//					'height' => $arParams["HEIGHT"]
-//				), BX_RESIZE_IMAGE_PROPORTIONAL, false, $arFilters);
                 }
             }
 
@@ -267,7 +254,7 @@ class CHelper
 
     public static function intToMonth($intMonth)
     {
-        $arMonth = array(
+        $arMonth = [
             1 => 'Январь',
             2 => 'Февраль',
             3 => 'Март',
@@ -279,44 +266,46 @@ class CHelper
             9 => 'Сентябрь',
             10 => 'Октябрь',
             11 => 'Ноябрь',
-            12 => 'Декабрь'
-        );
+            12 => 'Декабрь',
+        ];
 
         return $arMonth[$intMonth];
     }
 
+    #ToDo::get rid after refactor
     public static function prepareGroupData(&$arResult)
     {
         if (!is_array($arResult["OFFER_PARAMS"])) {
-            $arResult["OFFER_PARAMS"] = array();
+            $arResult["OFFER_PARAMS"] = [];
         }
 
-        $rsGroup = \ig\Highload\Base::getList(\ig\Highload\Base::getHighloadBlockIDByName("Group"), array("UF_ACTIVE" => 1), array(
+        $rsGroup = \ig\Highload\Base::getList(\ig\Highload\Base::getHighloadBlockIDByName("Group"), ["UF_ACTIVE" => 1], [
             "UF_NAME",
             "ID",
             "UF_XML_ID",
             "UF_ICON",
-            "UF_CODE"
-        ), array(), true);
+            "UF_CODE",
+        ], [], true);
         while ($arGroup = $rsGroup->Fetch()) {
-            $arResult["OFFER_PARAMS"]["GROUP"][$arGroup["UF_XML_ID"]] = array(
+            $arResult["OFFER_PARAMS"]["GROUP"][$arGroup["UF_XML_ID"]] = [
                 "ID" => $arGroup["ID"],
                 "NAME" => $arGroup["UF_NAME"],
                 "UF_CODE" => $arGroup["UF_CODE"],
-                "URL" => Router::getCatalogGroupPageUrl($arGroup),
+                "URL" => CATALOG_BASE_PATH . $arGroup['UF_CODE'] . '/',
                 "VALUE" => $arGroup["UF_XML_ID"],
                 "SPHINX_VALUE" => \ig\sphinx\CatalogOffers::convertValueToSphinx("PROPERTY_GROUP", $arGroup["UF_XML_ID"]),
                 "COUNT" => 0,
                 "ICON" => $arGroup["UF_ICON"],
-                "DISABLED" => "N"
-            );
+                "DISABLED" => "N",
+            ];
         }
     }
+
 
     public static function actualizeBasket()
     {
         if (\Bitrix\Main\Loader::includeModule('sale') && \Bitrix\Main\Loader::includeModule('iblock')) {
-            $arTmp = array();
+            $arTmp = [];
 
             $basket = \Bitrix\Sale\Basket::loadItemsForFUser(\Bitrix\Sale\Fuser::getId(), \Bitrix\Main\Context::getCurrent()->getSite());
             $basketItems = $basket->getBasketItems();
@@ -325,13 +314,13 @@ class CHelper
             }
 
             if (!empty($arTmp)) {
-                $rsItems = \Bitrix\Iblock\ElementTable::getList(array(
-                    'filter' => array(
+                $rsItems = \Bitrix\Iblock\ElementTable::getList([
+                    'filter' => [
                         "=ACTIVE" => 'Y',
-                        "ID" => array_keys($arTmp)
-                    ),
-                    'select' => array("ID")
-                ));
+                        "ID" => array_keys($arTmp),
+                    ],
+                    'select' => ["ID"],
+                ]);
 
                 while ($arItem = $rsItems->Fetch()) {
                     unset($arTmp[$arItem["ID"]]);
@@ -357,11 +346,11 @@ class CHelper
             $basket = \Bitrix\Sale\Basket::loadItemsForFUser(\Bitrix\Sale\Fuser::getId(), \Bitrix\Main\Context::getCurrent()->getSite());
             $basketItems = $basket->getBasketItems();
             foreach ($basketItems as $basketItem) {
-                $arResult["CART"][$basketItem->getField("PRODUCT_ID")] = array(
+                $arResult["CART"][$basketItem->getField("PRODUCT_ID")] = [
                     "QUANTITY" => $basketItem->getQuantity(),
                     "SUMM" => $basketItem->getFinalPrice(),
-                    "PRICE" => $basketItem->getPrice()
-                );
+                    "PRICE" => $basketItem->getPrice(),
+                ];
             }
 
             $arResult["CART_SUMM"] = $basket->getBasePrice();
@@ -382,9 +371,9 @@ class CHelper
         return $strResult;
     }
 
-    public static function getCartProductData($arParams = array())
+    public static function getCartProductData($arParams = [])
     {
-        $arResult = array();
+        $arResult = [];
 
         if (\Bitrix\Main\Loader::includeModule('sale')) {
             $basket = \Bitrix\Sale\Basket::loadItemsForFUser(\Bitrix\Sale\Fuser::getId(), \Bitrix\Main\Context::getCurrent()->getSite());
@@ -393,11 +382,11 @@ class CHelper
             foreach ($basketItems as $basketItem) {
 //				$arResult[intval($basketItem->getField('PRODUCT_ID'))] = intval($basketItem->getQuantity());
 
-                $arResult[intval($basketItem->getField('PRODUCT_ID'))] = array(
+                $arResult[intval($basketItem->getField('PRODUCT_ID'))] = [
                     'quantity' => $basketItem->getQuantity(),
                     'price' => $basketItem->getPrice(),
-                    'summ' => $basketItem->getFinalPrice()
-                );
+                    'summ' => $basketItem->getFinalPrice(),
+                ];
             }
 
             // discounts
@@ -432,7 +421,7 @@ class CHelper
     public static function getGroupsData()
     {
         if (empty(self::$arGroupData)) {
-            $rsGroup = \ig\Highload\Base::getList(\ig\Highload\Base::getHighloadBlockIDByName("Group"), array("UF_ACTIVE" => 1), array("*"), array(), true);
+            $rsGroup = \ig\Highload\Base::getList(\ig\Highload\Base::getHighloadBlockIDByName("Group"), ["UF_ACTIVE" => 1], ["*"], [], true);
             while ($arGroup = $rsGroup->Fetch()) {
                 $arGroup["SPHINX_VALUE"] = \ig\sphinx\CatalogOffers::convertValueToSphinx("PROPERTY_GROUP", $arGroup["UF_XML_ID"]);
                 self::$arGroupData[$arGroup["UF_XML_ID"]] = $arGroup;
@@ -445,7 +434,7 @@ class CHelper
     public static function getGroupPropertiesData()
     {
         if (empty(self::$arGroupProperties)) {
-            $rsGroupProperties = \ig\Highload\Base::getList(\ig\Highload\Base::getHighloadBlockIDByName("PropertyGroup"), array("UF_ACTIVE" => 1), array("*"), array("order" => array("UF_SORT" => "ASC", "UF_NAME" => "ASC")), true);
+            $rsGroupProperties = \ig\Highload\Base::getList(\ig\Highload\Base::getHighloadBlockIDByName("PropertyGroup"), ["UF_ACTIVE" => 1], ["*"], ["order" => ["UF_SORT" => "ASC", "UF_NAME" => "ASC"]], true);
             while ($arGroupProperty = $rsGroupProperties->Fetch()) {
                 self::$arGroupProperties[$arGroupProperty["ID"]] = $arGroupProperty;
             }
@@ -457,22 +446,22 @@ class CHelper
     public static function getGroupPropertiesValues($strXmlID = false)
     {
         if (empty(self::$arGroupPropertyValues)) {
-            $rsValues = \ig\Highload\Base::getList(\ig\Highload\Base::getHighloadBlockIDByName("PropertyValues"), array("UF_ACTIVE" => 1), array("*"), array("order" => array("UF_SORT" => "ASC", "UF_NAME" => "ASC")), true);
+            $rsValues = \ig\Highload\Base::getList(\ig\Highload\Base::getHighloadBlockIDByName("PropertyValues"), ["UF_ACTIVE" => 1], ["*"], ["order" => ["UF_SORT" => "ASC", "UF_NAME" => "ASC"]], true);
             while ($arValue = $rsValues->Fetch()) {
                 self::$arGroupPropertyValues[$arValue["UF_XML_ID"]] = $arValue;
             }
 
-            $rsValues = \ig\Highload\Base::getList(\ig\Highload\Base::getHighloadBlockIDByName("Colors"), array("UF_ACTIVE" => 1), array("*"), array("order" => array("UF_SORT" => "ASC", "UF_NAME" => "ASC")), true);
+            $rsValues = \ig\Highload\Base::getList(\ig\Highload\Base::getHighloadBlockIDByName("Colors"), ["UF_ACTIVE" => 1], ["*"], ["order" => ["UF_SORT" => "ASC", "UF_NAME" => "ASC"]], true);
             while ($arValue = $rsValues->Fetch()) {
                 self::$arGroupPropertyValues[$arValue["UF_XML_ID"]] = $arValue;
             }
 
-            $rsValues = \ig\Highload\Base::getList(\ig\Highload\Base::getHighloadBlockIDByName("PeriodHeightExt"), array("UF_ACTIVE" => 1), array("*"), array("order" => array("UF_SORT" => "ASC", "UF_NAME" => "ASC")), true);
+            $rsValues = \ig\Highload\Base::getList(\ig\Highload\Base::getHighloadBlockIDByName("PeriodHeightExt"), ["UF_ACTIVE" => 1], ["*"], ["order" => ["UF_SORT" => "ASC", "UF_NAME" => "ASC"]], true);
             while ($arValue = $rsValues->Fetch()) {
                 self::$arGroupPropertyValues[$arValue["UF_XML_ID"]] = $arValue;
             }
 
-            $rsValues = \ig\Highload\Base::getList(\ig\Highload\Base::getHighloadBlockIDByName("PeriodHeightNowExt"), array("UF_ACTIVE" => 1), array("*"), array("order" => array("UF_SORT" => "ASC", "UF_NAME" => "ASC")), true);
+            $rsValues = \ig\Highload\Base::getList(\ig\Highload\Base::getHighloadBlockIDByName("PeriodHeightNowExt"), ["UF_ACTIVE" => 1], ["*"], ["order" => ["UF_SORT" => "ASC", "UF_NAME" => "ASC"]], true);
             while ($arValue = $rsValues->Fetch()) {
                 self::$arGroupPropertyValues[$arValue["UF_XML_ID"]] = $arValue;
             }
@@ -500,7 +489,7 @@ class CHelper
 
     public static function getGroupMainProperties($strGroup)
     {
-        $arResult = array();
+        $arResult = [];
 
         $arGroup = \ig\CHelper::getGroupData($strGroup);
 
@@ -517,27 +506,27 @@ class CHelper
 
     public static function setHeightFilterPropertyValue($intElementID)
     {
-        $arElement = \Bitrix\Iblock\ElementTable::getList(array(
-            "filter" => array("ID" => $intElementID),
-            "select" => array("ID", "IBLOCK_ID")
-        ))->fetch();
+        $arElement = \Bitrix\Iblock\ElementTable::getList([
+            "filter" => ["ID" => $intElementID],
+            "select" => ["ID", "IBLOCK_ID"],
+        ])->fetch();
 
         if ($arElement["IBLOCK_ID"] == \ig\CHelper::getIblockIdByCode("offers")) {
             \ig\CHelper::setHeightNowFilterPropertyValue($arElement);
-        } elseif ($arElement["IBLOCK_ID"] == \ig\CHelper::getIblockIdByCode("catalog")) {
+        } else if ($arElement["IBLOCK_ID"] == \ig\CHelper::getIblockIdByCode("catalog")) {
             \ig\CHelper::setHeight10FilterPropertyValue($arElement);
         }
     }
 
     public static function setHeightNowFilterPropertyValue($arElement)
     {
-        $rsProp = \CIBlockElement::GetProperty($arElement["IBLOCK_ID"], $arElement["ID"], array("sort" => "asc"), Array("CODE" => "HEIGHT_NOW_EXT"));
+        $rsProp = \CIBlockElement::GetProperty($arElement["IBLOCK_ID"], $arElement["ID"], ["sort" => "asc"], ["CODE" => "HEIGHT_NOW_EXT"]);
         if ($arProp = $rsProp->Fetch()) {
             if (strlen($arProp["VALUE"]) > 0) {
                 $strFilterValue = \ig\CHelper::getConvertedHeightNow($arProp["VALUE"]);
-                \CIBlockElement::SetPropertyValuesEx($arElement["ID"], $arElement["IBLOCK_ID"], array("HEIGHT_NOW" => $strFilterValue));
+                \CIBlockElement::SetPropertyValuesEx($arElement["ID"], $arElement["IBLOCK_ID"], ["HEIGHT_NOW" => $strFilterValue]);
             } else {
-                \CIBlockElement::SetPropertyValuesEx($arElement["ID"], $arElement["IBLOCK_ID"], array("HEIGHT_NOW" => false));
+                \CIBlockElement::SetPropertyValuesEx($arElement["ID"], $arElement["IBLOCK_ID"], ["HEIGHT_NOW" => false]);
             }
         }
     }
@@ -561,13 +550,13 @@ class CHelper
 
     public static function setHeight10FilterPropertyValue($arElement)
     {
-        $rsProp = \CIBlockElement::GetProperty($arElement["IBLOCK_ID"], $arElement["ID"], array("sort" => "asc"), Array("CODE" => "HEIGHT_10_EXT"));
+        $rsProp = \CIBlockElement::GetProperty($arElement["IBLOCK_ID"], $arElement["ID"], ["sort" => "asc"], ["CODE" => "HEIGHT_10_EXT"]);
         if ($arProp = $rsProp->Fetch()) {
             if (strlen($arProp["VALUE"]) > 0) {
                 $strFilterValue = \ig\CHelper::getConvertedHeight10($arProp["VALUE"]);
-                \CIBlockElement::SetPropertyValuesEx($arElement["ID"], $arElement["IBLOCK_ID"], array("HEIGHT_10" => $strFilterValue));
+                \CIBlockElement::SetPropertyValuesEx($arElement["ID"], $arElement["IBLOCK_ID"], ["HEIGHT_10" => $strFilterValue]);
             } else {
-                \CIBlockElement::SetPropertyValuesEx($arElement["ID"], $arElement["IBLOCK_ID"], array("HEIGHT_10" => false));
+                \CIBlockElement::SetPropertyValuesEx($arElement["ID"], $arElement["IBLOCK_ID"], ["HEIGHT_10" => false]);
             }
         }
     }
@@ -607,13 +596,13 @@ class CHelper
     {
         if (!CRegistry::exists("PERIOD_PRICE")) {
             $arPricePeriod = Base::getList(Base::getHighloadBlockIDByName("PeriodPrice"));
-            $arTmp = array();
+            $arTmp = [];
             foreach ($arPricePeriod as $arPediod) {
-                $arTmp[$arPediod["UF_XML_ID"]] = array(
+                $arTmp[$arPediod["UF_XML_ID"]] = [
                     "NAME" => $arPediod["UF_NAME"],
                     "FROM" => $arPediod["UF_VALUE_FROM"],
-                    "TO" => $arPediod["UF_VALUE_TO"]
-                );
+                    "TO" => $arPediod["UF_VALUE_TO"],
+                ];
             }
             CRegistry::add("PERIOD_PRICE", $arTmp);
         }
@@ -670,10 +659,10 @@ class CHelper
         $strCode = trim($strCode);
         $intIblockID = intval($intIblockID);
 
-        $arFilter = array("CODE" => $strCode);
+        $arFilter = ["CODE" => $strCode];
         if ($intIblockID > 0) $arFilter["IBLOCK_ID"] = $intIblockID;
 
-        $rsProp = CIBlockProperty::GetList(Array("sort" => "asc", "name" => "asc"), $arFilter);
+        $rsProp = CIBlockProperty::GetList(["sort" => "asc", "name" => "asc"], $arFilter);
         while ($arProp = $rsProp->GetNext()) {
             return $arProp["ID"];
         }
@@ -685,17 +674,17 @@ class CHelper
     {
         $intOfferID = intval($intOfferID);
 
-        $arResult = array();
+        $arResult = [];
 
         if ($intOfferID > 0) {
             if (!isset($arParams["SELECT"])) {
-                $arParams["SELECT"] = array("*", "PROPERTY_*");
+                $arParams["SELECT"] = ["*", "PROPERTY_*"];
             }
 
             echo __FILE__ . ': ' . __LINE__ . '<pre>' . print_r($intOfferID, true) . '</pre>';
-            $rsI = \CIBlockElement::GetList(Array(), array(
-                "ID" => $intOfferID
-            ), false, false, $arParams["SELECT"]);
+            $rsI = \CIBlockElement::GetList([], [
+                "ID" => $intOfferID,
+            ], false, false, $arParams["SELECT"]);
             if ($arI = $rsI->Fetch()) {
                 echo __FILE__ . ': ' . __LINE__ . '<pre>' . print_r($arI, true) . '</pre>';
                 $arResult = $arI;
@@ -705,17 +694,17 @@ class CHelper
         return $arResult;
     }
 
-    public static function getIblockIdByCode($strCode, $arAdditionalFilter = array())
+    public static function getIblockIdByCode($strCode, $arAdditionalFilter = [])
     {
         if (!CRegistry::exists("IBLOCK_ID__" . $strCode)) {
-            $arFilter = array("CODE" => $strCode);
+            $arFilter = ["CODE" => $strCode];
             if (!empty($arAdditionalFilter) && is_array($arAdditionalFilter))
                 $arFilter = array_merge($arAdditionalFilter, $arFilter);
 
             $arIblock = \Bitrix\Iblock\IblockTable::getList(
-                array(
-                    "filter" => $arFilter
-                )
+                [
+                    "filter" => $arFilter,
+                ]
             )->fetch();
 
             CRegistry::add("IBLOCK_ID__" . $strCode, $arIblock["ID"]);
@@ -726,7 +715,7 @@ class CHelper
 
     public static function getEnumID($intIblockID, $strCode, $strName)
     {
-        $rsEnum = \CIBlockPropertyEnum::GetList(Array("DEF" => "DESC", "SORT" => "ASC"), Array("IBLOCK_ID" => $intIblockID, "CODE" => $strCode, "VALUE" => $strName));
+        $rsEnum = \CIBlockPropertyEnum::GetList(["DEF" => "DESC", "SORT" => "ASC"], ["IBLOCK_ID" => $intIblockID, "CODE" => $strCode, "VALUE" => $strName]);
         $arEnum = $rsEnum->Fetch();
 
         return $arEnum["ID"];
@@ -744,44 +733,44 @@ class CHelper
         return in_array($intGroup, $arPropertyTree[$strPropertyCode]["GROUP"]);
     }
 
-    public static function getPropertyTree($arParams = array())
+    public static function getPropertyTree($arParams = [])
     {
         $strHash = 'propertyTree_' . md5(serialize($arParams));
 
         if (!\ig\CRegistry::exists($strHash)) {
-            $arResult = array();
+            $arResult = [];
 
-            $arPropertyIDToCode = array();
+            $arPropertyIDToCode = [];
 
-            $arResult["HEIGHT_NOW_EXT"] = array(
+            $arResult["HEIGHT_NOW_EXT"] = [
                 "NAME" => "Высота сейчас",
-                "GROUP" => array(1, 4, 5, 9, 10, 11, 12)
-            );
+                "GROUP" => [1, 4, 5, 9, 10, 11, 12],
+            ];
 
-            $obProperty = Base::getList(Base::getHighloadBlockIDByName("PropertyGroup"), array(), array("UF_NAME", "ID", "UF_CODE", "UF_POINTER"), array(), true);
+            $obProperty = Base::getList(Base::getHighloadBlockIDByName("PropertyGroup"), [], ["UF_NAME", "ID", "UF_CODE", "UF_POINTER"], [], true);
             while ($arProperty = $obProperty->Fetch()) {
                 $arPropertyIDToCode[$arProperty["ID"]] = $arProperty["UF_CODE"];
 
-                $arResult[$arProperty["UF_CODE"]] = array(
+                $arResult[$arProperty["UF_CODE"]] = [
                     "NAME" => $arProperty["UF_NAME"],
                     "CODE" => $arProperty["UF_CODE"],
                     "GROUP" => $arProperty["UF_POINTER"],
-                    "VALUES" => array()
-                );
+                    "VALUES" => [],
+                ];
             }
 
-            $arValuesFilter = array();
+            $arValuesFilter = [];
             if ($arParams["TYPE"] > 0) {
                 $arValuesFilter["UF_POINTER"] = $arParams["TYPE"];
             }
-            $obPropertyValue = Base::getList(Base::getHighloadBlockIDByName("PropertyValues"), $arValuesFilter, array("UF_NAME", "UF_POINTER", "UF_PROPERTY", "ID", "UF_XML_ID", "UF_ICON"), array("order" => array("UF_SORT" => "ASC")), true);
+            $obPropertyValue = Base::getList(Base::getHighloadBlockIDByName("PropertyValues"), $arValuesFilter, ["UF_NAME", "UF_POINTER", "UF_PROPERTY", "ID", "UF_XML_ID", "UF_ICON"], ["order" => ["UF_SORT" => "ASC"]], true);
             while ($arPropertyValue = $obPropertyValue->Fetch()) {
-                $arTmp = array(
+                $arTmp = [
                     "NAME" => $arPropertyValue["UF_NAME"],
                     "XML_ID" => $arPropertyValue["UF_XML_ID"],
                     "ID" => $arPropertyValue["ID"],
-                    "LINK" => $arPropertyValue["UF_POINTER"]
-                );
+                    "LINK" => $arPropertyValue["UF_POINTER"],
+                ];
 
                 if (!empty($arPropertyValue["UF_ICON"])) {
                     if (strpos($arPropertyValue["UF_ICON"], "#") === 0) {
@@ -822,16 +811,16 @@ class CHelper
         if ($intParentID > 0) {
             \Bitrix\Main\Loader::includeModule("iblock");
 
-            $arTmp = array();
+            $arTmp = [];
 
-            $rsI = \CIBlockElement::GetList(false, array(
+            $rsI = \CIBlockElement::GetList(false, [
                 "IBLOCK_ID" => CHelper::getIblockIdByCode('catalog'),
-                "ID" => $intParentID
-            ), false, false, array(
-                "ID", "IBLOCK_ID", "NAME", "PROPERTY_IS_RUSSIAN", "PROPERTY_IS_VIEW", "IBLOCK_SECTION_ID", "PROPERTY_NAME_LAT"
-            ));
+                "ID" => $intParentID,
+            ], false, false, [
+                "ID", "IBLOCK_ID", "NAME", "PROPERTY_IS_RUSSIAN", "PROPERTY_IS_VIEW", "IBLOCK_SECTION_ID", "PROPERTY_NAME_LAT",
+            ]);
             if ($arI = $rsI->GetNext()) {
-                $rsNav = \CIBlockSection::GetNavChain($arI["IBLOCK_ID"], $arI["IBLOCK_SECTION_ID"], array("NAME"));
+                $rsNav = \CIBlockSection::GetNavChain($arI["IBLOCK_ID"], $arI["IBLOCK_SECTION_ID"], ["NAME"]);
                 while ($arNav = $rsNav->Fetch()) {
                     $arTmp[] = $arNav["NAME"];
                 }
@@ -855,15 +844,15 @@ class CHelper
 
     public static function getGroupByCatalogID($intID)
     {
-        $rsI = \CIBlockElement::GetList(Array(), array(
+        $rsI = \CIBlockElement::GetList([], [
             "IBLOCK_ID" => \ig\CHelper::getIblockIdByCode("catalog"),
-            "ID" => $intID
-        ), false, false, array(
-            "ID", "IBLOCK_ID", "PROPERTY_GROUP"
-        ));
+            "ID" => $intID,
+        ], false, false, [
+            "ID", "IBLOCK_ID", "PROPERTY_GROUP",
+        ]);
         if ($arI = $rsI->GetNext()) {
             if (!empty($arI["PROPERTY_GROUP_VALUE"])) {
-                $arValue = array_shift(Base::getList(Base::getHighloadBlockIDByName("Group"), array("UF_XML_ID" => $arI["PROPERTY_GROUP_VALUE"]), array("ID")));
+                $arValue = array_shift(Base::getList(Base::getHighloadBlockIDByName("Group"), ["UF_XML_ID" => $arI["PROPERTY_GROUP_VALUE"]], ["ID"]));
 
                 if ($arValue["ID"] > 0) {
                     return $arValue["ID"];

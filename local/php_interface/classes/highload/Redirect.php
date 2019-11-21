@@ -3,7 +3,7 @@
 namespace ig\Highload;
 
 use ig\Highload\Base;
-
+//ToDo::: GET RID!!!
 class Redirect extends Base
 {
     static $intHLID = 0;

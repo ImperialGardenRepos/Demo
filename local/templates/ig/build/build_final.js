@@ -20690,14 +20690,24 @@ function scroll_load(options) {
         var offset_top = $this.offset().top;
         if ($o.not($(window)).length) offset_top = 0;
         if (!$this.hasClass("scroll-loading") && !$this.hasClass("scroll-loading-end") && offset_top >= 0 && (offset_top + $this.outerHeight() - $o.height() < $o.scrollTop() + $o.height() / 5) || !options.onscroll) {
-            var page = $this.attr("data-scroll-load-page");
+            let page = $this.attr("data-scroll-load-page");
+            let filterAlias = $this.attr("data-scroll-load-filter-alias");
+            console.log(filterAlias);
+            console.log(page);
+            let params = {};
+            if(filterAlias) {
+                params.filterAlias = filterAlias;
+            }
             if (typeof page === "undefined") page = 0;
-            var url = $this.attr("data-scroll-load-url");
+            let url = $this.attr("data-scroll-load-url");
+            url = url.replace(/\/page-\d+/, '');
+            url = url + 'page-' + page + '/';
+            console.log(url);
             if (url) {
                 $.ajax({
                     url: url,
                     type: "get",
-                    data: {page: page},
+                    data: params,
                     beforeSend: function () {
                         $this.addClass("scroll-loading");
                         $($this.attr("data-hide-on-last-load")).addClass("loading");
@@ -20710,12 +20720,22 @@ function scroll_load(options) {
                         if ($('.js-section').length === 1 && $('.js-section').data('removePages').toString() === 'true') {
                             $('.js-pagination').remove();
                             $('.js-more').remove();
+                            $('.js-section-text').remove();
                         }
                         var $response = $(response);
                         if ($this.data("scroll-load-insert-before")) {
                             $response.insertBefore($this.data("scroll-load-insert-before"));
                         } else {
-                            $this.append($response);
+                            let $items = $response.find('.js-filter-results').find('.js-cards-list').html();
+                            let $more_button = $response.find('.js-more');
+                            let $pagination = $response.find('.js-pagination');
+                            if ($more_button.length) {
+                                $('.js-filter-results').parent().append($more_button);
+                            }
+                            if ($pagination.length) {
+                                $('.js-filter-results').parent().append($pagination);
+                            }
+                            $this.append($items);
                         }
                         $this.attr("data-scroll-load-page", page * 1 + 1);
                         bind_widgets($this);
@@ -24437,18 +24457,6 @@ function filter_init() {
             }
         });
 
-        // $(document).on("ddbox-close", ".js-ddbox[data-ddbox-reset-inputs-on-close]", function (e) {
-        //     var $o = $($(this).closest('.js-ddbox').attr('data-ddbox-reset-inputs'));
-        //     if ($o.length) {
-        //         delay_filter_reset_inputs(function(){
-        //             input_reset($o);
-        //             ddbox_reset($o.find('.js-ddbox'));
-        //         }, 5);
-        //     }
-        // });
-
-        // $('.js-filter :input').prop('disabled', true).trigger('change');
-        // ddbox_select($('.js-filter .js-ddbox'));
 
         $(document).on("touchmove", ".filter__popup", function (e) {
             if (window.matchMedia("(max-width: 640px)").matches) {
@@ -24586,6 +24594,7 @@ function filter_apply($input) {
             if ($('.js-section').length === 1 && $('.js-section').data('removePages').toString() === 'true') {
                 $('.js-pagination').remove();
                 $('.js-more').remove();
+                $('.js-section-text').remove();
             }
             delay_filter_success(function () {
                 var is_mobile = window.matchMedia("(max-width: 640px)").matches;
@@ -24596,8 +24605,11 @@ function filter_apply($input) {
                     }, null, response.page_url);
                 }
                 if (response.results_html) {
-                    var $results_html = $(response.results_html);
-                    var $breadcrumb = $results_html.filter('.js-breadcrumb-to-replace');
+                    let $results_html = $(response.results_html).find('.js-filter-results').html();
+                    let $breadcrumb = $(response.results_html).find('.js-breadcrumb-to-replace');
+                    let $more_button = $(response.results_html).find('.js-more');
+                    let $pagination = $(response.results_html).find('.js-pagination');
+                    let $text = $(response.results_html).find('.js-section-text');
                     if ($breadcrumb.length) {
                         icons_init($breadcrumb.find('svg.icon'));
                         $('.js-breadcrumb-to-replace').replaceWith($breadcrumb.clone());
@@ -24605,6 +24617,15 @@ function filter_apply($input) {
                         $('.js-breadcrumb-to-replace').addClass('hidden');
                     }
                     $('.js-filter-results').empty().append($results_html);
+                    if ($more_button.length) {
+                        $('.js-filter-results').parent().append($more_button);
+                    }
+                    if ($pagination.length) {
+                        $('.js-filter-results').parent().append($pagination);
+                    }
+                    if ($text.length) {
+                        $('.js-filter-results').parent().append($text);
+                    }
                     $breadcrumb.remove();
                 }
                 if (response.filter_html) {
@@ -24613,7 +24634,9 @@ function filter_apply($input) {
                     var ddbox_opened_scroll_pos = $ddbox_opened.find('.ddbox__dropdown-inner').scrollTop();
                     var filter_content_scroll_pos = $form.find('.filter__section-content').scrollTop();
 
-                    $('.js-filter').replaceWith(response.filter_html);
+                    let filter_html = $(response.filter_html).find('.js-filter');
+
+                    $('.js-filter').replaceWith(filter_html);
                 }
                 bind_widgets();
                 responsive_update(true);
@@ -25447,4 +25470,10 @@ var obHelper = {
 };
 $(function () {
     obHelper.initPage();
+});
+
+$('body').on('click','.js-sort-param',function(){
+    let newSort = $(this).data('value') + '-' + $(this).data('direction');
+    document.cookie = 'catalog_order=' + newSort +'; path=/';
+    window.location.reload();
 });

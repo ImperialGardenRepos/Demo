@@ -9,7 +9,7 @@ $arUrlRewrite = [
     ],
     [
         'CONDITION' => '#^/katalog/tovary-dlya-sada(.*)/page-([0-9]+)/#',
-        'RULE' => 'PAGEN_1=$2&',
+        'RULE' => 'catalog-page=$2&',
         'ID' => 'ig:catalog-garden',
         'PATH' => '/katalog/tovary-dlya-sada/index.php',
         'SORT' => 100,
@@ -37,7 +37,7 @@ $arUrlRewrite = [
     ],
     [
         'CONDITION' => '#^/katalog/rasteniya(.*)/page-([0-9]+)/#',
-        'RULE' => 'PAGEN_1=$2&',
+        'RULE' => 'catalog-page=$2&',
         'ID' => 'ig:catalog',
         'PATH' => '/katalog/rasteniya/index.php',
         'SORT' => 100,
@@ -147,9 +147,6 @@ $arUrlRewrite = [
         'PATH' => '/promo/detail.php',
         'SORT' => 100,
     ],
-    /**
-     * Pagination rules
-     */
     [
         'CONDITION' => '#^/o-nas/partnyery/page-([0-9]+)/#',
         'RULE' => 'PAGEN_1=$1&',

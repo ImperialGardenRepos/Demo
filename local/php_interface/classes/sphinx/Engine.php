@@ -206,6 +206,7 @@ abstract class Engine
         return $arResult;
     }
 
+    #ToDo:IMPLEMENTED
     public static function convertFieldCode($strCode, $bToSphinx = true)
     {
         if ($bToSphinx) {
@@ -231,6 +232,7 @@ abstract class Engine
         return $strResult;
     }
 
+    #ToDo:IMPLEMENTED
     public static function convertValueToSphinx($strCode, $value)
     {
         $convertedValue = $value;
