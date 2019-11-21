@@ -292,6 +292,7 @@ $isGridStarted = false;
                         'ig:catalog.section',
                         $componentName,
                         [
+                            'DISABLE_HEADING' => true,
                             'IBLOCK_TYPE' => CATALOG_IBLOCK_TYPE,
                             'IBLOCK_ID' => CATALOG_IBLOCK_ID,
                             'NEWS_COUNT' => count($productPlants),
@@ -333,6 +334,7 @@ $isGridStarted = false;
                         $componentName,
                         '',
                         [
+                            'DISABLE_HEADING' => true,
                             'IBLOCK_TYPE' => CATALOG_IBLOCK_TYPE,
                             'IBLOCK_ID' => CATALOG_GARDEN_IBLOCK_ID,
                             'NEWS_COUNT' => count($productGarden),
