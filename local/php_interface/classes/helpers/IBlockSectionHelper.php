@@ -5,6 +5,7 @@ namespace ig\Helpers;
 use Bitrix\Iblock\InheritedProperty\SectionValues;
 use Bitrix\Iblock\Model\Section;
 use Bitrix\Main\ArgumentException;
+use Bitrix\Main\Data\Cache;
 use Bitrix\Main\Entity\DataManager;
 use Bitrix\Main\ObjectPropertyException;
 use Bitrix\Main\SystemException;
@@ -40,6 +41,14 @@ class IBlockSectionHelper
      */
     public static function getMinPrice(int $iBlockId, int $sectionId): float
     {
+        $cache = Cache::createInstance();
+        if ($cache->initCache(432000, "min_price_{$iBlockId}_{$sectionId}"))
+        {
+            $result = $cache->getVars();
+            return $result['price'];
+        }
+        $cache->startDataCache();
+        $result = [];
         $productFilter = [];
         if ($sectionId > 0) {
             $productFilter = [
@@ -61,6 +70,8 @@ class IBlockSectionHelper
             ['ID']
         );
         if ($productModel->SelectedRowsCount() === 0) {
+            $result['price'] = 0;
+            $cache->endDataCache($result);
             return 0;
         }
         $productIDs = [];
@@ -70,6 +81,8 @@ class IBlockSectionHelper
 
         $skuIBlock = IBlockHelper::getSKUIBlock($iBlockId);
         if($skuIBlock === null) {
+            $result['price'] = 0;
+            $cache->endDataCache($result);
             return 0;
         }
         $skuIBlockId = $skuIBlock['IBLOCK_ID'];
@@ -104,6 +117,8 @@ class IBlockSectionHelper
             ]
         );
         if ($skuModel->SelectedRowsCount() !== 1 && $skuModelDiscount->SelectedRowsCount() !== 1) {
+            $result['price'] = 0;
+            $cache->endDataCache($result);
             return 0;
         }
         $sku = $skuModel->Fetch();
@@ -111,9 +126,13 @@ class IBlockSectionHelper
         $skuDiscount = $skuModelDiscount->Fetch();
         $skuDiscountPriceMin = (float)$skuDiscount['CATALOG_PRICE_3'];
         if($skuDiscountPriceMin <= 0) {
+            $result['price'] = $skuPriceMin;
+            $cache->endDataCache($result);
             return $skuPriceMin;
         }
-        return $skuPriceMin > $skuDiscountPriceMin ? $skuDiscountPriceMin : $skuPriceMin;
+        $price = $skuPriceMin > $skuDiscountPriceMin ? $skuDiscountPriceMin : $skuPriceMin;
+        $result['price'] = $price;
+        return $price;
     }
 
     /**
