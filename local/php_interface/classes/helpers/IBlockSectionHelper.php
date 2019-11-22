@@ -41,8 +41,9 @@ class IBlockSectionHelper
      */
     public static function getMinPrice(int $iBlockId, int $sectionId): float
     {
+        $cacheId = "min_price_{$iBlockId}_{$sectionId}";
         $cache = Cache::createInstance();
-        if ($cache->initCache(432000, "min_price_{$iBlockId}_{$sectionId}"))
+        if ($cache->initCache(432000, $cacheId, 'prices'))
         {
             $result = $cache->getVars();
             return $result['price'];

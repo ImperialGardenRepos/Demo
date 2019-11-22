@@ -21,11 +21,12 @@ $navObject = $arResult['NAV_PARAMS']['NAV_OBJECT'];
 $currentPage = $navObject->getCurrentPage();
 $nextPage = $currentPage + 1;
 ?>
-
 <div class="section section--results section--grey js-section" data-remove-pages="true">
     <div class="container">
-        <h1 class="h1--large"><?= $APPLICATION->GetTitle('title') ?></h1>
-        <?php include '_sort.php'?>
+        <?php if ($arParams['ITEMS_ONLY'] !== true): ?>
+            <h1 class="h1--large"><?= $APPLICATION->GetTitle('title') ?></h1>
+            <?php include '_sort.php' ?>
+        <?php endif; ?>
         <div class="filter-results js-filter-results">
             <div class="icards icards">
                 <div class="icards__inner js-cards-list"
@@ -38,15 +39,17 @@ $nextPage = $currentPage + 1;
                 </div>
             </div>
         </div>
-        <?php
-        $APPLICATION->IncludeComponent(
-            'bitrix:main.pagenavigation',
-            'catalog',
-            $arResult['NAV_PARAMS'],
-            false
-        );
-        ?>
-        <?php if ($currentPage === 1 && $arResult['DESCRIPTION']): ?>
+        <?php if ($arParams['ITEMS_ONLY'] !== true): ?>
+            <?php
+            $APPLICATION->IncludeComponent(
+                'bitrix:main.pagenavigation',
+                'catalog',
+                $arResult['NAV_PARAMS'],
+                false
+            );
+            ?>
+        <?php endif; ?>
+        <?php if ($currentPage === 1 && $arResult['DESCRIPTION'] && $arParams['ITEMS_ONLY'] !== true): ?>
             <div class="text p js-section-text">
                 <?= $arResult['DESCRIPTION'] ?>
             </div>

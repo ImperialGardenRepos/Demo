@@ -72,8 +72,6 @@ $fieldsByBlock = [
     ],
     'file' => [
         'BLOCK_HEADING',
-        'BLOCK_TEXT',
-        'HEADING_TYPE',
         'ICON',
         'FILE',
     ],

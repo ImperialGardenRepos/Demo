@@ -292,7 +292,7 @@ $isGridStarted = false;
                         'ig:catalog.section',
                         $componentName,
                         [
-                            'DISABLE_HEADING' => true,
+                            'ITEMS_ONLY' => true,
                             'IBLOCK_TYPE' => CATALOG_IBLOCK_TYPE,
                             'IBLOCK_ID' => CATALOG_IBLOCK_ID,
                             'NEWS_COUNT' => count($productPlants),
@@ -314,10 +314,7 @@ $isGridStarted = false;
                                 'sections' => '',
                                 'smart_filter' => '#SECTION_ID#/filter/#SMART_FILTER_PATH#/apply/',
                             ],
-                            'SET_TITLE' => 'N',
-                            'SET_BROWSER_TITLE' => 'N',
-                            'SET_META_KEYWORDS' => 'N',
-                            'SET_META_DESCRIPTION' => 'N',
+                            'SET_META' => 'N',
                             'SET_LAST_MODIFIED' => 'Y',
 
                         ],
@@ -332,9 +329,8 @@ $isGridStarted = false;
                     $APPLICATION->IncludeComponent(
                         'ig:catalog.section',
                         $componentName,
-                        '',
                         [
-                            'DISABLE_HEADING' => true,
+                            'ITEMS_ONLY' => true,
                             'IBLOCK_TYPE' => CATALOG_IBLOCK_TYPE,
                             'IBLOCK_ID' => CATALOG_GARDEN_IBLOCK_ID,
                             'NEWS_COUNT' => count($productGarden),
@@ -356,18 +352,13 @@ $isGridStarted = false;
                                 'sections' => '',
                                 'smart_filter' => '#SECTION_ID#/filter/#SMART_FILTER_PATH#/apply/',
                             ],
-                            'SET_TITLE' => 'N',
-                            'SET_BROWSER_TITLE' => 'N',
-                            'SET_META_KEYWORDS' => 'N',
-                            'SET_META_DESCRIPTION' => 'N',
+                            'SET_META' => 'N',
                             'SET_LAST_MODIFIED' => 'Y',
 
                         ],
                         false
                     );
-
                 }
-
                 ?>
             </section>
             <?php continue; ?>
@@ -570,20 +561,8 @@ $isGridStarted = false;
             $this->AddEditAction($item['ID'], $addLink, $addLinkText);
             $this->AddEditAction($item['ID'], $editLink, $editLinkText);
             $this->AddDeleteAction($item['ID'], $deleteLink, $deleteLinkText);
-
-            if ($props['BLOCK_HEADING']['VALUE']['TEXT'] !== ''):?>
-                <div class="text landing-section">
-                    <?php
-                    $heading = CHelper::renderText($props['BLOCK_HEADING']['VALUE']['TEXT'], $props['BLOCK_HEADING']['VALUE']['TYPE'], false);
-                    echo "
-                            <{$headingTag} class='text__heading'>
-                                {$heading}
-                            </{$headingTag}>
-                            ";
-                    ?>
-                </div>
-            <?php endif; ?>
-            <div class="action-bar h3 text-align-center" id="<?= $this->GetEditAreaId($item['ID']) ?>">
+            ?>
+            <div class="action-bar h3 text-align-center column-12" id="<?= $this->GetEditAreaId($item['ID']) ?>">
                 <?php if ($props['FILE']['VALUE'] !== ''): ?>
                     <a target="_blank" href="<?= CFile::GetPath($props['FILE']['VALUE']) ?>"
                        class="nounderline-important">

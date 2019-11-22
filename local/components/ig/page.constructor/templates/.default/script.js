@@ -22,7 +22,6 @@ let sliderAwait = setInterval(
                     let controls = getNextSibling(slider, '.js-slider-controls');
                     let sliderObj = tns({
                         container: slider,
-                        autoWidth: true,
                         autoHeight: true,
                         mouseDrag: true,
                         controls: false,

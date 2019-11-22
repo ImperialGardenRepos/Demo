@@ -1,5 +1,16 @@
 .slider
   position: relative
+
+  &:before
+    display: block
+    position: absolute
+    bottom: 0
+    height: 50px
+    width: 100%
+    content: ''
+    background: linear-gradient(to top, rgba(0, 0, 0, .4), rgba(0, 0, 0, 0))
+    z-index: 10
+
   &__controls
     display: flex
     flex-direction: row
@@ -14,17 +25,19 @@
     -webkit-box-pack: justify
     -ms-flex-pack: justify
     justify-content: stretch
-    z-index: 2
+    z-index: 20
     height: 0.28571rem
     @media screen and (max-width: 640px)
       left: 0.35714rem
       right: 0.35714rem
       bottom: 0.71429rem
+
   &__control
     position: relative
     width: 100%
     opacity: 0.5
     height: 100%
+
     &:before
       position: absolute
       top: 0
@@ -33,6 +46,11 @@
       left: 0.35714rem
       background-color: #f6f6f6
       content: ''
+
     &.active,
     &.tns-nav-active
       opacity: 1
+
+  &__item
+    text-align: center
+    border: 1px solid rgba(0, 0, 0, 0.2)
