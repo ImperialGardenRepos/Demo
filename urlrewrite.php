@@ -122,14 +122,6 @@ $arUrlRewrite = [
         ],
     22 =>
         [
-            'CONDITION' => '#^/uslugi/proektirovanie/rabochee-proektirovanie/#',
-            'RULE' => 'CODE=rabochee-proektirovanie',
-            'ID' => 'ig:page.constructor',
-            'PATH' => '/uslugi/proektirovanie/rabochee-proektirovanie/detail.php',
-            'SORT' => 100,
-        ],
-    23 =>
-        [
             'CONDITION' => '#^/uslugi/proektirovanie/rabochee-proektirovanie/(.*)/#',
             'RULE' => 'CODE=$1',
             'ID' => 'ig:page.constructor',

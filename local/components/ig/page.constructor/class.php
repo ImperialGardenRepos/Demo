@@ -29,13 +29,14 @@ class CPageConstructor extends CBitrixComponent
         }
 
         $requestArray = Application::getInstance()->getContext()->getRequest()->toArray();
-        if (!array_key_exists('CODE', $requestArray) || (bool)$requestArray['CODE'] === false) {
-            Tools::process404();
+        if (!isset($arParams['CODE'])) {
+            if (!array_key_exists('CODE', $requestArray) || (bool)$requestArray['CODE'] === false) {
+                Tools::process404();
+            }
+            $code = explode('?', $requestArray['CODE']);
+
+            $arParams['CODE'] = reset($code);
         }
-        $code = explode('?',$requestArray['CODE']);
-
-        $arParams['CODE'] = reset($code);
-
         return $arParams;
     }
 
@@ -73,6 +74,8 @@ class CPageConstructor extends CBitrixComponent
         $section = $this->getSection();
         $this->arResult['SECTION'] = $section;
         $this->arResult['ITEMS'] = $this->getBlocks($section['ID']);
+        global $APPLICATION;
+        $APPLICATION->SetTitle($this->arResult['SECTION']['NAME']);
     }
 
     /**
@@ -84,7 +87,7 @@ class CPageConstructor extends CBitrixComponent
             ['SORT' => 'ASC'],
             [
                 'CODE' => $this->arParams['CODE'],
-                'IBLOCK_ID' => $this->arParams['IBLOCK_ID']
+                'IBLOCK_ID' => $this->arParams['IBLOCK_ID'],
             ]
         );
         if ($section->SelectedRowsCount() !== 1) {
@@ -103,7 +106,7 @@ class CPageConstructor extends CBitrixComponent
     {
         $elements = CIBlockElement::GetList(
             [
-                'SORT' => 'ASC'
+                'SORT' => 'ASC',
             ],
             [
                 'IBLOCK_SECTION_ID' => $sectionId,
@@ -113,7 +116,7 @@ class CPageConstructor extends CBitrixComponent
             false,
             [
                 '*',
-                'PROPERTY_*'
+                'PROPERTY_*',
             ]
         );
         $items = [];
