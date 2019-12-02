@@ -160,6 +160,14 @@ $arUrlRewrite = [
             'PATH' => '/uslugi/index.php',
             'SORT' => 100,
         ],
+    23 =>
+        [
+            'CONDITION' => '#^/uslugi/(.*)/#',
+            'RULE' => '',
+            'ID' => 'bitrix:news',
+            'PATH' => '/uslugi/index.php',
+            'SORT' => 100,
+        ],
     19 =>
         [
             'CONDITION' => '#^/news/#',
