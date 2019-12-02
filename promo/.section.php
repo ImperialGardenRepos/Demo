@@ -1,6 +1,3 @@
-<?
-$sSectionName = "Спецпредложения";
-$arDirProperties = Array(
-
-);
-?>
+<?php
+$sSectionName = 'Спецпредложения';
+$arDirProperties = [];
