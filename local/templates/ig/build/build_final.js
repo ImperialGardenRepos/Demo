@@ -25477,3 +25477,7 @@ $('body').on('click','.js-sort-param',function(){
     document.cookie = 'catalog_order=' + newSort +'; path=/';
     window.location.reload();
 });
+
+$('body').on('contextmenu', 'img', function(e){
+    return false;
+});
