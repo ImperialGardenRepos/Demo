@@ -1,10 +1,10 @@
 <?php
 require $_SERVER['DOCUMENT_ROOT'] . '/bitrix/header.php';
-$_REQUEST['CODE'] = 'rabochee-proektirovanie';
 $APPLICATION->IncludeComponent(
     'ig:page.constructor',
     '',
     [
+        'CODE' => 'project',
         'IBLOCK_ID' => CONSTRUCTOR_IBLOCK_ID
     ],
     false
