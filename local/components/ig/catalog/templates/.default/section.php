@@ -77,6 +77,7 @@ $sectionParams = [
     'SPHINX_INDEX' => $arParams['SPHINX_INDEX'] ?? null,
     'VARIABLES' => $arResult['VARIABLES'],
     'BASE_URL' => $baseUrl,
+    'SET_META' => 'Y',
 ];
 
 if ($isAjax === true) {

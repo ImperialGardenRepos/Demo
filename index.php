@@ -26,11 +26,11 @@ if(empty($strImagePath)) {
 }
 ?>
 <div class="section section--bring-to-front section--hero">
-	<div class="section__bg section__bg--trees img-to-bg mobile-hide">
-		<img data-lazy-src="<?=$strImagePath?>" src="<?=SITE_TEMPLATE_PATH?>/img/blank.png" alt="">
+	<div class="section__bg img-to-bg mobile-hide">
+		<img data-lazy-src="/upload/medialibrary/6f0/black_friday_big_3.jpg" src="<?=SITE_TEMPLATE_PATH?>/img/blank.png" alt="">
 	</div>
-	<div class="section__bg section__bg--trees img-to-bg mobile-show">
-		<img data-lazy-src="<?=$strImagePathMobile?>" src="<?=SITE_TEMPLATE_PATH?>/img/blank.png" alt="">
+	<div class="section__bg img-to-bg mobile-show">
+		<img data-lazy-src="/upload/medialibrary/db2/black_friday_mob_5.jpg" src="<?=SITE_TEMPLATE_PATH?>/img/blank.png" alt="">
 	</div>
 	<div class="container">
 		<div class="hero hero--autoheight">
@@ -91,17 +91,9 @@ if(empty($strImagePath)) {
 		"STRICT_SECTION_CHECK" => "N"
 	)
 );?>
-				<a class="hero__inner mobile-hide" style="padding-bottom: 33%;" href="/promo/bolshie-derevya/"></a>
-				<a class="hero__inner mobile-show" style="padding-bottom: 82%;" href="/promo/bolshie-derevya/"></a>
-			 <?
-				if(false) {
-					$APPLICATION->IncludeComponent("bitrix:main.include", "", Array(
-							"AREA_FILE_SHOW"   => "file",
-							"AREA_FILE_SUFFIX" => "inc",
-							"EDIT_TEMPLATE"    => "",
-							"PATH"             => "/local/inc_area/index_label.php"
-						));
-				}?> <nav class="tabs tabs--flex" data-goto-hash-change="true">
+<div class="hero__inner mobile-hide" style="padding-bottom: 33%;"></div>
+<div class="hero__inner mobile-show" style="padding-bottom: 82%;"></div>
+<nav class="tabs tabs--flex" data-goto-hash-change="true">
 			<div class="tabs__inner js-tabs-fixed-center">
 				<div class="tabs__scroll js-tabs-fixed-center-scroll">
 					<div class="tabs__scroll-inner">

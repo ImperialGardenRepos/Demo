@@ -17,10 +17,10 @@ if (isset($arParams['SET_META']) && $arParams['SET_META'] !== 'N') {
         }
         if ((int)$arResult['SECTION']['DEPTH_LEVEL'] === 2) {
             $parentTitle = IBlockSectionHelper::getSectionName((int)$arResult['SECTION']['IBLOCK_SECTION_ID']);
-            Meta::getInstance()->setBaseTitle($parentTitle . ' ' . $arResult['NAME']);
+            Meta::getInstance()->setBaseTitle($parentTitle . ' ' . $arResult['SECTION']['NAME']);
         }
         if ((int)$arResult['SECTION']['DEPTH_LEVEL'] > 2) {
-            Meta::getInstance()->setBaseTitle($arResult['NAME']);
+            Meta::getInstance()->setBaseTitle($arResult['SECTION']['NAME']);
         }
         $arResult['DESCRIPTION'] = $arResult['SECTION']['DESCRIPTION'];
     }

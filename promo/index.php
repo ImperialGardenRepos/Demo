@@ -37,56 +37,6 @@ $APPLICATION->SetTitle("Спецпредложения");
                         </div>
                     </a>
                 </div>
-                <div class="tgb tgb--1-2 tgb--h50 tgb--img-hover">
-                    <a class="tgb__inner" href="/promo/rulonniy-gazon/">
-                        <div class="tgb__image img-to-bg img-to-bg--inited" style="background-image: url(rulongazon2.png);">
-                            <img src="rulongazon2.png" data-lazy-src="groub" alt="Газон">
-                        </div>
-                        <div class="tgb__overlay">
-                            <div class="tgb__overlay-part">
-                                <div class="tgb__overlay-part-inner">
-                                    <div class="tgb__title h3">
-                                        Рулонный газон в Садовом центре
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="tgb__overlay-part mobile-hide">
-                                <div class="tgb__overlay-part-inner">
-                                    <div class="text">
-                                        <p>
-                                            Партерный, теневой и универсальный газон любой площади
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                <div class="tgb tgb--1-2 tgb--h50 tgb--img-hover">
-                    <a class="tgb__inner" href="/promo/grunt/">
-                        <div class="tgb__image img-to-bg img-to-bg--inited" style="background-image: url(grunt.jpg);">
-                            <img alt="Эскизное проектирование" src="grunt.jpg" data-lazy-src="tgb__image">
-                        </div>
-                        <div class="tgb__overlay">
-                            <div class="tgb__overlay-part">
-                                <div class="tgb__overlay-part-inner">
-                                    <div class="tgb__title h3">
-                                        Доставка плодородного грунта
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="tgb__overlay-part mobile-hide">
-                                <div class="tgb__overlay-part-inner">
-                                    <div class="text">
-                                        <p>
-                                            Торфо-песчанные и торфо-земельные смеси с доставкой
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </a>
-                </div>
             </div>
         </div>
     </div>

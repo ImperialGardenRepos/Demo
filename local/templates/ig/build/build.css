@@ -21717,3 +21717,21 @@ Common property classes
 .sort-list__icon {
     color: #c14444
 }
+.landing-section.text:first-of-type .text__heading {
+	padding-top:2.85714rem;
+	padding-bottom:1.42857rem;
+	margin-top:0!important;
+	margin-bottom:0!important;
+
+}
+
+@media screen and (max-width: 640px) {
+    .landing-section.text:first-of-type .text__heading {
+        padding-top: 1.78571rem;
+        padding-bottom: 1.78571rem;
+    }
+}
+.landing-section.text:first-of-type {
+	margin-top:0!important;
+	margin-bottom:0!important;
+}

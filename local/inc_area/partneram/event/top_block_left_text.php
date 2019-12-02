@@ -1,5 +1,5 @@
 <div class="tgb__image img-to-bg">
- <img src="/local/templates/ig/img/blank.png" data-lazy-src="/local/templates/ig/pic/event_for-you.jpg" alt="">
+	<img src="/local/templates/ig/img/blank.png" data-lazy-src="/upload/medialibrary/bbc/for_you.jpg" alt="">
 </div>
 <div class="tgb__overlay">
 	<div class="tgb__title h2">
@@ -11,3 +11,4 @@
 		</p>
 	</div>
 </div>
+<br>

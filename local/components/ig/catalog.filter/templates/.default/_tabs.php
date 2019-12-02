@@ -24,7 +24,7 @@ if (!defined('B_PROLOG_INCLUDED') || B_PROLOG_INCLUDED !== true) {
                     <a class="stabs__link" href="/katalog/rasteniya/">Все</a>
                 </div>
                 <div class="stabs__item mobile-show-inline-block">
-                    <a href="<?= CATALOG_PRICE_LIST_PATH ?>Price.XLS" class="nounderline-important">
+                    <a href="<?= CATALOG_PRICE_LIST_PATH ?>Price.XLS?<?=time()?>" class="nounderline-important">
                         <svg class="icon">
                             <use xlink:href="<?= SITE_TEMPLATE_PATH ?>/build/svg/symbol/svg/sprite.symbol.svg#icon-download-cloud"></use>
                         </svg>
@@ -37,7 +37,7 @@ if (!defined('B_PROLOG_INCLUDED') || B_PROLOG_INCLUDED !== true) {
         <div class="nav stabs mobile-hide">
             <div class="stabs__list">
                 <div class="stabs__item">
-                    <a href="<?= CATALOG_PRICE_LIST_PATH ?>Price.XLS" class="nounderline-important">
+                    <a href="<?= CATALOG_PRICE_LIST_PATH ?>Price.XLS?<?=time()?>" class="nounderline-important">
                         <svg class="icon">
                             <use xlink:href="<?= SITE_TEMPLATE_PATH ?>/build/svg/symbol/svg/sprite.symbol.svg#icon-download-cloud"></use>
                         </svg>
@@ -61,7 +61,7 @@ if (!defined('B_PROLOG_INCLUDED') || B_PROLOG_INCLUDED !== true) {
         <div class="nav stabs mobile-hide">
             <div class="stabs__list">
                 <div class="stabs__item">
-                    <a href="<?= CATALOG_PRICE_LIST_PATH ?>PRICE_SAD.XLS"
+                    <a href="<?= CATALOG_PRICE_LIST_PATH ?>PRICE_SAD.XLS?<?=time()?>"
                        class="nounderline-important">
                         <svg class="icon">
                             <use xlink:href="<?= SITE_TEMPLATE_PATH ?>/build/svg/symbol/svg/sprite.symbol.svg#icon-download-cloud"></use>

@@ -1,5 +1,5 @@
 <div class="tgb__image img-to-bg">
- <img src="/local/templates/ig/img/blank.png" data-lazy-src="/local/templates/ig/pic/event_for-your-clients.jpg" alt="">
+ <img src="/local/templates/ig/img/blank.png" data-lazy-src="/upload/medialibrary/cd4/for_clients.jpg" alt="">
 </div>
 <div class="tgb__overlay">
 	<div class="tgb__title h2">

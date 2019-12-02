@@ -319,6 +319,8 @@ class Meta
                 }
             }
         }
+	echo '<!--' . $maskedString . '-->';
+	echo '<!--' . $this->baseTitle . '-->';
         return trim($maskedString);
     }
 
