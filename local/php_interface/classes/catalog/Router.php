@@ -17,8 +17,6 @@ use ig\Helpers\UrlHelper;
 
 class Router
 {
-//ToDo:Check if double page appear w/o check
-
     private $baseUrl;
     private $iBlockId = 0;
     private $sectionId;
@@ -158,13 +156,13 @@ class Router
         if ($levelCount > 3) {
             throw new NotFoundHttpException();
         }
-        if($this->getIsOffersRequest() === true) {
+        if ($this->getIsOffersRequest() === true) {
             $this->setOffersRequestParams();
             return;
         }
-            if ($this->getIsVirtualFilter($urlArray)) {
-                $this->isVirtualFilter = true;
-            }
+        if ($this->getIsVirtualFilter($urlArray)) {
+            $this->isVirtualFilter = true;
+        }
 
         $this->isFilter = $this->isGetFilterAliasSet();
 
@@ -184,7 +182,18 @@ class Router
         }
 
         if ($levelCount > 2) {
-            $this->setThirdLevelRouteParam($urlArray[2]);
+            try {
+                $this->setThirdLevelRouteParam($urlArray[2]);
+            } catch (NotFoundHttpException $e) {
+                if($urlArray[0] === $urlArray[2]) {
+                    $host = UrlHelper::getHost();
+                    $result = UrlHelper::buildFromParts($this->baseUrl,$urlArray[0],$urlArray[1]);
+                    header('HTTP/1.1 301 Moved Permanently');
+                    header("Location: {$host}{$result}");
+                    exit();
+                }
+                throw $e;
+            }
         }
     }
 
