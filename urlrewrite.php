@@ -162,11 +162,11 @@ $arUrlRewrite = [
         ],
     23 =>
         [
-            'CONDITION' => '#^/uslugi/(.*)/#',
+            'CONDITION' => '#^/uslugi/proektirovanie/#',
             'RULE' => '',
             'ID' => 'bitrix:news',
             'PATH' => '/uslugi/index.php',
-            'SORT' => 100,
+            'SORT' => 10,
         ],
     19 =>
         [
