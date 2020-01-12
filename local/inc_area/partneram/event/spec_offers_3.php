@@ -11,7 +11,7 @@
 		</p>
 	</div>
 	<div class="tgb__action">
- <a href="#" class="btn btn--medium btn--fullwidth active">Забронировать дату</a>
+ <a href="/o-nas/kontakty/" class="btn btn--medium btn--fullwidth active">Подробнее</a>
 	</div>
 </div>
 <br>

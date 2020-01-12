@@ -4,6 +4,7 @@
 *.xml
 *.zip
 /log*.txt
+/*.log.*
 # libs
 /local/lib
 # OS generated files #

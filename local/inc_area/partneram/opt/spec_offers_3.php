@@ -1,5 +1,5 @@
 <div class="tgb__image img-to-bg">
-	<img data-lazy-src="/local/templates/ig/pic/oop_spec_auto.jpg" src="/local/templates/ig/img/blank.png" alt="">
+	<img data-lazy-src="/upload/medialibrary/e59/dostavim-lyuboe-rastenie-pod-zakaz.jpg" src="/local/templates/ig/img/blank.png" alt="">
 </div>
 <div class="tgb__overlay">
 	<div class="tgb__title h3">
@@ -11,7 +11,7 @@
 		</p>
 	</div>
 	<div class="tgb__action">
- <a href="#" class="btn btn--medium btn--fullwidth active">Запросить растение</a>
+ <a href="/katalog/rasteniya/" class="btn btn--medium btn--fullwidth active">Выбрать растение</a>
 	</div>
 </div>
  <br>

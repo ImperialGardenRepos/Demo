@@ -11,8 +11,8 @@
 		</p>
 	</div>
 	<div class="tgb__action">
- <a href="#" class="btn btn--medium btn--fullwidth active">
-		Скачать прайс-лист </a>
+ <a href="https://yadi.sk/d/3vzE-tGUt8xrnQ" class="btn btn--medium btn--fullwidth active" target="_blank">
+		Скачать презентацию </a>
 	</div>
 </div>
  <br>

@@ -542,5 +542,12 @@
     width: calc(100% / 70);
     height: 10px;
     float: left; }
-
+.text__img img {
+	max-width: 100%;
+	width: 100%;
+	height: auto;
+}
+.text__img {
+	display: block!important
+}
 /*# sourceMappingURL=style.css.map */
