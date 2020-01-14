@@ -109,7 +109,7 @@ if ($APPLICATION->GetProperty('hideFooter') !== 'Y') : ?>
 <script>
     var obDynamicData = <?=json_encode(CHelper::getDynamicData())?>;
 </script>
-
+<?$APPLICATION->ShowViewContent('page_schema');?>
 <?php $APPLICATION->ShowHeadScripts() ?>
 </body>
 </html>
