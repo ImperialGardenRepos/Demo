@@ -6,6 +6,7 @@ use ig\Events\IBlock;
 use ig\Events\Sale;
 use ig\Events\Seo;
 use ig\Events\System;
+use ig\Seo\Status;
 use ig\sphinx\CatalogGardenOffers;
 use ig\sphinx\CatalogOffers;
 
@@ -42,3 +43,4 @@ AddEventHandler('sale', 'OnOrderNewSendEmail', [Sale::class, 'OnOrderNewSendEmai
 AddEventHandler('main', 'OnProlog', [System::class, 'onPrologHandler'], 50);
 
 AddEventHandler('main', 'OnEpilog', [Seo::class, 'setFinalMeta']);
+AddEventHandler('main', 'OnEpilog', [Status::class, 'setFinal404Error']);

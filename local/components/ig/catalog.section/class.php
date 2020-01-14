@@ -43,8 +43,11 @@ class CatalogSection extends CBitrixComponent
             $this->setResult();
             $this->includeComponentTemplate();
             $this->endResultCache();
+        } catch (NotFoundHttpException $e) {
+            $this->abortResultCache();
+            defined('STATUS_404') or define('STATUS_404', true);
+            return;
         } catch (Exception $e) {
-            //ToDo: catch HTTPNotFound separately
             $this->abortResultCache();
         }
     }
@@ -143,7 +146,6 @@ class CatalogSection extends CBitrixComponent
             $recordCount = $pageSize;
         }
         $maxPage = ceil($recordCount / $pageSize);
-
         if ($recordCount === 0 || $pageNum > $maxPage) {
             throw new NotFoundHttpException();
         }
