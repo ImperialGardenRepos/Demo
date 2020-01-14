@@ -3,6 +3,7 @@
 use ig\CFormat;
 use ig\Helpers\ArrayHelper;
 use ig\Seo\Meta;
+use ig\Seo\PageSchema;
 
 if (!defined('B_PROLOG_INCLUDED') || B_PROLOG_INCLUDED !== true) {
     die();
@@ -37,3 +38,5 @@ Meta::getInstance()->setBaseTitle($nameFull);
 Meta::getInstance()->setMonth($month);
 Meta::getInstance()->setHeight($height . ' м');
 Meta::getInstance()->setMinPrice($minPrice);
+
+PageSchema::setProductSchema($arResult, $APPLICATION, $this);

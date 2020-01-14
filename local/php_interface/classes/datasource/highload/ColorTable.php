@@ -5,11 +5,13 @@ namespace ig\Datasource\Highload;
 
 use Bitrix\Main\ArgumentException;
 use Bitrix\Main\Entity\DataManager;
+use Bitrix\Main\InvalidOperationException;
 use Bitrix\Main\ObjectPropertyException;
 use Bitrix\Main\ORM\Fields\IntegerField;
 use Bitrix\Main\ORM\Fields\StringField;
 use Bitrix\Main\SystemException;
 use ig\Datasource\FilterProperty;
+use ig\Helpers\ArrayHelper;
 
 class ColorTable extends DataManager implements FilterProperty
 {
@@ -79,6 +81,33 @@ class ColorTable extends DataManager implements FilterProperty
         foreach ($propertyCodes as $propertyCode) {
             $result[$propertyCode]['VALUES'] = $values;
         }
+        return $result;
+    }
+
+    /**
+     * @param string|array $xmlId
+     * @return array|null
+     * @throws ArgumentException
+     * @throws ObjectPropertyException
+     * @throws SystemException
+     * @throws InvalidOperationException
+     */
+    public static function getByXmlId($xmlId): ?array
+    {
+        $model = static::getList([
+            'select' => ['*'],
+            'filter' => [
+                'UF_XML_ID' => $xmlId,
+            ],
+        ]);
+        if ($model->getSelectedRowsCount() === 0) {
+            return null;
+        }
+        $result = [];
+        while ($row = $model->fetch()) {
+            $result[$row['UF_XML_ID']] = ArrayHelper::removeKeyPrefix($row);
+        }
+
         return $result;
     }
 

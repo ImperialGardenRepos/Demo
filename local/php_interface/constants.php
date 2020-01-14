@@ -3,12 +3,26 @@
  * Paths
  * Notice: always use trailing slash here except site template
  */
+
+use ig\Datasource\Highload\ColorTable;
+use ig\Datasource\Highload\FilterAliasTable;
+use ig\Datasource\Highload\GroupTable;
+use ig\Datasource\Highload\PeriodHeightExt;
+use ig\Datasource\Highload\PeriodHeightNowExt;
+use ig\Datasource\Highload\PeriodHeightNowTable;
+use ig\Datasource\Highload\PeriodHeightTable;
+use ig\Datasource\Highload\PeriodPriceTable;
+use ig\Datasource\Highload\PropertyGroupTable;
+use ig\Datasource\Highload\PropertyValueTable;
+use ig\Datasource\Highload\Redirect;
+use ig\Datasource\Highload\VirtualPageTable;
+
 defined('SITE_TEMPLATE_PATH') or define('SITE_TEMPLATE_PATH', '/local/templates/ig');
 defined('SITE_BASE_DIR') or define('SITE_BASE_DIR', '/var/www/imperialgarden.ru/');
 defined('CATALOG_BASE_PATH') or define('CATALOG_BASE_PATH', '/katalog/rasteniya/');
 defined('CATALOG_GARDEN_BASE_PATH') or define('CATALOG_GARDEN_BASE_PATH', '/katalog/tovary-dlya-sada/');
 defined('CATALOG_PRICE_LIST_PATH') or define('CATALOG_PRICE_LIST_PATH', '/price-lists/');
-/**
+/**''
  * Prices
  */
 defined('CATALOG_BASE_PRICE_CODE') or define('CATALOG_BASE_PRICE_CODE', 'BASE');
@@ -38,7 +52,7 @@ defined('PORTFOLIO_IBLOCK_ID') or define('PORTFOLIO_IBLOCK_ID', 25);
 defined('VEHICLE_RENT_IBLOCK_ID') or define('VEHICLE_RENT_IBLOCK_ID', 33);
 defined('CONSTRUCTOR_IBLOCK_ID') or define('CONSTRUCTOR_IBLOCK_ID', 34);
 /**
- * Highload block tables
+ * HighLoad block tables
  */
 defined('FILTER_ALIAS_HL_BLOCK_TABLE') or define('FILTER_ALIAS_HL_BLOCK_TABLE', 'ig_catalog_filter_alias');
 defined('COLOR_HL_BLOCK_TABLE') or define('COLOR_HL_BLOCK_TABLE', 'ig_colors');
@@ -52,8 +66,37 @@ defined('PROPERTY_GROUP_HL_BLOCK_TABLE') or define('PROPERTY_GROUP_HL_BLOCK_TABL
 defined('PROPERTY_VALUE_HL_BLOCK_TABLE') or define('PROPERTY_VALUE_HL_BLOCK_TABLE', 'ig_propertyvalues');
 defined('REDIRECT_HL_BLOCK_TABLE') or define('REDIRECT_HL_BLOCK_TABLE', 'ig_redirect');
 defined('VIRTUAL_PAGE_HL_BLOCK_TABLE') or define('VIRTUAL_PAGE_HL_BLOCK_TABLE', 'ig_virtula_pages');
+
+defined('TABLE_DATA_CLASS_MAP') or define(
+    'TABLE_DATA_CLASS_MAP',
+    [
+        FILTER_ALIAS_HL_BLOCK_TABLE => FilterAliasTable::class,
+        COLOR_HL_BLOCK_TABLE => ColorTable::class,
+        GROUP_HL_BLOCK_TABLE => GroupTable::class,
+        PERIOD_HEIGHT_HL_BLOCK_TABLE => PeriodHeightTable::class,
+        PERIOD_HEIGHT_EXT_HL_BLOCK_TABLE => PeriodHeightExt::class,
+        PERIOD_HEIGHT_NOW_HL_BLOCK_TABLE => PeriodHeightNowTable::class,
+        PERIOD_HEIGHT_NOW_EXT_HL_BLOCK_TABLE => PeriodHeightNowExt::class,
+        PERIOD_PRICE_HL_BLOCK_TABLE => PeriodPriceTable::class,
+        PROPERTY_GROUP_HL_BLOCK_TABLE => PropertyGroupTable::class,
+        PROPERTY_VALUE_HL_BLOCK_TABLE => PropertyValueTable::class,
+        REDIRECT_HL_BLOCK_TABLE => Redirect::class,
+        VIRTUAL_PAGE_HL_BLOCK_TABLE => VirtualPageTable::class,
+    ]
+);
 /**
  * Sphinx tables
  */
 defined('CATALOG_OFFERS_INDEX') or define('CATALOG_OFFERS_INDEX', 'catalog_offers');
 defined('CATALOG_GARDEN_OFFERS_INDEX') or define('CATALOG_GARDEN_OFFERS_INDEX', 'catalog_garden_offers');
+/**
+ * Property codes
+ */
+defined('CATALOG_PHOTO_PROPERTIES') or define(
+    'CATALOG_PHOTO_PROPERTIES',
+    ['PHOTO_WINTER', 'PHOTO_AUTUMN', 'PHOTO_SUMMER', 'PHOTO_10YEARS', 'PHOTO_FLOWER', 'PHOTO_FRUIT']
+);
+defined('CATALOG_DESCRIPTION_PROPERTIES') or define(
+    'CATALOG_DESCRIPTION_PROPERTIES',
+    ['HEIGHT_10', 'CROWN', 'FLOWERING', 'COLOR_LEAF', 'PERIOD_PRICE']
+);

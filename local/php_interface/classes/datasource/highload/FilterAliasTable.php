@@ -9,7 +9,7 @@ use Bitrix\Main\ORM\Fields\IntegerField;
 use Bitrix\Main\ORM\Fields\StringField;
 use Bitrix\Main\SystemException;
 use Exception;
-use ig\Helpers\TableHelper;
+use ig\Helpers\HighLoadBlockHelper;
 
 class FilterAliasTable extends DataManager
 {
@@ -116,7 +116,7 @@ class FilterAliasTable extends DataManager
     protected static function setNewFilterAlias(array $filterParams): string
     {
         $serializedParams = serialize($filterParams);
-        $md5 = TableHelper::getUniqueValue(static::class, md5($serializedParams));
+        $md5 = HighLoadBlockHelper::getUniqueValue(static::class, md5($serializedParams));
         static::add(
             [
                 'UF_XML_ID' => $md5,
