@@ -61,6 +61,7 @@ $sectionParams = [
     'DISPLAY_PREVIEW_TEXT' => 'Y',
     'DISPLAY_TOP_PAGER' => 'N',
     'MESSAGE_404' => '',
+    'PAGE_ELEMENT_COUNT' => 33,
     'PAGER_BASE_LINK_ENABLE' => 'N',
     'PAGER_DESC_NUMBERING' => 'N',
     'PAGER_DESC_NUMBERING_CACHE_TIME' => '36000',
