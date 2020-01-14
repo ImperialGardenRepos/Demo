@@ -26,13 +26,18 @@ if (empty($strImagePath)) {
 }
 ?>
     <div class="section section--bring-to-front section--hero">
-        <div class="section__bg img-to-bg mobile-hide">
-            <img data-lazy-src="/upload/medialibrary/e02/bann.jpg" src="<?= SITE_TEMPLATE_PATH ?>/img/blank.png" alt="">
-        </div>
-        <div class="section__bg img-to-bg mobile-show">
-            <img data-lazy-src="/upload/medialibrary/e24/bann_m-_2_.jpg" src="<?= SITE_TEMPLATE_PATH ?>/img/blank.png"
-                 alt="">
-        </div>
+        <?php
+        $APPLICATION->IncludeComponent(
+            'bitrix:main.include',
+            '',
+            [
+                'AREA_FILE_SHOW' => 'file',
+                'AREA_FILE_SUFFIX' => 'inc',
+                'EDIT_TEMPLATE' => '',
+                'PATH' => '/local/inc_area/index_banner_images.php',
+            ]
+        );
+        ?>
         <div class="container">
             <div class="hero hero--autoheight">
                 <? $APPLICATION->IncludeComponent(
@@ -143,48 +148,18 @@ if (empty($strImagePath)) {
             </div>
         </div>
     </div>
-    <div class="tabs-vert-fixed scroll-activate" data-scroll-activate-trigger="#vertical-tabs-trigger"
-         data-scroll-activate-offset-element=".header" data-scroll-activate-trigger-hook="onLeave"
-         data-scroll-activate-reverse="true">
-        <nav class="tabs tabs--vert tabs--active-allowed" data-goto-hash-change="true">
-            <div class="tabs__inner js-tabs-fixed-center">
-                <div class="tabs__scroll js-tabs-fixed-center-scroll">
-                    <div class="tabs__scroll-inner">
-                        <ul class="tabs__list">
-
-                            <li class="tabs__item"><a class="tabs__link tabs__link--block js-goto" href="#catalog">
-                                    <svg class="icon">
-                                        <use xlink:href="<?= SITE_TEMPLATE_PATH ?>/build/svg/symbol/svg/sprite.symbol.svg#icon-book-outline"></use>
-                                    </svg>
-                                    <span class="link link--ib link--dotted">Каталог</span>
-                                </a></li>
-                            <li class="tabs__item"><a class="tabs__link tabs__link--block js-goto" href="#services">
-                                    <svg class="icon">
-                                        <use xlink:href="<?= SITE_TEMPLATE_PATH ?>/build/svg/symbol/svg/sprite.symbol.svg#icon-gardener-outline"></use>
-                                    </svg>
-                                    <span class="link link--ib link--dotted">Услуги</span>
-                                </a></li>
-                            <li class="tabs__item"><a class="tabs__link tabs__link--block js-goto" href="#objects">
-                                    <svg class="icon">
-                                        <use xlink:href="<?= SITE_TEMPLATE_PATH ?>/build/svg/symbol/svg/sprite.symbol.svg#icon-maple-leaf"></use>
-                                    </svg>
-                                    <span class="link link--ib link--dotted">Объекты</span>
-                                </a></li>
-                            <li class="tabs__item"><a class="tabs__link tabs__link--block js-goto"
-                                                      href="#entertainment">
-                                    <svg class="icon">
-                                        <use xlink:href="<?= SITE_TEMPLATE_PATH ?>/build/svg/symbol/svg/sprite.symbol.svg#icon-drink-apple"></use>
-                                    </svg>
-                                    <span class="link link--ib link--dotted">Досуг</span>
-                                </a></li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </nav>
-    </div>
-    <div id="vertical-tabs-trigger" class="vertical-tabs-trigger">
-    </div>
+<?php
+$APPLICATION->IncludeComponent(
+    'bitrix:main.include',
+    '',
+    [
+        'AREA_FILE_SHOW' => 'file',
+        'AREA_FILE_SUFFIX' => 'inc',
+        'EDIT_TEMPLATE' => '',
+        'PATH' => '/local/inc_area/index_tabs_side_teaser.php',
+    ]
+);
+?>
     <div class="section section--block bg-pattern bg-pattern--grey-leaves section--saw-before" id="catalog"
          data-goto-offset-element=".header">
         <div class="container">
