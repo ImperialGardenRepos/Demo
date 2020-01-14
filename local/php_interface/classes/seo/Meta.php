@@ -149,8 +149,6 @@ class Meta
     }
 
     /**
-     * @param mixed $request
-     * @param int $currentIteration
      * @return array|null
      * @throws ArgumentException
      * @throws LoaderException
@@ -183,7 +181,6 @@ class Meta
      * @param string $url
      * @return array|null
      * @throws ArgumentException
-     * @throws LoaderException
      * @throws ObjectPropertyException
      * @throws SystemException
      */
@@ -230,7 +227,9 @@ class Meta
     {
         global $APPLICATION;
         if ($this->totalPage !== null && $this->currentPage !== null && $this->currentPage > 1) {
-            $APPLICATION->SetPageProperty('description', null);
+            $description = $APPLICATION->GetPageProperty('description');
+            $description .= " Страница {$this->currentPage}";
+            $APPLICATION->SetPageProperty('description', $description);
             $browserTitle = $APPLICATION->GetTitle();
             $browserTitle .= " – Страница {$this->currentPage} из {$this->totalPage}";
             $APPLICATION->SetTitle($browserTitle);
@@ -319,8 +318,6 @@ class Meta
                 }
             }
         }
-	echo '<!--' . $maskedString . '-->';
-	echo '<!--' . $this->baseTitle . '-->';
         return trim($maskedString);
     }
 
