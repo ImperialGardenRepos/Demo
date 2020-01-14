@@ -17,6 +17,7 @@ use ig\Base\Registry;
 use ig\CFormat;
 use ig\CHelper;
 use ig\Datasource\Highload\GroupTable;
+use ig\Datasource\Highload\VirtualPageTable;
 use ig\Datasource\Sphinx\Query;
 use ig\Exceptions\NotFoundHttpException;
 use ig\Helpers\CartHelper;
@@ -118,6 +119,7 @@ class CatalogSection extends CBitrixComponent
         $this->setCart();
         $this->setPriceTypes();
         $this->setSection();
+        $this->setVirtualSection();
         $this->setBreadcrumbs();
         $this->setPagination();
         $this->setIPropertyValues();
@@ -229,6 +231,32 @@ class CatalogSection extends CBitrixComponent
                 $pathSection['SECTION_PAGE_URL'] = UrlHelper::buildFromParts($pathSection['LIST_PAGE_URL'], $pathSection['SECTION_PAGE_URL']);
             }
         }
+    }
+
+    protected function setVirtualSection(): void
+    {
+        $isSectionSet = isset($this->arResult['SECTION']) && $this->arResult['SECTION'] !== null;
+        $isVirtualFilter = $this->arParams['VARIABLES']['IS_VIRTUAL_FILTER'] === true;
+        $isVirtualUrl = (string)$this->arParams['VARIABLES']['VIRTUAL_URL'] !== '';
+        if ($isSectionSet || !$isVirtualFilter || !$isVirtualUrl) {
+            return;
+        }
+
+        $virtualSection = VirtualPageTable::getByUrl($this->arParams['VARIABLES']['VIRTUAL_URL']);
+
+        if (count($virtualSection) !== 1) {
+            return;
+        }
+        $virtualSection = $virtualSection[0];
+
+        $this->arResult['SECTION'] = [
+            'NAME' => $virtualSection['H1'],
+            'DESCRIPTION' => $virtualSection['TEXT'],
+            'DESCRIPTION_TYPE' => 'html',
+            'LIST_PAGE_URL' => $this->arParams['SEF_FOLDER'],
+            'SECTION_PAGE_URL' => $virtualSection['URL'],
+            'IBLOCK_SECTION_ID' => null,
+        ];
     }
 
     protected function setBreadcrumbs(): void
