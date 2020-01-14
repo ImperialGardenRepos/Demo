@@ -11,6 +11,7 @@ use Bitrix\Main\ArgumentException as ArgumentExceptionAlias;
 use Bitrix\Main\Loader;
 use Bitrix\Main\LoaderException;
 use Bitrix\Main\SystemException;
+use ig\Exceptions\NotFoundHttpException;
 
 class CPageConstructor extends CBitrixComponent
 {
@@ -51,6 +52,10 @@ class CPageConstructor extends CBitrixComponent
             $this->setResult();
             $this->includeComponentTemplate();
             $this->endResultCache();
+        } catch (NotFoundHttpException $e) {
+            $this->abortResultCache();
+            defined('STATUS_404') or define('STATUS_404', true);
+            return;
         } catch (Exception $e) {
             $this->abortResultCache();
         }
@@ -68,10 +73,14 @@ class CPageConstructor extends CBitrixComponent
 
     /**
      * Method combines all other methods used to fill $arResult
+     * @throws NotFoundHttpException
      */
     private function setResult(): void
     {
         $section = $this->getSection();
+        if ($section === null) {
+            throw new NotFoundHttpException();
+        }
         $this->arResult['SECTION'] = $section;
         $this->arResult['ITEMS'] = $this->getBlocks($section['ID']);
         global $APPLICATION;
