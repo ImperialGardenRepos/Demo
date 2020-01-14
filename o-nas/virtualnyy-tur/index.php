@@ -297,7 +297,7 @@ require_once ($_SERVER["DOCUMENT_ROOT"]."/bitrix/modules/main/include/prolog_aft
                     <div class="hidden">
                         <div id="tour-office-tooltip">
                             <h5>Офисное здание АО «Ривьера».</h5>
-                            <p><img data-lazy-src="/local/templates/ig/pic/VT_ofis.jpg" src="/local/templates/ig/pic/VT_ofis.jpg" alt="Офисное здание АО «Ривьера»"></p>
+                            <p><img data-lazy-src="/local/templates/ig/pic/vt_ofis.jpg" src="/local/templates/ig/pic/vt_ofis.jpg" alt="Офисное здание АО «Ривьера»"></p>
                         </div>
                     </div>
                 </div>

@@ -140,9 +140,9 @@ $APPLICATION->SetTitle("О нас");
 
             <p>
                 <a href="/o-nas/virtualnyy-tur/"><img class="mobile-hide"
-                                                      src="/local/templates/ig/pic/virtualnyy-tur_DT_1200x530.jpg"
+                                                      src="/local/templates/ig/pic/virtualnyy-tur_dt_1200x530.jpg"
                                                       alt=""><img class="fullwidth mobile-show"
-                                                                  src="/local/templates/ig/pic/virtualnyy-tur_MB_340x340.jpg"
+                                                                  src="/local/templates/ig/pic/virtualnyy-tur_mb_340x340.jpg"
                                                                   alt=""></a>
             </p>
 
