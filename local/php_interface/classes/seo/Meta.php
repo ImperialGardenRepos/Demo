@@ -6,8 +6,9 @@ use Bitrix\Main\ArgumentException;
 use Bitrix\Main\LoaderException;
 use Bitrix\Main\ObjectPropertyException;
 use Bitrix\Main\SystemException;
-use ig\Helpers\UrlHelper;
 use ig\Datasource\Highload\VirtualPageTable;
+use ig\Helpers\TextHelper;
+use ig\Helpers\UrlHelper;
 
 /**
  * Class Meta
@@ -166,11 +167,11 @@ class Meta
         $customMetaByMask = $this->getMetaByUrlMask($request);
 
         $meta = [];
-        if($customMetaByExactUrl !== null) {
+        if ($customMetaByExactUrl !== null) {
             $meta['exact'] = $customMetaByExactUrl;
         }
 
-        if($customMetaByMask !== null) {
+        if ($customMetaByMask !== null) {
             $meta['mask'] = $customMetaByMask;
         }
 
@@ -261,33 +262,33 @@ class Meta
         /**
          * Description
          */
-        if (isset($meta['mask']) && $meta['mask']['DESCRIPTION'] !== '') {
+        if (isset($meta['mask']) && (string)$meta['mask']['DESCRIPTION'] !== '') {
             $APPLICATION->SetPageProperty('description', $this->processMasks($meta['mask']['DESCRIPTION']));
         }
 
-        if (isset($meta['exact']) && $meta['exact']['DESCRIPTION'] !== '') {
+        if (isset($meta['exact']) && (string)$meta['exact']['DESCRIPTION'] !== '') {
             $APPLICATION->SetPageProperty('description', $this->processMasks($meta['exact']['DESCRIPTION']));
         }
 
         /**
          * Title
          */
-        if (isset($meta['mask']) && $meta['mask']['TITLE'] !== '') {
+        if (isset($meta['mask']) && (string)$meta['mask']['TITLE'] !== '') {
             $APPLICATION->SetTitle($this->processMasks($meta['mask']['TITLE']));
         }
 
-        if (isset($meta['exact']) && $meta['exact']['TITLE'] !== '') {
+        if (isset($meta['exact']) && (string)$meta['exact']['TITLE'] !== '') {
             $APPLICATION->SetTitle($this->processMasks($meta['exact']['TITLE']));
         }
 
         /**
          * Browser title
          */
-        if (isset($meta['mask']) && $meta['mask']['H1'] !== '') {
+        if (isset($meta['mask']) && (string)$meta['mask']['H1'] !== '') {
             $APPLICATION->SetPageProperty('title', $this->processMasks($meta['mask']['H1'], false));
         }
 
-        if (isset($meta['exact']) && $meta['exact']['H1'] !== '') {
+        if (isset($meta['exact']) && (string)$meta['exact']['H1'] !== '') {
             $APPLICATION->SetPageProperty('title', $this->processMasks($meta['exact']['H1'], false));
         }
     }
@@ -309,8 +310,11 @@ class Meta
         if ($matches[1] !== []) {
             $replaceArray = array_unique($matches[1]);
             foreach ($replaceArray as $replaceField) {
-                if (property_exists($this, $replaceField) && isset($this->$replaceField)) {
-                    $field = $this->$replaceField;
+                $replaceFieldModifiers = explode('.', $replaceField);
+                $replaceFieldName = array_shift($replaceFieldModifiers);
+                if (property_exists($this, $replaceFieldName) && isset($this->$replaceFieldName)) {
+                    $field = $this->$replaceFieldName;
+                    $this->processModifiers($field, $replaceFieldModifiers);
                     if ($dropQuotes === true) {
                         $field = str_replace(["'", '"'], '', $field);
                     }
@@ -321,6 +325,26 @@ class Meta
         return trim($maskedString);
     }
 
+    /**
+     * @param $string
+     * @param $modifiers
+     */
+    private function processModifiers(&$string, $modifiers): void
+    {
+        foreach ($modifiers as $modifier) {
+            switch ($modifier) {
+                case 'lc':
+                    $string = mb_strtolower($string);
+                    break;
+                case 'uc':
+                    $string = mb_strtoupper($string);
+                    break;
+                case 'ucfirst':
+                    $string = TextHelper::ucFirst($string);
+                    break;
+            }
+        }
+    }
 
     /**
      * Sets browser title from title property if browser title is empty

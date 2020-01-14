@@ -26,7 +26,6 @@ if (isset($arParams['SET_META']) && $arParams['SET_META'] !== 'N') {
 
     /** Minimal section price */
     if (!isset($arResult['SECTION'])) {
-        $APPLICATION->SetTitle('Каталог товаров для сада');
         Meta::getInstance()->setBaseTitle('Товары для сада');
         $iBlockId = $arParams['IBLOCK_ID'];
         $sectionId = 0;

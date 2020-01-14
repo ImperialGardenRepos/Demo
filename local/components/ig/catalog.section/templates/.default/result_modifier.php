@@ -8,7 +8,6 @@ use ig\Seo\Meta;
 if (!defined('B_PROLOG_INCLUDED') || B_PROLOG_INCLUDED !== true) {
     die();
 }
-//ToDo: set depending on params
 /** Base title */
 if (isset($arParams['SET_META']) && $arParams['SET_META'] !== 'N') {
     if (isset($arResult['SECTION'])) {
