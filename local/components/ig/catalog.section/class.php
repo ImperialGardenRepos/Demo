@@ -223,6 +223,12 @@ class CatalogSection extends CBitrixComponent
         }
         $section['PATH'] = IBlockSectionHelper::getPath($section, $this->arParams['SEF_URL_TEMPLATES']);
         $this->arResult['SECTION'] = $section;
+
+        foreach ($this->arResult['SECTION']['PATH'] as &$pathSection) {
+            if (strpos($pathSection['LIST_PAGE_URL'], $pathSection['SECTION_PAGE_URL']) === false) {
+                $pathSection['SECTION_PAGE_URL'] = UrlHelper::buildFromParts($pathSection['LIST_PAGE_URL'], $pathSection['SECTION_PAGE_URL']);
+            }
+        }
     }
 
     protected function setBreadcrumbs(): void
@@ -449,7 +455,7 @@ class CatalogSection extends CBitrixComponent
                     $item['PATH'][2]['NAME_LATIN']
                 );
             }
-            if($item['PROPERTIES']['FULL_NAME']['VALUE']) {
+            if ($item['PROPERTIES']['FULL_NAME']['VALUE']) {
                 $item['NAME_MAIN_FULL'] = $item['PROPERTIES']['FULL_NAME']['VALUE'];
             }
         }
