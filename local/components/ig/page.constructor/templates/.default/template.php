@@ -38,7 +38,12 @@ $isGridStarted = false;
         $props = $item['PROPERTIES'];
         $textVerticalAlignment = $props['TEXT_VERTICAL_ALIGN']['VALUE_XML_ID'] ?? 'bottom';
         $textHorizontalAlignment = $props['TEXT_HORIZONTAL_ALIGN']['VALUE_XML_ID'] ?? 'left';
-        $headingTag = $props['HEADING_TYPE']['VALUE_XML_ID'] ?? 'div';
+        $headingTagOpen = $props['HEADING_TYPE']['VALUE_XML_ID'] ?? 'div';
+        $headingTagClose = $props['HEADING_TYPE']['VALUE_XML_ID'] ?? 'div';
+        if ($props['IS_HEADING_DIV']['VALUE_XML_ID'] === '1') {
+            $headingTagOpen = "div class=\"{$headingTagOpen}\"";
+            $headingTagClose = 'div';
+        }
         $type = $props['BLOCK_TYPE']['VALUE_XML_ID'];
 
         /**
@@ -93,9 +98,9 @@ $isGridStarted = false;
                         if ($props['BLOCK_HEADING']['VALUE']['TEXT'] !== '') {
                             $heading = CHelper::renderText($props['BLOCK_HEADING']['VALUE']['TEXT'], $props['BLOCK_HEADING']['VALUE']['TYPE'], false);
                             echo "
-                            <{$headingTag} class='banner__heading'>
+                            <{$headingTagOpen} class='banner__heading'>
                                 {$heading}
-                            </{$headingTag}>
+                            </{$headingTagClose}>
                             ";
                         }
                         ?>
@@ -115,9 +120,9 @@ $isGridStarted = false;
                         if ($props['BLOCK_HEADING']['VALUE']['TEXT'] !== '') {
                             $heading = CHelper::renderText($props['BLOCK_HEADING']['VALUE']['TEXT'], $props['BLOCK_HEADING']['VALUE']['TYPE'], false);
                             echo "
-                            <{$headingTag} class='banner__heading'>
+                            <{$headingTagOpen} class='banner__heading'>
                                 {$heading}
-                            </{$headingTag}>
+                            </{$headingTagClose}>
                             ";
                         }
                         ?>
@@ -168,9 +173,9 @@ $isGridStarted = false;
                 if ($props['BLOCK_HEADING']['VALUE']['TEXT'] !== '') {
                     $heading = CHelper::renderText($props['BLOCK_HEADING']['VALUE']['TEXT'], $props['BLOCK_HEADING']['VALUE']['TYPE'], false);
                     echo "
-                            <{$headingTag} class='text__heading'>
+                            <{$headingTagOpen} class='text__heading'>
                                 {$heading}
-                            </{$headingTag}>
+                            </{$headingTagClose}>
                             ";
                 }
                 ?>
@@ -229,9 +234,9 @@ $isGridStarted = false;
                 if ($props['BLOCK_HEADING']['VALUE']['TEXT'] !== '') {
                     $heading = CHelper::renderText($props['BLOCK_HEADING']['VALUE']['TEXT'], $props['BLOCK_HEADING']['VALUE']['TYPE'], false);
                     echo "
-                            <{$headingTag} class='text__heading'>
+                            <{$headingTagOpen} class='text__heading'>
                                 {$heading}
-                            </{$headingTag}>
+                            </{$headingTagClose}>
                             ";
                 }
                 ?>
@@ -269,9 +274,9 @@ $isGridStarted = false;
                 if ($props['BLOCK_HEADING']['VALUE']['TEXT'] !== '') {
                     $heading = CHelper::renderText($props['BLOCK_HEADING']['VALUE']['TEXT'], $props['BLOCK_HEADING']['VALUE']['TYPE'], false);
                     echo "
-                            <{$headingTag} class='products__heading'>
+                            <{$headingTagOpen} class='products__heading'>
                                 {$heading}
-                            </{$headingTag}>
+                            </{$headingTagClose}>
                             ";
                 }
                 ?>
@@ -385,9 +390,9 @@ $isGridStarted = false;
                 if ($props['BLOCK_HEADING']['VALUE']['TEXT'] !== '') {
                     $heading = CHelper::renderText($props['BLOCK_HEADING']['VALUE']['TEXT'], $props['BLOCK_HEADING']['VALUE']['TYPE'], false);
                     echo "
-                            <{$headingTag} class='products__heading'>
+                            <{$headingTagOpen} class='products__heading'>
                                 {$heading}
-                            </{$headingTag}>
+                            </{$headingTagClose}>
                             ";
                 }
                 ?>
@@ -445,9 +450,9 @@ $isGridStarted = false;
                     if ($props['BLOCK_HEADING']['VALUE']['TEXT'] !== '') {
                         $heading = CHelper::renderText($props['BLOCK_HEADING']['VALUE']['TEXT'], $props['BLOCK_HEADING']['VALUE']['TYPE'], false);
                         echo "
-                            <{$headingTag} class='products__heading'>
+                            <{$headingTagOpen} class='products__heading'>
                                 {$heading}
-                            </{$headingTag}>
+                            </{$headingTagClose}>
                             ";
                     }
                     ?>

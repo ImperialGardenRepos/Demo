@@ -1,4 +1,4 @@
-<?
+<?php
 
 use Bitrix\Main;
 use Bitrix\Main\Loader;
@@ -24,7 +24,8 @@ $fieldsByBlock = [
         'LINK_TEXT',
         'TEXT_VERTICAL_ALIGN',
         'TEXT_HORIZONTAL_ALIGN',
-        'STRETCH_TO_FULL_WIDTH'
+        'STRETCH_TO_FULL_WIDTH',
+        'IS_HEADING_DIV',
     ],
     'text' => [
         'BLOCK_HEADING',
@@ -36,13 +37,15 @@ $fieldsByBlock = [
         'IMAGE_FLOW',
         'IMAGE_MAX_WIDTH',
         'IMAGE_VERTICAL_ALIGN',
-        'IMAGE_HORIZONTAL_ALIGN'
+        'IMAGE_HORIZONTAL_ALIGN',
+        'IS_HEADING_DIV',
     ],
     'table' => [
         'BLOCK_HEADING',
         'BLOCK_TEXT',
         'HEADING_TYPE',
-        'EXCEL_FILE'
+        'EXCEL_FILE',
+        'IS_HEADING_DIV',
     ],
     'product' => [
         'BLOCK_HEADING',
@@ -53,6 +56,7 @@ $fieldsByBlock = [
         'SORT_FIELD',
         'SORT_ORDER',
         'PRODUCT_TEMPLATE',
+        'IS_HEADING_DIV',
     ],
     'form' => [
         'BLOCK_HEADING',
@@ -60,6 +64,7 @@ $fieldsByBlock = [
         'HEADING_TYPE',
         'FORM_ID',
         'FORM_TEMPLATE',
+        'IS_HEADING_DIV',
     ],
     'map' => [
         'BLOCK_HEADING',
@@ -69,19 +74,21 @@ $fieldsByBlock = [
         'MAP_CENTER',
         'MAP_ZOOM',
         'LINKED_MAPS',
+        'IS_HEADING_DIV',
     ],
     'file' => [
         'BLOCK_HEADING',
         'ICON',
         'FILE',
+        'IS_HEADING_DIV',
     ],
     'grid' => [
         'IMAGE',
         'LINK',
         'LINK_TEXT',
         'SUBLINKS',
-        'SUBLINKS_TEXTS'
-    ]
+        'SUBLINKS_TEXTS',
+    ],
 ];
 
 $typeField = null;
@@ -99,7 +106,7 @@ $actualBlockType = array_shift($actualBlockType);
 $actualTypeFieldValue = CIBlockPropertyEnum::GetList([], ['ID' => $actualBlockType])->Fetch();
 $actualTypeFieldValue = $actualTypeFieldValue['XML_ID'];
 
-if($actualBlockType === null) {
+if ($actualBlockType === null) {
     $actualTypeFieldValue = 'text';
 }
 
@@ -122,7 +129,7 @@ Loader::includeModule('iblock');
 $nameFormat = CSite::GetNameFormat();
 
 $tabControl->BeginPrologContent();
-CJSCore::Init(array('date'));
+CJSCore::Init(['date']);
 
 //TODO: this code only for old html editor. Need remove after final cut old editor
 if (
@@ -132,14 +139,14 @@ if (
 ) {
     echo '<div style="display:none">';
     CFileMan::AddHTMLEditorFrame("SOME_TEXT", "", "SOME_TEXT_TYPE", "text",
-        array('height' => 450, 'width' => '100%'),
+        ['height' => 450, 'width' => '100%'],
         "N", 0, "", "", $arIBlock["LID"]
     );
     echo '</div>';
 }
 
 if ($arTranslit["TRANSLITERATION"] == "Y") {
-    CJSCore::Init(array('translit'));
+    CJSCore::Init(['translit']);
     ?>
     <script type="text/javascript">
         var linked =<?if ($bLinked) echo 'true'; else echo 'false';?>;
@@ -237,7 +244,7 @@ if ($ID > 0 && !$bCopy) {
 }
 if ($bCopy) {
     ?><input type="hidden" name="copyID" value="<? echo $ID; ?>"><?
-} elseif ($copyID > 0) {
+} else if ($copyID > 0) {
     ?><input type="hidden" name="copyID" value="<? echo $copyID; ?>"><?
 }
 
@@ -253,9 +260,9 @@ $tabControl->EndEpilogContent();
 
 $customTabber->SetErrorState($bVarsFromForm);
 
-$arEditLinkParams = array(
-    "find_section_section" => $find_section_section
-);
+$arEditLinkParams = [
+    "find_section_section" => $find_section_section,
+];
 if ($bAutocomplete) {
     $arEditLinkParams['lookup'] = $strLookup;
 }
@@ -263,16 +270,16 @@ if ($adminSidePanelHelper->isPublicFrame()) {
     $arEditLinkParams["IFRAME"] = "Y";
     $arEditLinkParams["IFRAME_TYPE"] = "PUBLIC_FRAME";
 }
-$tabControl->Begin(array(
-    "FORM_ACTION" => $selfFolderUrl . CIBlock::GetAdminElementEditLink($IBLOCK_ID, null, $arEditLinkParams)
-));
+$tabControl->Begin([
+    "FORM_ACTION" => $selfFolderUrl . CIBlock::GetAdminElementEditLink($IBLOCK_ID, null, $arEditLinkParams),
+]);
 
 $tabControl->BeginNextFormTab();
 if ($ID > 0 && !$bCopy) {
     $p = CIblockElement::GetByID($ID);
     $pr = $p->ExtractFields("prn_");
 } else {
-    $pr = array();
+    $pr = [];
 }
 
 if ($ID > 0 && !$bCopy) {
@@ -317,7 +324,7 @@ if ($ID > 0 && !$bCopy) {
 }
 
 
-$tabControl->AddCheckBoxField("ACTIVE", GetMessage("IBLOCK_FIELD_ACTIVE") . ":", false, array("Y", "N"), $str_ACTIVE == "Y");
+$tabControl->AddCheckBoxField("ACTIVE", GetMessage("IBLOCK_FIELD_ACTIVE") . ":", false, ["Y", "N"], $str_ACTIVE == "Y");
 
 if ($arTranslit["TRANSLITERATION"] == "Y") {
     $tabControl->BeginCustomField("NAME", GetMessage("IBLOCK_FIELD_NAME") . ":", true);
@@ -337,7 +344,7 @@ if ($arTranslit["TRANSLITERATION"] == "Y") {
         '<input type="hidden" name="NAME" id="NAME" value="' . $str_NAME . '">'
     );
 } else {
-    $tabControl->AddEditField("NAME", GetMessage("IBLOCK_FIELD_NAME") . ":", true, array("size" => 50, "maxlength" => 255), $str_NAME);
+    $tabControl->AddEditField("NAME", GetMessage("IBLOCK_FIELD_NAME") . ":", true, ["size" => 50, "maxlength" => 255], $str_NAME);
 }
 
 $tabControl->BeginCustomField("SECTIONS", GetMessage("IBLOCK_SECTION"), $arIBlock["FIELDS"]["IBLOCK_SECTION"]["IS_REQUIRED"] === "Y");
@@ -347,7 +354,7 @@ $tabControl->BeginCustomField("SECTIONS", GetMessage("IBLOCK_SECTION"), $arIBloc
         if ($arIBlock["SECTION_CHOOSER"] != "D" && $arIBlock["SECTION_CHOOSER"] != "P"):?>
 
             <?
-            $l = CIBlockSection::GetTreeList(Array("IBLOCK_ID" => $IBLOCK_ID), array("ID", "NAME", "DEPTH_LEVEL")); ?>
+            $l = CIBlockSection::GetTreeList(["IBLOCK_ID" => $IBLOCK_ID], ["ID", "NAME", "DEPTH_LEVEL"]); ?>
             <td width="40%" class="adm-detail-valign-top"><?
                 echo $tabControl->GetCustomLabelHTML() ?></td>
             <td width="60%">
@@ -515,10 +522,10 @@ $tabControl->BeginCustomField("SECTIONS", GetMessage("IBLOCK_SECTION"), $arIBloc
                                 var sectionListsFor0 = {id: 0, name: '', children: Array()};
 
                                 <?
-                                $rsItems = CIBlockSection::GetTreeList(Array("IBLOCK_ID" => $IBLOCK_ID), array("ID", "NAME", "DEPTH_LEVEL"));
+                                $rsItems = CIBlockSection::GetTreeList(["IBLOCK_ID" => $IBLOCK_ID], ["ID", "NAME", "DEPTH_LEVEL"]);
                                 $depth = 0;
                                 $max_depth = 0;
-                                $arChain = array();
+                                $arChain = [];
                                 while ($arItem = $rsItems->GetNext()) {
                                     if ($max_depth < $arItem["DEPTH_LEVEL"]) {
                                         $max_depth = $arItem["DEPTH_LEVEL"];
@@ -635,7 +642,7 @@ $tabControl->BeginCustomField("SECTIONS", GetMessage("IBLOCK_SECTION"), $arIBloc
             <?
             $additionalParams = '';
             if ($bCatalog) {
-                $catalogParams = array('TMP_ID' => $TMP_ID);
+                $catalogParams = ['TMP_ID' => $TMP_ID];
                 CCatalogAdminTools::addTabParams($catalogParams);
                 if (!empty($catalogParams)) {
                     foreach ($catalogParams as $name => $value) {
@@ -675,13 +682,13 @@ if (
     $arShowTabs['sections']
     && $arIBlock["FIELDS"]["IBLOCK_SECTION"]["DEFAULT_VALUE"]["KEEP_IBLOCK_SECTION_ID"] === "Y"
 ) {
-    $arDropdown = array();
+    $arDropdown = [];
     if ($str_IBLOCK_ELEMENT_SECTION) {
         $sectionList = CIBlockSection::GetList(
-            array("left_margin" => "asc"),
-            array("=ID" => $str_IBLOCK_ELEMENT_SECTION),
+            ["left_margin" => "asc"],
+            ["=ID" => $str_IBLOCK_ELEMENT_SECTION],
             false,
-            array("ID", "NAME")
+            ["ID", "NAME"]
         );
         while ($section = $sectionList->Fetch())
             $arDropdown[$section["ID"]] = htmlspecialcharsEx($section["NAME"]);
@@ -754,15 +761,15 @@ if (COption::GetOptionString("iblock", "show_xml_id", "N") == "Y") {
         </tr><?
         $tabControl->EndCustomField("XML_ID", '<input type="hidden" name="XML_ID" id="XML_ID" value="' . $str_XML_ID . '">');
     } else {
-        $tabControl->AddEditField("XML_ID", GetMessage("IBLOCK_FIELD_XML_ID") . ":", $arIBlock["FIELDS"]["XML_ID"]["IS_REQUIRED"] === "Y", array("size" => 20, "maxlength" => 255, "id" => "XML_ID"), $str_XML_ID);
+        $tabControl->AddEditField("XML_ID", GetMessage("IBLOCK_FIELD_XML_ID") . ":", $arIBlock["FIELDS"]["XML_ID"]["IS_REQUIRED"] === "Y", ["size" => 20, "maxlength" => 255, "id" => "XML_ID"], $str_XML_ID);
     }
 }
 
-$tabControl->AddEditField("SORT", GetMessage("IBLOCK_FIELD_SORT") . ":", $arIBlock["FIELDS"]["SORT"]["IS_REQUIRED"] === "Y", array("size" => 7, "maxlength" => 10), $str_SORT);
+$tabControl->AddEditField("SORT", GetMessage("IBLOCK_FIELD_SORT") . ":", $arIBlock["FIELDS"]["SORT"]["IS_REQUIRED"] === "Y", ["size" => 7, "maxlength" => 10], $str_SORT);
 
 if (!empty($PROP)):
     if ($arIBlock["SECTION_PROPERTY"] === "Y" || defined("CATALOG_PRODUCT")) {
-        $arPropLinks = array("IBLOCK_ELEMENT_PROP_VALUE");
+        $arPropLinks = ["IBLOCK_ELEMENT_PROP_VALUE"];
         if (is_array($str_IBLOCK_ELEMENT_SECTION) && !empty($str_IBLOCK_ELEMENT_SECTION)) {
             foreach ($str_IBLOCK_ELEMENT_SECTION as $section_id) {
                 foreach (CIBlockSectionPropertyLink::GetArray($IBLOCK_ID, $section_id) as $PID => $arLink)
@@ -832,7 +839,7 @@ if (!empty($PROP)):
         <?php
         $hidden = "";
         if (!is_array($prop_fields["~VALUE"]))
-            $values = Array();
+            $values = [];
         else
             $values = $prop_fields["~VALUE"];
         $start = 1;
@@ -872,7 +879,7 @@ $bDisabled =
     );
 
 if ($adminSidePanelHelper->isSidePanelFrame()):
-    $tabControl->Buttons(array("disabled" => $bDisabled));
+    $tabControl->Buttons(["disabled" => $bDisabled]);
 elseif (!defined('BX_PUBLIC_MODE') || BX_PUBLIC_MODE != 1):
     ob_start();
     ?>
@@ -946,11 +953,11 @@ elseif (!$bPropertyAjax && (!isset($_REQUEST['nobuttons']) || $_REQUEST['nobutto
 				top.BX.reload(true);
 		}
 	}";
-    $editInPanelParams = array(
+    $editInPanelParams = [
         'WF' => ($WF == 'Y' ? 'Y' : null),
         'find_section_section' => $find_section_section,
-        'menu' => null
-    );
+        'menu' => null,
+    ];
     if (!empty($arMainCatalog))
         $editInPanelParams = CCatalogAdminTools::getFormParams($editInPanelParams);
     $edit_in_panel = "{
@@ -967,12 +974,12 @@ elseif (!$bPropertyAjax && (!isset($_REQUEST['nobuttons']) || $_REQUEST['nobutto
 		}
 	}";
     unset($editInPanelParams);
-    $tabControl->ButtonsPublic(array(
+    $tabControl->ButtonsPublic([
         '.btnSave',
         ($ID > 0 && $bWorkflow ? $wfClose : $cancel),
         $edit_in_panel,
-        $save_and_add
-    ));
+        $save_and_add,
+    ]);
 endif;
 
 $tabControl->Show();
@@ -985,7 +992,7 @@ if (
     echo
     BeginNote(),
     GetMessage("IBEL_E_IBLOCK_MANAGE_HINT"),
-        ' <a href="' . $selfFolderUrl . 'iblock_edit.php?type=' . htmlspecialcharsbx($type) . '&amp;lang=' . LANGUAGE_ID . '&amp;ID=' . $IBLOCK_ID . '&amp;admin=Y&amp;return_url=' . urlencode($selfFolderUrl . CIBlock::GetAdminElementEditLink($IBLOCK_ID, $ID, array("WF" => ($WF == "Y" ? "Y" : null), "find_section_section" => $find_section_section, "IBLOCK_SECTION_ID" => $find_section_section, "return_url" => (strlen($return_url) > 0 ? $return_url : null)))) . '">',
+        ' <a href="' . $selfFolderUrl . 'iblock_edit.php?type=' . htmlspecialcharsbx($type) . '&amp;lang=' . LANGUAGE_ID . '&amp;ID=' . $IBLOCK_ID . '&amp;admin=Y&amp;return_url=' . urlencode($selfFolderUrl . CIBlock::GetAdminElementEditLink($IBLOCK_ID, $ID, ["WF" => ($WF == "Y" ? "Y" : null), "find_section_section" => $find_section_section, "IBLOCK_SECTION_ID" => $find_section_section, "return_url" => (strlen($return_url) > 0 ? $return_url : null)])) . '">',
     GetMessage("IBEL_E_IBLOCK_MANAGE_HINT_HREF"),
     '</a>',
     EndNote();
