@@ -111,7 +111,9 @@ class PropertyFormatHelper
      */
     private function formatValueByType(array $property, int $valueType): ?string
     {
-
+        if((bool)$property['VALUE'] === false) {
+            return null;
+        }
         switch ($valueType) {
             case static::VALUE_TYPE_MONTH:
                 return $this->formatMonthValue($property['VALUE']);
