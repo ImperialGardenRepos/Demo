@@ -137,14 +137,6 @@
     font-size: 1.125rem; }
     .text__text p, .text__text li, .text__text ul, .text__text ol {
       margin: 0.75rem 0; }
-    .text__text h1 {
-      margin: 2.5rem 0; }
-    .text__text h2 {
-      margin: 2rem 0; }
-    .text__text h3 {
-      margin: 1.75rem 0; }
-    .text__text h4 {
-      margin: 1.5rem 0; }
     .text__text table {
       min-width: 100%; }
     .text__text table th {
@@ -184,12 +176,98 @@
       justify-content: center; }
     .text__img--right {
       justify-content: flex-end; }
-  .text__heading {
-    margin: 2.5rem 0;
+  .text__heading,
+  .text .text__heading {
     font-family: "Roboto", Arial, Helvetica, sans-serif;
-    font-size: 2.75rem;
     font-weight: 300;
     line-height: 1; }
+  .text__heading,
+  .text h1.text__heading,
+  .text div.h1 {
+    margin: 2.75rem 0 1.375rem;
+    font-size: 3.5rem; }
+  .text__heading.h2,
+  .text h2.text__heading,
+  .text div.h2 {
+    margin: 2.5rem 0 1.25rem;
+    font-size: 2.75rem; }
+  .text__heading.h3,
+  .text h3.text__heading,
+  .text div.h3 {
+    margin: 2rem 1rem;
+    font-size: 2.25rem; }
+  .text__heading.h4,
+  .text h4.text__heading,
+  .text div.h4 {
+    margin: 1.5rem 0 0.75rem;
+    font-size: 1.5rem; }
+  .text__heading.h5,
+  .text h5.text__heading,
+  .text div.h5 {
+    margin: 1.25rem 0 0.625rem;
+    font-size: 1.25rem; }
+  .text__heading.h6,
+  .text h6.text__heading,
+  .text div.h6 {
+    margin: 1rem 0 0.5rem;
+    font-size: 1rem; }
+  @media screen and (max-width: 1024px) {
+    .text__heading,
+    .text h1.text__heading,
+    .text div.h1 {
+      margin: 2.75rem 0 1.375rem;
+      font-size: 2.75rem; }
+    .text__heading.h2,
+    .text h2.text__heading,
+    .text div.h2 {
+      margin: 2.25rem 0 1.125rem;
+      font-size: 2.25rem; }
+    .text__heading.h3,
+    .text h3.text__heading,
+    .text div.h3 {
+      margin: 1.75rem 0 0.875rem;
+      font-size: 1.75rem; }
+    .text__heading.h4,
+    .text h4.text__heading,
+    .text div.h4 {
+      margin: 1.5rem 0 0.75rem;
+      font-size: 1.5rem; }
+    .text__heading.h5,
+    .text h5.text__heading,
+    .text div.h5 {
+      margin: 1.25rem 0 0.625rem;
+      font-size: 1.25rem; }
+    .text__heading.h6,
+    .text h6.text__heading,
+    .text div.h6 {
+      margin: 1rem 0 0.5rem;
+      font-size: 1rem; } }
+  @media screen and (max-width: 640px) {
+    .text__heading,
+    .text h1.text__heading,
+    .text div.h1 {
+      margin: 1.75rem 0 0.875rem;
+      font-size: 1.75rem; }
+    .text__heading.h2,
+    .text h2.text__heading,
+    .text div.h2 {
+      margin: 1.5rem 0 0.75rem;
+      font-size: 1.5rem; }
+    .text__heading.h3,
+    .text h3.text__heading,
+    .text div.h3 {
+      margin: 1.375rem 0 0.6875rem;
+      font-size: 1.375rem; }
+    .text__heading.h4,
+    .text h4.text__heading,
+    .text div.h4 {
+      margin: 1.25rem 0 0.675rem;
+      font-size: 1.25rem; }
+    .text__heading.h5,
+    .text h5.text__heading,
+    .text div.h5 {
+      margin: 1.125rem 0 0.5625rem;
+      font-size: 1.125rem; } }
 
 .products {
   width: 100%;
@@ -542,12 +620,5 @@
     width: calc(100% / 70);
     height: 10px;
     float: left; }
-.text__img img {
-	max-width: 100%;
-	width: 100%;
-	height: auto;
-}
-.text__img {
-	display: block!important
-}
+
 /*# sourceMappingURL=style.css.map */

@@ -55,24 +55,6 @@
     & ol
       margin: 0.75rem 0
 
-    & h1, .h1
-      margin: 2.5rem 0
-
-    & h2, .h2
-      margin: 2rem 0
-
-    & h3, .h3
-      margin: 1.75rem 0
-
-    & h4, .h4
-      margin: 1.5rem 0
-
-    & h5, .h5
-      margin: 1.25rem 0
-
-    & h6, .h6
-      margin: 1rem 0
-
     & table
       min-width: 100%
 
@@ -120,9 +102,97 @@
     &--right
       justify-content: flex-end
 
-  &__heading
-    margin: 2.5rem 0
+  &__heading,
+  .text__heading
     font-family: "Roboto", Arial, Helvetica, sans-serif
-    font-size: 2.75rem
     font-weight: 300
     line-height: 1
+  &__heading,
+  h1.text__heading,
+  div.h1
+    margin: 2.75rem 0 1.375rem
+    font-size: 3.5rem
+  &__heading.h2,
+  h2.text__heading,
+  div.h2
+    margin: 2.5rem 0 1.25rem
+    font-size: 2.75rem
+  &__heading.h3,
+  h3.text__heading,
+  div.h3
+    margin: 2rem 1rem
+    font-size: 2.25rem
+  &__heading.h4,
+  h4.text__heading,
+  div.h4
+    margin: 1.5rem 0 .75rem
+    font-size: 1.5rem
+  &__heading.h5,
+  h5.text__heading,
+  div.h5
+    margin: 1.25rem 0 .625rem
+    font-size: 1.25rem
+  &__heading.h6,
+  h6.text__heading,
+  div.h6
+    margin: 1rem 0 .5rem
+    font-size: 1rem
+
+  @media screen and (max-width: 1024px)
+    &__heading,
+    h1.text__heading,
+    div.h1
+      margin: 2.75rem 0 1.375rem
+      font-size: 2.75rem
+    &__heading.h2,
+    h2.text__heading,
+    div.h2
+      margin: 2.25rem 0 1.125rem
+      font-size: 2.25rem
+    &__heading.h3,
+    h3.text__heading,
+    div.h3
+      margin: 1.75rem 0 .875rem
+      font-size: 1.75rem
+    &__heading.h4,
+    h4.text__heading,
+    div.h4
+      margin: 1.5rem 0 .75rem
+      font-size: 1.5rem
+    &__heading.h5,
+    h5.text__heading,
+    div.h5
+      margin: 1.25rem 0 .625rem
+      font-size: 1.25rem
+    &__heading.h6,
+    h6.text__heading,
+    div.h6
+      margin: 1rem 0 .5rem
+      font-size: 1rem
+
+  @media screen and (max-width: 640px)
+    &__heading,
+    h1.text__heading,
+    div.h1
+      margin: 1.75rem 0 .875rem
+      font-size: 1.75rem
+    &__heading.h2,
+    h2.text__heading,
+    div.h2
+      margin: 1.5rem 0 .75rem
+      font-size: 1.5rem
+    &__heading.h3,
+    h3.text__heading,
+    div.h3
+      margin: 1.375rem 0 .6875rem
+      font-size: 1.375rem
+    &__heading.h4,
+    h4.text__heading,
+    div.h4
+      margin: 1.25rem 0 .675rem
+      font-size: 1.25rem
+    &__heading.h5,
+    h5.text__heading,
+    div.h5
+      margin: 1.125rem 0 .5625rem
+      font-size: 1.125rem
