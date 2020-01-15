@@ -70,7 +70,7 @@ ob_start();
 		}
 		?>
 		
-		<h2>Заказать</h2>
+		<div class="h2">Заказать</div>
 		<form class="form form--quote form-validate js-action" action="<?=$APPLICATION->GetCurPage()?>" method="post">
 			<div class="form__items js-message js-message-container">
 				<div class="form__item">

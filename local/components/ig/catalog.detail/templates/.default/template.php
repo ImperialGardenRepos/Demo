@@ -62,7 +62,7 @@ require ('main_info.php');
 ?>
 		<div id="specs" data-goto-offset-element=".header, .fcard__tabs" data-goto-offset-end="#specs-end"></div>
 		
-		<h2>Особенности</h2>
+		<div class="h2">Особенности</div>
 		<table class="ttable ttable--adaptive">
 			<tbody><?
 			if($arSortProp["IS_VIEW"]["VALUE"]) {

@@ -98,7 +98,7 @@ $this->AddDeleteAction($item['ID'], $arResult['DELETE_LINK']);
             <?php endif; ?>
         </div>
 
-        <h2>Заказать подобный проект</h2>
+        <div class="h2">Заказать подобный проект</div>
         <?php
         /**
          * ToDo:: FORM Move forms to component
@@ -170,7 +170,7 @@ $this->AddDeleteAction($item['ID'], $arResult['DELETE_LINK']);
             <input type="hidden" name="frmProjectDetailSent" value="Y">
         </form>
         <?php if ($arResult['MORE_OBJECT'] !== []) : ?>
-            <h2>Ещё проекты</h2>
+            <div class="h2">Ещё проекты</div>
             <div class="tgbs tgbs--project">
                 <div class="tgbs__inner">
                     <?php foreach ($arResult['MORE_OBJECT'] as $featuredObject): ?>

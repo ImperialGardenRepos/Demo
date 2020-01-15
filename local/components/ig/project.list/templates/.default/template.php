@@ -101,11 +101,11 @@ $this->setFrameMode(true);
 				
 				</div>
 				<div class="fcard__header">
-					<h2 class="fcard__title">
+					<div class="fcard__title h2">
 						<a href="<?=$arItem["DETAIL_PAGE_URL"]?>" class="link--bordered-pseudo">
 							<?=$arItem["NAME"]?>
 						</a>
-					</h2>
+					</div>
 				</div>
 				<div class="fcard__main">
 					<div class="pparams">
