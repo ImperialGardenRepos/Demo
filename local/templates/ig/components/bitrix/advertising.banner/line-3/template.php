@@ -4,7 +4,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED!==true)die();
 if(!empty($arResult["BANNERS_PROPERTIES"])) { ?>
 	<hr><?
 	if($arParams["TITLE"]) { ?>
-		<h2 class="text-align-center"><?=$arParams["TITLE"]?></h2><?
+		<div class="h2 text-align-center"><?=$arParams["TITLE"]?></div><?
 	}?>
 	<div class="tgbs">
 		<div class="tgbs__inner text-align-center"><?

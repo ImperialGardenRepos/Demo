@@ -195,7 +195,7 @@ if($_REQUEST["frmPriceQuerySent"] == 'Y') {
 			
 			</div>
 		</div>
-		<h2><?$APPLICATION->IncludeComponent(
+		<div class="h2"><?$APPLICATION->IncludeComponent(
 				"bitrix:main.include",
 				"",
 				Array(
@@ -204,7 +204,7 @@ if($_REQUEST["frmPriceQuerySent"] == 'Y') {
 					"EDIT_TEMPLATE" => "",
 					"PATH" => "/local/inc_area/partneram/opt/spec_offers_title.php"
 				), false
-			)?></h2>
+			)?></div>
 		<div class="tgbs tgbs--spec">
 			<div class="tgbs__inner">
 				<div class="tgb tgb--1-3 tgb--spec">
