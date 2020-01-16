@@ -55,3 +55,4 @@ robots.txt
 /local/templates/ig/pic
 .section.php
 /price-lists
+/*.yml

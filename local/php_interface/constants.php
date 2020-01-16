@@ -43,6 +43,7 @@ defined('NEWS_IBLOCK_ID') or define('NEWS_IBLOCK_ID', 5);
 defined('SERVICES_IBLOCK_ID') or define('SERVICES_IBLOCK_ID', 6);
 defined('FAQ_IBLOCK_ID') or define('FAQ_IBLOCK_ID', 14);
 defined('CATALOG_GARDEN_IBLOCK_ID') or define('CATALOG_GARDEN_IBLOCK_ID', 17);
+defined('CATALOG_GARDEN_SKU_IBLOCK_ID') or define('CATALOG_GARDEN_SKU_IBLOCK_ID', 18);
 defined('ENTERTAINMENT_IBLOCK_ID') or define('ENTERTAINMENT_IBLOCK_ID', 20);
 defined('TEAM_IBLOCK_ID') or define('TEAM_IBLOCK_ID', 21);
 defined('GRATITUDE_IBLOCK_ID') or define('GRATITUDE_IBLOCK_ID', 22);
