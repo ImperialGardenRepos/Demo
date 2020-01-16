@@ -13,7 +13,6 @@ use Bitrix\Main\IO\IoException;
 use Bitrix\Main\Loader;
 use Bitrix\Main\LoaderException;
 use Bitrix\Main\ObjectPropertyException;
-use Bitrix\Main\ORM\Entity;
 use Bitrix\Main\SystemException;
 use CIBlock;
 use CIBlockElement;
@@ -299,18 +298,13 @@ class Sitemap
 
     /**
      * @return array
-     * @throws LoaderException
      * @throws ArgumentException
      * @throws ObjectPropertyException
      * @throws SystemException
      */
     private function getVirtualPageLinks(): array
     {
-        /**
-         * @var Entity $virtualPageModel
-         */
-        $virtualPageEntity = VirtualPageTable::getEntity();
-        $virtualPageModel = $virtualPageEntity::query()
+        $virtualPageModel = VirtualPageTable::query()
             ->where('UF_ACTIVE', '=', '1')
             ->setSelect(['UF_URL'])
             ->exec();
