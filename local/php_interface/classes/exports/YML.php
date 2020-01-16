@@ -73,7 +73,8 @@ class YML
      */
     private function addHeader(): void
     {
-        $this->write('<?xml version="1.0" encoding="UTF-8"?><yml_catalog date="2019-11-01 17:22"><shop>');
+        $date = date('Y-m-d H:i');
+        $this->write("<?xml version=\"1.0\" encoding=\"UTF-8\"?><yml_catalog date=\"{$date}\"><shop>");
     }
 
     /**
