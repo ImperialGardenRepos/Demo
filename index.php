@@ -321,4 +321,16 @@ $APPLICATION->IncludeComponent(
         'STRICT_SECTION_CHECK' => 'N',
     ]
 );
+
+$APPLICATION->IncludeComponent(
+    'bitrix:main.include',
+    '',
+    [
+        'AREA_FILE_SHOW' => 'file',
+        'AREA_FILE_SUFFIX' => 'inc',
+        'EDIT_TEMPLATE' => '',
+        'PATH' => '/local/inc_area/index_organization_schema.php',
+    ]
+);
+
 require $_SERVER['DOCUMENT_ROOT'] . '/bitrix/footer.php';
